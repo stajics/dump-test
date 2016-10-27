@@ -35,11 +35,14 @@ module.exports = {
 
     rola: {
       type: 'string',
-      enum: ['super_admin', 'menadzer', 'korisnik'],
+      enum: ['super_user', 'menadzer', 'korisnik'],
       defaultsTo: 'korisnik'
     },
 
-    //TODO poslovnica
+    poslovnica: {
+      model: 'poslovnica',
+      required: true
+    },
 
     toJSON() {
       let obj = this.toObject();

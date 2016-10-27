@@ -20,11 +20,15 @@ module.exports = {
 
   update: async(req, res) => {
     try {
-      const values = omit(req.allParams(), ['id', 'rola']);
-      let updatedUser = await User.update({ id: req.params.id }, values);
-      if( isEmpty(updatedUser) ) {
+      const values = omit(req.allParams(), ['id', 'rola', 'poslovnica']);
+      let userForUpdate = await User.findOne({ id: req.params.id });
+      if( isEmpty(userForUpdate) ) {
         return res.notFound("No user with that ID.");
       }
+      if( (userForUpdate.poslovnica !== req.user.poslovnica) && req.user.rola !== 'super_user' ) {
+        return res.unauthorized("Can't update users from other poslovnica.");
+      }
+      let updatedUser = await User.update({ id: req.params.id }, values);
       res.ok({user: updatedUser[0]});
     } catch (err) {
       res.badRequest(err);
@@ -39,6 +43,9 @@ module.exports = {
         }
         if( userForDelete.id === req.user.id ) {
           return res.badRequest("Can't delete urself.");
+        }
+        if( (userForDelete.poslovnica !== req.user.poslovnica) && req.user.rola !== 'super_user' ) {
+          return res.unauthorized("Can't delete users from other poslovnica.");
         }
         await userForDelete.destroy();
         delete userForDelete.password;

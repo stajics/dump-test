@@ -19,6 +19,13 @@ module.exports = {
       delete: ["isAuthenticated", "isManager" ]
     },
 
+    "v1/PoslovnicaController": {
+      create: ["isAuthenticated", "isSuperAdmin" ],
+      read: ["isAuthenticated", "isSuperAdmin"],
+      update: ["isAuthenticated", "isSuperAdmin" ],
+      delete: ["isAuthenticated", "isSuperAdmin" ]
+    },
+
     "v1/user/RegistrationController": {
       create: ["isAuthenticated", "isManager" ]
     },

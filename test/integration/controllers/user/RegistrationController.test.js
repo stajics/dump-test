@@ -13,8 +13,8 @@ describe('controllers:RegistrationController', () => {
   let existingUser1 = null;
   before(done => {
     Promise.all([
-      userFactory.createManager(),
-      userFactory.create()
+      userFactory.createManager({poslovnica: 1}),
+      userFactory.create({poslovnica: 1})
     ]).then(objects => {
       existingUser = objects[0];
       existingUser1 = objects[1];
@@ -30,6 +30,7 @@ describe('controllers:RegistrationController', () => {
         .send({
           username: `username`,
           ime: `ime`,
+          poslovnica: 1,
           password: 'password',
           email: `email@email.com`
         })
@@ -39,8 +40,28 @@ describe('controllers:RegistrationController', () => {
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
           res.body.data.should.have.all.keys('user', 'token');
-          res.body.data.user.should.have.all.keys('id', 'username', 'ime', 'rola', 'email', 'createdAt', 'updatedAt');
+          res.body.data.user.should.have.all.keys(userFactory.userAttributes);
           res.body.data.user.username.should.equal('username');
+          done();
+        });
+    });
+
+    it('Should get error (cant create usr from another poslovnica).', (done) => {
+      request.post(`v1/users/signup`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
+        })
+        .send({
+          username: `username_unique`,
+          ime: `ime`,
+          poslovnica: 2,
+          password: 'password',
+          email: `otherEmail@email.com`
+        })
+        .expect(401)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('fail');
           done();
         });
     });
@@ -52,6 +73,7 @@ describe('controllers:RegistrationController', () => {
         .send({
           username: `${existingUser.username}`,
           ime: `ime`,
+          poslovnica: 1,
           password: 'password',
           email: `email1@email.com`
         })
@@ -69,6 +91,7 @@ describe('controllers:RegistrationController', () => {
         .send({
           username: `someUsername`,
           ime: `ime`,
+          poslovnica: 1,
           password: 'password',
           email: `email12@email.com`
         })
@@ -88,6 +111,7 @@ describe('controllers:RegistrationController', () => {
         .send({
           username: `someUsername`,
           ime: `ime`,
+          poslovnica: 1,
           password: 'password',
           email: `email12@email.com`
         })
@@ -107,6 +131,7 @@ describe('controllers:RegistrationController', () => {
         .send({
           username: `username1`,
           ime: `ime`,
+          poslovnica: 1,
           password: 'password',
           email: `${existingUser.email}`
         })
@@ -125,6 +150,7 @@ describe('controllers:RegistrationController', () => {
         })
         .send({
           ime: `ime`,
+          poslovnica: 1,
           password: 'password',
           email: `${existingUser.email}`
         })
@@ -142,7 +168,7 @@ describe('controllers:RegistrationController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
-        .expect(400)
+        .expect(401)
         .end(function(err, res) {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');

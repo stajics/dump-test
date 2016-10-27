@@ -105,6 +105,9 @@ module.exports = {
           data: err || null
         };
 
+        if (typeof res.negotiate === 'function') {
+          return res.negotiate(err);
+        }
         res.status(500);
         res.json(response);
       },

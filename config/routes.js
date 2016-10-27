@@ -17,6 +17,13 @@ module.exports = {
     'PUT /v1/users/:id': 'v1/UserController.update',
     'DELETE /v1/users/:id': 'v1/UserController.delete',
 
+    // Poslovnica
+    'GET /v1/poslovnice': 'v1/PoslovnicaController.read',
+    'GET /v1/poslovnice/:id': 'v1/PoslovnicaController.read',
+    'POST /v1/poslovnice': 'v1/PoslovnicaController.create',
+    'PUT /v1/poslovnice/:id': 'v1/PoslovnicaController.update',
+    'DELETE /v1/poslovnice/:id': 'v1/PoslovnicaController.delete',
+
     //Documentation
     'GET /v1/doc': 'v1/DocumentationController.getDocumentationJson',
   }
