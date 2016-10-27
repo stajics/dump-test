@@ -18,10 +18,10 @@ module.exports = {
     try {
       let poslovnice = null;
       if( req.params.id ){
-        poslovnice = await Poslovnica.findOne({id: req.params.id}).populateAll();
+        poslovnice = await Poslovnica.findOne({id: req.params.id});
         res.ok({ poslovnica: poslovnice });
         } else {
-        poslovnice = await Poslovnica.find().populateAll();
+        poslovnice = await Poslovnica.find();
         res.ok({ poslovnice });
       }
     } catch (err) {

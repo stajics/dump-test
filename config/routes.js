@@ -24,6 +24,13 @@ module.exports = {
     'PUT /v1/poslovnice/:id': 'v1/PoslovnicaController.update',
     'DELETE /v1/poslovnice/:id': 'v1/PoslovnicaController.delete',
 
+    // Opstina
+    'GET /v1/opstine': 'v1/OpstinaController.read',
+    'GET /v1/opstine/:id': 'v1/OpstinaController.read',
+    'POST /v1/opstine': 'v1/OpstinaController.create',
+    'PUT /v1/opstine/:id': 'v1/OpstinaController.update',
+    'DELETE /v1/opstine/:id': 'v1/OpstinaController.delete',
+
     //Documentation
     'GET /v1/doc': 'v1/DocumentationController.getDocumentationJson',
   }

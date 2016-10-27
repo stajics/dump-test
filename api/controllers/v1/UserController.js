@@ -7,10 +7,10 @@ module.exports = {
     try {
       let users = null;
       if( req.params.id ){
-        users = await User.findOne({id: req.params.id}).populateAll();
+        users = await User.findOne({id: req.params.id});
         res.ok({ user: users });
         } else {
-        users = await User.find().populateAll();
+        users = await User.find();
         res.ok({ users });
       }
     } catch (err) {

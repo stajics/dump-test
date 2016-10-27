@@ -326,6 +326,128 @@ paths:
           description: Poslovnica deleted.
           schema:
             $ref: "#/definitions/DeletePoslovniceResponse"
+########################################
+#######OPSTINA
+  /opstine:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Opstina
+      summary: Get all opstine.
+      description: "Requires logged in user to be super_user."
+      operationId: getOpstine
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: All opstine.
+          schema:
+            $ref: "#/definitions/OpstinaResponse"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Opstina
+      summary: Add new opstina.
+      description: "Requires logged in user to be super_user."
+      operationId: createOpstina
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Opstina object that needs to be added to the opstine.
+          required: true
+          schema:
+            $ref: "#/definitions/PostOpstineBody"
+      responses:
+        "201":
+          description: Opstina created.
+          schema:
+            $ref: "#/definitions/DeleteOpstineResponse"
+  /opstine/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Opstina
+      summary: Get opstina.
+      description: "Requires logged in user to be super_user."
+      operationId: getOpstina
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the opstina
+          required: true
+          type: string
+      responses:
+        "200":
+          description: All users.
+          schema:
+            $ref: "#/definitions/DeleteOpstineResponse"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Opstina
+      summary: Update opstina.
+      description: "Requires logged in user to be super_user."
+      operationId: updateOpstina
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the opstina that needs to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Attributes and values that will be updated.
+          required: true
+          schema:
+            $ref: "#/definitions/PutOpstineBody"
+      responses:
+        "200":
+          description: Opstina updated.
+          schema:
+            $ref: "#/definitions/DeleteOpstineResponse"
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Opstina
+      summary: Delete opstina.
+      description: "Requires logged in user to be super_user."
+      operationId: deleteUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the opstina that needs to be deleted.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Opstina deleted.
+          schema:
+            $ref: "#/definitions/DeleteOpstineResponse"
+
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -368,6 +490,44 @@ definitions:
     required:
       - id
       - ime
+      - opstina
+      - adresa
+      - pib
+      - matBr
+      - ziro
+      - telefon
+      - email
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      ime:
+        type: string
+      opstina:
+        type: integer
+      adresa:
+        type: string
+      pib:
+        type: string
+      matBr:
+        type: string
+      ziro:
+        type: string
+      telefon:
+        type: string
+      email:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
+  Opstina:
+    type: object
+    required:
+      - id
+      - ime
       - createdAt
       - updatedAt
     properties:
@@ -390,6 +550,7 @@ definitions:
     required:
       - username
       - ime
+      - poslovnica
       - password
       - email
     properties:
@@ -397,6 +558,8 @@ definitions:
         type: string
       ime:
         type: string
+      poslovnica:
+        type: integer
       password:
         type: string
       email:
@@ -432,8 +595,57 @@ definitions:
     properties:
       ime:
         type: string
+      adresa:
+        type: string
+      pib:
+        type: string
+      matBr:
+        type: string
+      ziro:
+        type: string
+      telefon:
+        type: string
+      email:
+        type: string
 
   PostPoslovniceBody:
+    type: object
+    required:
+      - ime
+      - opstina
+      - adresa
+      - pib
+      - matBr
+      - ziro
+      - telefon
+      - email
+    properties:
+      ime:
+        type: string
+      opstina:
+        type: integer
+      adresa:
+        type: string
+      pib:
+        type: string
+      matBr:
+        type: string
+      ziro:
+        type: string
+      telefon:
+        type: string
+      email:
+        type: string
+
+  ###############
+  #Opstina
+  PutOpstineBody:
+    type: object
+    properties:
+      ime:
+        type: string
+
+  PostOpstineBody:
     type: object
     required:
       - ime
@@ -534,5 +746,43 @@ definitions:
         required:
           - poslovnica
         properties:
-          user:
+          poslovnica:
             $ref: "#/definitions/Poslovnica"
+
+###################
+#Opstina
+  OpstinaResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - opstine
+        properties:
+          opstine:
+            type: 'array'
+            items:
+              $ref: "#/definitions/Opstina"
+
+  DeleteOpstineResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - opstina
+        properties:
+          opstina:
+            $ref: "#/definitions/Opstina"

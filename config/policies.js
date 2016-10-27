@@ -20,10 +20,17 @@ module.exports = {
     },
 
     "v1/PoslovnicaController": {
-      create: ["isAuthenticated", "isSuperAdmin" ],
-      read: ["isAuthenticated", "isSuperAdmin"],
-      update: ["isAuthenticated", "isSuperAdmin" ],
-      delete: ["isAuthenticated", "isSuperAdmin" ]
+      create: ["isAuthenticated", "isSuperUser" ],
+      read: ["isAuthenticated", "isSuperUser"],
+      update: ["isAuthenticated", "isSuperUser" ],
+      delete: ["isAuthenticated", "isSuperUser" ]
+    },
+
+    "v1/OpstinaController": {
+      create: ["isAuthenticated", "isSuperUser" ],
+      read: ["isAuthenticated", "isSuperUser"],
+      update: ["isAuthenticated", "isSuperUser" ],
+      delete: ["isAuthenticated", "isSuperUser" ]
     },
 
     "v1/user/RegistrationController": {
