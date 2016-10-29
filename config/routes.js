@@ -31,6 +31,20 @@ module.exports = {
     'PUT /v1/opstine/:id': 'v1/OpstinaController.update',
     'DELETE /v1/opstine/:id': 'v1/OpstinaController.delete',
 
+    // Box
+    'GET /v1/boxes': 'v1/BoxController.read',
+    'GET /v1/boxes/:id': 'v1/BoxController.read',
+    'POST /v1/boxes': 'v1/BoxController.create',
+    'PUT /v1/boxes/:id': 'v1/BoxController.update',
+    'DELETE /v1/boxes/:id': 'v1/BoxController.delete',
+
+    // Usluge
+    'GET /v1/usluge': 'v1/UslugaController.read',
+    'GET /v1/usluge/:id': 'v1/UslugaController.read',
+    'POST /v1/usluge': 'v1/UslugaController.create',
+    'PUT /v1/usluge/:id': 'v1/UslugaController.update',
+    'DELETE /v1/usluge/:id': 'v1/UslugaController.delete',
+
     //Documentation
     'GET /v1/doc': 'v1/DocumentationController.getDocumentationJson',
   }

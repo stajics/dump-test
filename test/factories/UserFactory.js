@@ -1,3 +1,5 @@
+"use strict";
+
 const _ = require('lodash');
 
 const userAttributes = ['id', 'username', 'ime', 'poslovnica', 'rola', 'email', 'createdAt', 'updatedAt'];

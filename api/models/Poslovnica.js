@@ -14,7 +14,7 @@ module.exports = {
       required: true,
       alphanumericdashed: true
     },
-    
+
     adresa: {
       type: 'string'
     },
@@ -41,6 +41,11 @@ module.exports = {
 
     users: {
       collection: 'user',
+      via: 'poslovnica'
+    },
+
+    usluge: {
+      collection: 'usluga',
       via: 'poslovnica'
     },
 

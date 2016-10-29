@@ -33,6 +33,13 @@ module.exports = {
       delete: ["isAuthenticated", "isSuperUser" ]
     },
 
+    "v1/UslugaController": {
+      create: ["isAuthenticated", "isManager" ],
+      read: ["isAuthenticated", "isManager"],
+      update: ["isAuthenticated", "isManager" ],
+      delete: ["isAuthenticated", "isManager" ]
+    },
+
     "v1/user/RegistrationController": {
       create: ["isAuthenticated", "isManager" ]
     },

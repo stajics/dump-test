@@ -1,3 +1,5 @@
+"use strict";
+
 const _ = require('lodash');
 
 const opstinaAttributes = ['id', 'ime', 'createdAt', 'updatedAt'];

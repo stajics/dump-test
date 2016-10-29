@@ -7,48 +7,57 @@ const request = require('supertest')(url);
 
 //factories
 const userFactory = require('../../factories/UserFactory');
-const opstinaFactory = require('../../factories/OpstinaFactory');
+const uslugaFactory = require('../../factories/UslugaFactory');
 
-describe('controllers:OpstinaController', () => {
+describe('controllers:UslugaController', () => {
   let existingUser = null;
   let existingUser1 = null;
-  let existingOpstina = null;
+  let existingUsluga = null;
+  let existingUsluga1 = null;
   before(done => {
     Promise.all([
-      userFactory.createSuperUser({poslovnica: 1}),
       userFactory.createManager({poslovnica: 1}),
-      opstinaFactory.create()
+      userFactory.create({poslovnica: 1}),
+      uslugaFactory.create({poslovnica: 1}),
+      uslugaFactory.create({poslovnica: 2})
     ]).then(objects => {
       existingUser = objects[0];
       existingUser1 = objects[1];
-      existingOpstina = objects[2];
+      existingUsluga = objects[2];
+      existingUsluga1 = objects[3];
       done();
     });
   });
 
   describe(':create', () => {
-    it('Should create new opstina.', (done) => {
-      request.post(`v1/opstine`).set({
+    it('Should create new usluga.', (done) => {
+      request.post(`v1/usluge`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          ime: 'imeOpstine'
+          naziv: 'name',
+          poslovnica: 1,
+          cena: '1245',
+          opis: 'opes'
         })
         .expect(201)
         .end(function(err, res) {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.opstina.should.have.all.keys(opstinaFactory.opstinaAttributes);
-          res.body.data.opstina.ime.should.equal('imeOpstine');
+          res.body.data.usluga.should.have.all.keys(uslugaFactory.uslugaAttributes);
+          res.body.data.usluga.naziv.should.equal('name');
           done();
         });
     });
 
     it('Should get error (missing token).', (done) => {
-      request.post(`v1/opstine`)
+      request.post(`v1/usluge`)
         .send({
-          ime: `ime`
+          naziv: `name`,
+          poslovnica: 1,
+          cena: '1245',
+          opis: 'opes'
         })
         .expect(401)
         .end(function(err, res) {
@@ -60,11 +69,14 @@ describe('controllers:OpstinaController', () => {
     });
 
     it('Should get error (user is not super_user).', (done) => {
-      request.post(`v1/opstine`).set({
+      request.post(`v1/usluge`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          ime: 'ime'
+          naziv: 'name',
+          poslovnica: 1,
+          cena: '1245',
+          opis: 'opes'
         })
         .expect(401)
         .end(function(err, res) {
@@ -77,7 +89,7 @@ describe('controllers:OpstinaController', () => {
 
 
     it('Should get error (missing parameter).', (done) => {
-      request.post(`v1/opstine`).set({
+      request.post(`v1/usluge`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({})
@@ -91,7 +103,7 @@ describe('controllers:OpstinaController', () => {
     });
 
     it('Should get error (missing body).', (done) => {
-      request.post(`v1/opstine`).set({
+      request.post(`v1/usluge`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -106,8 +118,8 @@ describe('controllers:OpstinaController', () => {
   });
 
   describe(':read', () => {
-    it('Should list opstine.', (done) => {
-      request.get(`v1/opstine`).set({
+    it('Should list usluge.', (done) => {
+      request.get(`v1/usluge`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -116,14 +128,30 @@ describe('controllers:OpstinaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('opstine');
-          res.body.data.opstine.length.should.be.above(0);
+          res.body.data.should.have.all.keys('usluge');
+          res.body.data.usluge.length.should.be.above(0);
+          done();
+        });
+    });
+
+    it('Should list 1 usluga.', (done) => {
+      request.get(`v1/usluge/${existingUsluga.id}`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
+        })
+        .send()
+        .expect(200)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.have.all.keys('usluga');
+          res.body.data.usluga.should.have.all.keys(uslugaFactory.uslugaAttributes);
           done();
         });
     });
 
     it('Should get error. (not a super_user)', (done) => {
-      request.get(`v1/opstine`).set({
+      request.get(`v1/usluge`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send()
@@ -137,7 +165,7 @@ describe('controllers:OpstinaController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.get(`v1/opstine`)
+      request.get(`v1/usluge`)
         .send()
         .expect(401)
         .end(function(err, res) {
@@ -151,31 +179,56 @@ describe('controllers:OpstinaController', () => {
 
 
   describe(':update', () => {
-    it('Should update opstina.', (done) => {
-      request.put(`v1/opstine/${existingOpstina.id}`).set({
+    it('Should update usluga.', (done) => {
+      request.put(`v1/usluge/${existingUsluga.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          ime: "updatedIme"
+          naziv: "updatedIme",
+          poslovnica: 1,
+          cena: '1245',
+          opis: 'opes'
         })
         .expect(200)
         .end(function(err, res) {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('opstina');
-          res.body.data.opstina.should.have.all.keys(opstinaFactory.opstinaAttributes);
-          res.body.data.opstina.ime.should.equal('updatedIme');
+          res.body.data.should.have.all.keys('usluga');
+          res.body.data.usluga.should.have.all.keys(uslugaFactory.uslugaAttributes);
+          res.body.data.usluga.naziv.should.equal('updatedIme');
+          done();
+        });
+    });
+
+    it('Should get error. (not from same poslovnica)', (done) => {
+      request.put(`v1/usluge/${existingUsluga1.id}`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
+        })
+        .send({
+          naziv: "updatedIme",
+          poslovnica: 1,
+          cena: '1245',
+          opis: 'opes'
+        })
+        .expect(401)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.keys('status', 'data');
+          res.body.status.should.equal('fail');
           done();
         });
     });
 
     it('Should get error. (not a super_admin)', (done) => {
-      request.put(`v1/opstine/${existingOpstina.id}`).set({
+      request.put(`v1/usluge/${existingUsluga.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          ime: "updatedIme"
+          naziv: "updatedIme",
+          poslovnica: 1,
+          cena: '1245',
+          opis: 'opes'
         })
         .expect(401)
         .end(function(err, res) {
@@ -187,9 +240,12 @@ describe('controllers:OpstinaController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.put(`v1/opstine/${existingUser1.id}`)
+      request.put(`v1/usluge/${existingUser1.id}`)
         .send({
-          ime: "updatedIme"
+          naziv: "updatedIme",
+          poslovnica: 1,
+          cena: '1245',
+          opis: 'opes'
         })
         .expect(401)
         .end(function(err, res) {
@@ -203,8 +259,8 @@ describe('controllers:OpstinaController', () => {
 
 
   describe(':delete', () => {
-    it('Should delete opstina.', (done) => {
-      request.delete(`v1/opstine/${existingOpstina.id}`).set({
+    it('Should delete usluga.', (done) => {
+      request.delete(`v1/usluge/${existingUsluga.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -213,14 +269,28 @@ describe('controllers:OpstinaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('opstina');
-          res.body.data.opstina.should.have.all.keys(opstinaFactory.opstinaAttributes);
+          res.body.data.should.have.all.keys('usluga');
+          res.body.data.usluga.should.have.all.keys(uslugaFactory.uslugaAttributes);
           done();
         });
     });
 
-    it('Should get error. (opstina does not exist)', (done) => {
-      request.delete(`v1/opstine/${existingOpstina.id}`).set({
+    it('Should get error. (usluga from other poslovnica)', (done) => {
+      request.delete(`v1/usluge/${existingUsluga1.id}`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
+        })
+        .send()
+        .expect(401)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.keys('status', 'data');
+          res.body.status.should.equal('fail');
+          done();
+        });
+    });
+
+    it('Should get error. (usluga does not exist)', (done) => {
+      request.delete(`v1/usluge/${existingUsluga.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -233,8 +303,8 @@ describe('controllers:OpstinaController', () => {
         });
     });
 
-    it('Should get error. (user does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
-      request.delete(`v1/opstine/string`).set({
+    it('Should get error. (usluga does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
+      request.delete(`v1/usluge/string`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -248,7 +318,7 @@ describe('controllers:OpstinaController', () => {
     });
 
     it('Should get error. (not a super_user)', (done) => {
-      request.delete(`v1/opstine/${existingUser.id}`).set({
+      request.delete(`v1/usluge/${existingUser.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send()
@@ -262,7 +332,7 @@ describe('controllers:OpstinaController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.delete(`v1/opstine/${existingUser1.id}`)
+      request.delete(`v1/usluge/${existingUser1.id}`)
         .send()
         .expect(401)
         .end(function(err, res) {

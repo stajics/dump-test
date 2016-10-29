@@ -448,6 +448,127 @@ paths:
           schema:
             $ref: "#/definitions/DeleteOpstineResponse"
 
+########################################
+#######BOX
+  /usluge:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Usluga
+      summary: Get all usluge.
+      description: "Requires logged in user to be manager."
+      operationId: getUsluge
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: All usluge.
+          schema:
+            $ref: "#/definitions/UslugaResponse"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Usluga
+      summary: Add new usluga.
+      description: "Requires logged in user to be manager."
+      operationId: createUsluga
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Usluga object that needs to be added to the usluge.
+          required: true
+          schema:
+            $ref: "#/definitions/PostUslugeBody"
+      responses:
+        "201":
+          description: Usluga created.
+          schema:
+            $ref: "#/definitions/UslugeResponse"
+  /usluge/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Usluga
+      summary: Get usluga.
+      description: "Requires logged in user to be manager."
+      operationId: getUsluga
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the usluga
+          required: true
+          type: string
+      responses:
+        "200":
+          description: All users.
+          schema:
+            $ref: "#/definitions/UslugeResponse"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Usluga
+      summary: Update usluga.
+      description: "Requires logged in user to be super_user."
+      operationId: updateUsluga
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the usluga that needs to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Attributes and values that will be updated.
+          required: true
+          schema:
+            $ref: "#/definitions/PutUslugeBody"
+      responses:
+        "200":
+          description: Usluga updated.
+          schema:
+            $ref: "#/definitions/UslugeResponse"
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Usluga
+      summary: Delete usluga.
+      description: "Requires logged in user to be super_user."
+      operationId: deleteUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the usluga that needs to be deleted.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Usluga deleted.
+          schema:
+            $ref: "#/definitions/UslugeResponse"
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -534,6 +655,32 @@ definitions:
       id:
         type: string
       ime:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
+  Usluga:
+    type: object
+    required:
+      - id
+      - naziv
+      - poslovnica
+      - opis
+      - cena
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      naziv:
+        type: string
+      poslovnica:
+        type: string
+      opis:
+        type: string
+      cena:
         type: string
       createdAt:
         type: string
@@ -652,6 +799,40 @@ definitions:
     properties:
       ime:
         type: string
+
+  ###############
+  #Usluga
+  PostUslugeBody:
+    type: object
+    required:
+      - naziv
+      - poslovnica
+      - opis
+      - cena
+    properties:
+      naziv:
+        type: string
+      poslovnica:
+        type: string
+      opis:
+        type: string
+      cena:
+        type: string
+
+  PutUslugeBody:
+    type: object
+    required:
+      - naziv
+      - opis
+      - cena
+    properties:
+      naziv:
+        type: string
+      opis:
+        type: string
+      cena:
+        type: string
+
   ###############################################################
   ###############################################################
   #responses
@@ -786,3 +967,41 @@ definitions:
         properties:
           opstina:
             $ref: "#/definitions/Opstina"
+
+###################
+#Usluga
+  UslugaResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - usluge
+        properties:
+          usluge:
+            type: 'array'
+            items:
+              $ref: "#/definitions/Usluga"
+
+  UslugeResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - usluga
+        properties:
+          usluga:
+            $ref: "#/definitions/Usluga"
