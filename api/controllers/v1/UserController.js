@@ -20,7 +20,7 @@ module.exports = {
 
   update: async(req, res) => {
     try {
-      const values = omit(req.allParams(), ['id', 'rola', 'poslovnica']);
+      const values = omit(req.allParams(), ['id', 'password']);
       let userForUpdate = await User.findOne({ id: req.params.id });
       if( isEmpty(userForUpdate) ) {
         return res.notFound("No user with that ID.");
