@@ -40,6 +40,13 @@ module.exports = {
       delete: ["isAuthenticated", "isManager" ]
     },
 
+    "v1/OsiguranjeController": {
+      create: ["isAuthenticated", "isSuperUser" ],
+      read: ["isAuthenticated", "isManager"],
+      update: ["isAuthenticated", "isSuperUser" ],
+      delete: ["isAuthenticated", "isSuperUser" ]
+    },
+
     "v1/user/RegistrationController": {
       create: ["isAuthenticated", "isManager" ]
     },

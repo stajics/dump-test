@@ -449,7 +449,7 @@ paths:
             $ref: "#/definitions/DeleteOpstineResponse"
 
 ########################################
-#######BOX
+#######USLUGE
   /usluge:
     get:
       security:
@@ -569,6 +569,127 @@ paths:
           description: Usluga deleted.
           schema:
             $ref: "#/definitions/UslugeResponse"
+########################################
+#######OSIGURANJE
+  /osiguranja:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Osiguranje
+      summary: Get all osiguranja.
+      description: "Requires logged in user to be super_user."
+      operationId: getOsiguranjees
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: All osiguranja.
+          schema:
+            $ref: "#/definitions/OsiguranjaResponse"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Osiguranje
+      summary: Add new osiguranje.
+      description: "Requires logged in user to be super_user."
+      operationId: createOsiguranje
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Osiguranje object that needs to be added to the osiguranja.
+          required: true
+          schema:
+            $ref: "#/definitions/PostOsiguranjeBody"
+      responses:
+        "201":
+          description: Osiguranje created.
+          schema:
+            $ref: "#/definitions/OsiguranjeResponse"
+  /osiguranja/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Osiguranje
+      summary: Get osiguranje.
+      description: "Requires logged in user to be super_user."
+      operationId: getOsiguranje
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the osiguranje
+          required: true
+          type: string
+      responses:
+        "200":
+          description: All users.
+          schema:
+            $ref: "#/definitions/OsiguranjeResponse"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Osiguranje
+      summary: Update osiguranje.
+      description: "Requires logged in user to be super_user."
+      operationId: updateOsiguranje
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the osiguranje that needs to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Attributes and values that will be updated.
+          required: true
+          schema:
+            $ref: "#/definitions/PutOsiguranjeBody"
+      responses:
+        "200":
+          description: Osiguranje updated.
+          schema:
+            $ref: "#/definitions/OsiguranjeResponse"
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Osiguranje
+      summary: Delete osiguranje.
+      description: "Requires logged in user to be super_user."
+      operationId: deleteUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the osiguranje that needs to be deleted.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Osiguranje deleted.
+          schema:
+            $ref: "#/definitions/OsiguranjeResponse"
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -681,6 +802,56 @@ definitions:
       opis:
         type: string
       cena:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
+  Osiguranje:
+    type: object
+    required:
+      - id
+      - naziv
+      - vrstaVozila
+      - kwOd
+      - kwDo
+      - nosivost
+      - ccm
+      - brMesta
+      - cena
+      - cena5
+      - cena10
+      - cena15
+      - poslovnice
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      naziv:
+        type: string
+      vrstaVozila:
+        type: string
+      kwOd:
+        type: string
+      kwDo:
+        type: string
+      nosivost:
+        type: string
+      ccm:
+        type: string
+      brMesta:
+        type: string
+      cena:
+        type: string
+      cena5:
+        type: string
+      cena10:
+        type: string
+      cena15:
+        type: string
+      poslovnice:
         type: string
       createdAt:
         type: string
@@ -832,7 +1003,75 @@ definitions:
         type: string
       cena:
         type: string
+  ###############
+  #Osiguranje
+  PostOsiguranjeBody:
+    type: object
+    required:
+      - naziv
+      - vrstaVozila
+      - kwOd
+      - kwDo
+      - nosivost
+      - ccm
+      - brMesta
+      - cena
+      - cena5
+      - cena10
+      - cena15
+    properties:
+      naziv:
+        type: string
+      vrstaVozila:
+        type: string
+      kwOd:
+        type: string
+      kwDo:
+        type: string
+      nosivost:
+        type: string
+      ccm:
+        type: string
+      brMesta:
+        type: string
+      cena:
+        type: string
+      cena5:
+        type: string
+      cena10:
+        type: string
+      cena15:
+        type: string
+      poslovnice:
+        type: array
+        items:
+          type: integer
 
+  PutOsiguranjeBody:
+    type: object
+    properties:
+      naziv:
+        type: string
+      vrstaVozila:
+        type: string
+      kwOd:
+        type: string
+      kwDo:
+        type: string
+      nosivost:
+        type: string
+      ccm:
+        type: string
+      brMesta:
+        type: string
+      cena:
+        type: string
+      cena5:
+        type: string
+      poslovnice:
+        type: array
+        items:
+          type: integer
   ###############################################################
   ###############################################################
   #responses
@@ -984,7 +1223,7 @@ definitions:
         required:
           - usluge
         properties:
-          usluge:
+          usluga:
             type: 'array'
             items:
               $ref: "#/definitions/Usluga"
@@ -1005,3 +1244,40 @@ definitions:
         properties:
           usluga:
             $ref: "#/definitions/Usluga"
+###################
+#Osiguranje
+  OsiguranjaResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - osiguranje
+        properties:
+          osiguranje:
+            type: 'array'
+            items:
+              $ref: "#/definitions/Osiguranje"
+
+  OsiguranjeResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - osiguranje
+        properties:
+          osiguranje:
+            $ref: "#/definitions/Osiguranje"

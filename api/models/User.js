@@ -11,8 +11,7 @@ module.exports = {
   attributes: {
     ime: {
       type: 'string',
-      required: true,
-      alphanumericdashed: true
+      required: true
     },
 
     username: {

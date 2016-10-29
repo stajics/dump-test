@@ -11,8 +11,7 @@ module.exports = {
   attributes: {
     naziv: {
       type: 'string',
-      required: true,
-      alphanumericdashed: true
+      required: true
     },
 
     poslovnice: {

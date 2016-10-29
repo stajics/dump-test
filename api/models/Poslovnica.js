@@ -11,8 +11,7 @@ module.exports = {
   attributes: {
     naziv: {
       type: 'string',
-      required: true,
-      alphanumericdashed: true
+      required: true
     },
 
     adresa: {
@@ -47,6 +46,11 @@ module.exports = {
     usluge: {
       collection: 'usluga',
       via: 'poslovnica'
+    },
+
+    osiguranja: {
+      collection: 'osiguranje',
+      via: 'poslovnice'
     },
 
     opstina: {
