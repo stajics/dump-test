@@ -17,12 +17,41 @@ module.exports = {
   read: async(req, res) => {
     try {
       let takse = null;
-      if( req.params.id ){
-        takse = await Taksa.findOne({id: req.params.id});
-        res.ok({ taksa: takse });
-        } else {
-        takse = await Taksa.find();
-        res.ok({ taksa: takse });
+      switch (req.user.rola) {
+        case 'super_user':
+          if( req.params.id ){
+            takse = await Taksa.findOne({id: req.params.id});
+            return res.ok({ taksa: takse });
+            } else {
+            takse = await Taksa.find();
+            return res.ok({ taksa: takse });
+          }
+          break;
+        default:
+          let usersPoslovnica = await Poslovnica.findOne({id: req.user.poslovnica});
+          if( req.params.id ){
+            takse = await Taksa.findOne({
+              or: [{
+                id: req.params.id,
+                opstina: 0
+              },
+              {
+                id: req.params.id,
+                opstina: usersPoslovnica.opstina
+              }]
+            });
+            return res.ok({ taksa: takse});
+          } else {
+            takse = await Taksa.find({
+              or: [{
+                opstina: 0
+              },
+              {
+                opstina: usersPoslovnica.opstina
+              }]
+            });
+            return res.ok({ taksa: takse});
+          }
       }
     } catch (err) {
       res.badRequest(err);

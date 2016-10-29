@@ -8,7 +8,7 @@ const create = (values = {}) => {
   let randomNumber = _.random(1,1000);
   return Poslovnica.create({
     naziv: `naziv${randomNumber}`,
-    opstina: randomNumber
+    opstina: values.opstina || randomNumber
   });
 };
 

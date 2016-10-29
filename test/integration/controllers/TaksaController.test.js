@@ -8,20 +8,34 @@ const request = require('supertest')(url);
 //factories
 const userFactory = require('../../factories/UserFactory');
 const taksaFactory = require('../../factories/TaksaFactory');
+const poslovnicaFactory = require('../../factories/PoslovnicaFactory');
 
 describe('controllers:TaksaController', () => {
   let existingUser = null;
   let existingUser1 = null;
+  let existingUser2 = null;
   let existingTaksa = null;
+  let existingTaksa1 = null;
+  let existingPoslovnica = null;
   before(done => {
     Promise.all([
-      userFactory.createSuperUser({poslovnica: 1}),
-      userFactory.createManager({poslovnica: 1}),
-      taksaFactory.create()
+      userFactory.createSuperUser({poslovnica: 3}),
+      userFactory.createManager({poslovnica: 3}),
+      userFactory.create({poslovnica: 3}),
+      taksaFactory.create({ opstina: 2}),
+      taksaFactory.create({ opstina: 1}),
+      taksaFactory.create({ opstina: 0}),
+      taksaFactory.create({ opstina: 2}),
+      taksaFactory.create({ opstina: 0}),
+      taksaFactory.create({ opstina: 1}),
+      poslovnicaFactory.create({opstina: 1})
     ]).then(objects => {
       existingUser = objects[0];
       existingUser1 = objects[1];
-      existingTaksa = objects[2];
+      existingUser2 = objects[2];
+      existingTaksa = objects[3];
+      existingTaksa1 = objects[4];
+      existingPoslovnica = objects[9];
       done();
     })
     .catch(done);
@@ -75,9 +89,9 @@ describe('controllers:TaksaController', () => {
         });
     });
 
-    it('Should get error (user is not super_user).', (done) => {
+    it('Should get error (user is not super_user or manager).', (done) => {
       request.post(`v1/takse`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
+          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
         })
         .send({
           name: 'name'
@@ -90,39 +104,10 @@ describe('controllers:TaksaController', () => {
           done();
         });
     });
-    // 
-    //
-    // it('Should get error (missing parameter).', (done) => {
-    //   request.post(`v1/takse`).set({
-    //       'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-    //     })
-    //     .send({})
-    //     .expect(400)
-    //     .end(function(err, res) {
-    //       if (err) throw err;
-    //       res.body.should.have.all.keys('status', 'data');
-    //       res.body.status.should.equal('fail');
-    //       done();
-    //     });
-    // });
-    //
-    // it('Should get error (missing body).', (done) => {
-    //   request.post(`v1/takse`).set({
-    //       'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-    //     })
-    //     .send()
-    //     .expect(400)
-    //     .end(function(err, res) {
-    //       if (err) throw err;
-    //       res.body.should.have.all.keys('status', 'data');
-    //       res.body.status.should.equal('fail');
-    //       done();
-    //     });
-    // });
   });
 
   describe(':read', () => {
-    it('Should list takse.', (done) => {
+    it('Should list takse. (super_user)', (done) => {
       request.get(`v1/takse`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
@@ -138,7 +123,39 @@ describe('controllers:TaksaController', () => {
         });
     });
 
-    it('Should list 1 taksa.', (done) => {
+    it('Should list takse. (manager)', (done) => {
+      request.get(`v1/takse`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
+        })
+        .send()
+        .expect(200)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.have.all.keys('taksa');
+          res.body.data.taksa.length.should.be.above(2);
+          done();
+        });
+    });
+
+    it('Should list takse. (korisnik)', (done) => {
+      request.get(`v1/takse`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
+        })
+        .send()
+        .expect(200)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.have.all.keys('taksa');
+          res.body.data.taksa.length.should.be.above(2);
+          done();
+        });
+    });
+
+    it('Should list 1 taksa. (super_user)', (done) => {
       request.get(`v1/takse/${existingTaksa.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
@@ -154,16 +171,33 @@ describe('controllers:TaksaController', () => {
         });
     });
 
-    it('Should get error. (not a super_user)', (done) => {
-      request.get(`v1/takse`).set({
+    it('Should list 1 taksa. (korisnik)', (done) => {
+      request.get(`v1/takse/${existingTaksa1.id}`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
+        })
+        .send()
+        .expect(200)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.have.all.keys('taksa');
+          res.body.data.taksa.should.have.all.keys(taksaFactory.taksaAttributes);
+          done();
+        });
+    });
+
+    it('Should list 0 taksa. (menadzer)(taksa not from users poslovnica opstina)', (done) => {
+      request.get(`v1/takse/${existingTaksa.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send()
-        .expect(401)
+        .expect(200)
         .end(function(err, res) {
           if (err) throw err;
-          res.body.should.have.keys('status', 'data');
-          res.body.status.should.equal('fail');
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.be.empty;
           done();
         });
     });

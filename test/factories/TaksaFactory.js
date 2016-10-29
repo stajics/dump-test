@@ -8,7 +8,7 @@ const create = (values = {}) => {
   let randomNumber = _.random(1,1000);
   return Taksa.create({
     usluga: `usluga${randomNumber}`,
-    opstina: randomNumber,
+    opstina: (values.opstina === 0) || values.opstina ? values.opstina : randomNumber,
     vrstaVozila: 'putnicko',
     godisteOd: 123,
     godisteDo: 124,
