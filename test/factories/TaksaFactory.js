@@ -1,0 +1,32 @@
+"use strict";
+
+const _ = require('lodash');
+
+const taksaAttributes = ['id', 'usluga', 'opstina', 'vrstaVozila', 'godisteOd', 'godisteDo', 'zapreminaOd', 'zapreminaDo', 'snagaOd', 'snagaDo', 'starostOd', 'starostDo', 'brSedistaOd', 'brSedistaDo', 'nosivostOd', 'nosivostDo', 'cena',  'createdAt', 'updatedAt'];
+
+const create = (values = {}) => {
+  let randomNumber = _.random(1,1000);
+  return Taksa.create({
+    usluga: `usluga${randomNumber}`,
+    opstina: randomNumber,
+    vrstaVozila: 'putnicko',
+    godisteOd: 123,
+    godisteDo: 124,
+    zapreminaOd: 125,
+    zapreminaDo: 125,
+    snagaOd: 124,
+    snagaDo: 12154,
+    starostOd: 123,
+    starostDo: 12343,
+    brSedistaOd: 124,
+    brSedistaDo: 15451,
+    nosivostOd: 1  ,
+    nosivostDo: 12,
+    cena: 1255
+  });
+};
+
+module.exports = {
+  taksaAttributes,
+  create
+};

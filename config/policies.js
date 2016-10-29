@@ -47,6 +47,13 @@ module.exports = {
       delete: ["isAuthenticated", "isSuperUser" ]
     },
 
+    "v1/TaksaController": {
+      create: ["isAuthenticated", "isSuperUser" ],
+      read: ["isAuthenticated", "isSuperUser"],
+      update: ["isAuthenticated", "isSuperUser" ],
+      delete: ["isAuthenticated", "isSuperUser" ]
+    },
+
     "v1/user/RegistrationController": {
       create: ["isAuthenticated", "isManager" ]
     },
