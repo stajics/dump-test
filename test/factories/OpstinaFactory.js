@@ -2,12 +2,12 @@
 
 const _ = require('lodash');
 
-const opstinaAttributes = ['id', 'ime', 'createdAt', 'updatedAt'];
+const opstinaAttributes = ['id', 'naziv', 'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
   let randomNumber = _.random(1,1000);
   return Opstina.create({
-    ime: `naziv${randomNumber}`
+    naziv: `naziv${randomNumber}`
   });
 };
 

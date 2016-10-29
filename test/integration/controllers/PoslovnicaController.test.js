@@ -32,7 +32,7 @@ describe('controllers:PoslovnicaController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          ime: 'imePoslovnice',
+          naziv: 'nazivPoslovnice',
           opstina: 1,
           adresa: 'adresa 5',
           pib: '1241245',
@@ -47,7 +47,7 @@ describe('controllers:PoslovnicaController', () => {
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
           res.body.data.poslovnica.should.have.all.keys(poslovnicaFactory.poslovnicaAttributes);
-          res.body.data.poslovnica.ime.should.equal('imePoslovnice');
+          res.body.data.poslovnica.naziv.should.equal('nazivPoslovnice');
           done();
         });
     });
@@ -55,7 +55,7 @@ describe('controllers:PoslovnicaController', () => {
     it('Should get error (missing token).', (done) => {
       request.post(`v1/poslovnice`)
         .send({
-          ime: `ime`,
+          naziv: `naziv`,
           opstina: 1
         })
         .expect(401)
@@ -72,7 +72,7 @@ describe('controllers:PoslovnicaController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          ime: 'ime',
+          naziv: 'naziv',
           opstina: 1
         })
         .expect(401)
@@ -165,7 +165,7 @@ describe('controllers:PoslovnicaController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          ime: "updatedIme"
+          naziv: "updatednaziv"
         })
         .expect(200)
         .end(function(err, res) {
@@ -174,7 +174,7 @@ describe('controllers:PoslovnicaController', () => {
           res.body.status.should.equal('success');
           res.body.data.should.have.all.keys('poslovnica');
           res.body.data.poslovnica.should.have.all.keys(poslovnicaFactory.poslovnicaAttributes);
-          res.body.data.poslovnica.ime.should.equal('updatedIme');
+          res.body.data.poslovnica.naziv.should.equal('updatednaziv');
           done();
         });
     });
@@ -184,7 +184,7 @@ describe('controllers:PoslovnicaController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          ime: "updatedIme",
+          naziv: "updatednaziv",
           opstina: 1
         })
         .expect(401)
@@ -199,7 +199,7 @@ describe('controllers:PoslovnicaController', () => {
     it('Should get error. (no token)', (done) => {
       request.put(`v1/poslovnice/${existingUser1.id}`)
         .send({
-          ime: "updatedIme",
+          naziv: "updatednaziv",
           opstina: 1
         })
         .expect(401)

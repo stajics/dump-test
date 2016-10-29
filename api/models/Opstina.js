@@ -9,7 +9,7 @@ module.exports = {
   schema: true,
 
   attributes: {
-    ime: {
+    naziv: {
       type: 'string',
       required: true,
       alphanumericdashed: true

@@ -32,7 +32,7 @@ describe('controllers:OpstinaController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          ime: 'imeOpstine'
+          naziv: 'nazivOpstine'
         })
         .expect(201)
         .end(function(err, res) {
@@ -40,7 +40,7 @@ describe('controllers:OpstinaController', () => {
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
           res.body.data.opstina.should.have.all.keys(opstinaFactory.opstinaAttributes);
-          res.body.data.opstina.ime.should.equal('imeOpstine');
+          res.body.data.opstina.naziv.should.equal('nazivOpstine');
           done();
         });
     });
@@ -48,7 +48,7 @@ describe('controllers:OpstinaController', () => {
     it('Should get error (missing token).', (done) => {
       request.post(`v1/opstine`)
         .send({
-          ime: `ime`
+          naziv: `naziv`
         })
         .expect(401)
         .end(function(err, res) {
@@ -64,7 +64,7 @@ describe('controllers:OpstinaController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          ime: 'ime'
+          naziv: 'naziv'
         })
         .expect(401)
         .end(function(err, res) {
@@ -156,7 +156,7 @@ describe('controllers:OpstinaController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          ime: "updatedIme"
+          naziv: "updatednaziv"
         })
         .expect(200)
         .end(function(err, res) {
@@ -165,7 +165,7 @@ describe('controllers:OpstinaController', () => {
           res.body.status.should.equal('success');
           res.body.data.should.have.all.keys('opstina');
           res.body.data.opstina.should.have.all.keys(opstinaFactory.opstinaAttributes);
-          res.body.data.opstina.ime.should.equal('updatedIme');
+          res.body.data.opstina.naziv.should.equal('updatednaziv');
           done();
         });
     });
@@ -175,7 +175,7 @@ describe('controllers:OpstinaController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          ime: "updatedIme"
+          naziv: "updatednaziv"
         })
         .expect(401)
         .end(function(err, res) {
@@ -189,7 +189,7 @@ describe('controllers:OpstinaController', () => {
     it('Should get error. (no token)', (done) => {
       request.put(`v1/opstine/${existingUser1.id}`)
         .send({
-          ime: "updatedIme"
+          naziv: "updatednaziv"
         })
         .expect(401)
         .end(function(err, res) {

@@ -610,7 +610,7 @@ definitions:
     type: object
     required:
       - id
-      - ime
+      - naziv
       - opstina
       - adresa
       - pib
@@ -623,7 +623,7 @@ definitions:
     properties:
       id:
         type: string
-      ime:
+      naziv:
         type: string
       opstina:
         type: integer
@@ -648,13 +648,13 @@ definitions:
     type: object
     required:
       - id
-      - ime
+      - naziv
       - createdAt
       - updatedAt
     properties:
       id:
         type: string
-      ime:
+      naziv:
         type: string
       createdAt:
         type: string
@@ -740,7 +740,7 @@ definitions:
   PutPoslovniceBody:
     type: object
     properties:
-      ime:
+      naziv:
         type: string
       adresa:
         type: string
@@ -758,7 +758,7 @@ definitions:
   PostPoslovniceBody:
     type: object
     required:
-      - ime
+      - naziv
       - opstina
       - adresa
       - pib
@@ -767,7 +767,7 @@ definitions:
       - telefon
       - email
     properties:
-      ime:
+      naziv:
         type: string
       opstina:
         type: integer
@@ -789,15 +789,15 @@ definitions:
   PutOpstineBody:
     type: object
     properties:
-      ime:
+      naziv:
         type: string
 
   PostOpstineBody:
     type: object
     required:
-      - ime
+      - naziv
     properties:
-      ime:
+      naziv:
         type: string
 
   ###############
