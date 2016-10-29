@@ -5,7 +5,7 @@ const _ = require('lodash');
 const userAttributes = ['id', 'username', 'ime', 'poslovnica', 'rola', 'email', 'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
-  let randomNumber = _.random(1,1000);
+  let randomNumber = _.random(1,100000);
   return User.create({
     username: `username${randomNumber}`,
     poslovnica: values.poslovnica || randomNumber,

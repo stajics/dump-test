@@ -690,6 +690,127 @@ paths:
           description: Osiguranje deleted.
           schema:
             $ref: "#/definitions/OsiguranjeResponse"
+########################################
+#######TAKSE
+  /takse:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Taksa
+      summary: Get all takse.
+      description: "Requires logged in user to be super_user."
+      operationId: getTakse
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: All takse.
+          schema:
+            $ref: "#/definitions/TaksaResponse"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Taksa
+      summary: Add new taksa.
+      description: "Requires logged in user to be super_user."
+      operationId: createTaksa
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Taksa object that needs to be added to the takse.
+          required: true
+          schema:
+            $ref: "#/definitions/PostTakseBody"
+      responses:
+        "201":
+          description: Taksa created.
+          schema:
+            $ref: "#/definitions/TakseResponse"
+  /takse/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Taksa
+      summary: Get taksa.
+      description: "Requires logged in user to be super_user."
+      operationId: getTaksa
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the taksa
+          required: true
+          type: string
+      responses:
+        "200":
+          description: All users.
+          schema:
+            $ref: "#/definitions/TakseResponse"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Taksa
+      summary: Update taksa.
+      description: "Requires logged in user to be super_user."
+      operationId: updateTaksa
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the taksa that needs to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Attributes and values that will be updated.
+          required: true
+          schema:
+            $ref: "#/definitions/PutTakseBody"
+      responses:
+        "200":
+          description: Taksa updated.
+          schema:
+            $ref: "#/definitions/TakseResponse"
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Taksa
+      summary: Delete taksa.
+      description: "Requires logged in user to be super_user."
+      operationId: deleteUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the taksa that needs to be deleted.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Taksa deleted.
+          schema:
+            $ref: "#/definitions/TakseResponse"
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -710,7 +831,7 @@ definitions:
       - updatedAt
     properties:
       id:
-        type: string
+        type: integer
       username:
         type: string
       ime:
@@ -743,7 +864,7 @@ definitions:
       - updatedAt
     properties:
       id:
-        type: string
+        type: integer
       naziv:
         type: string
       opstina:
@@ -774,7 +895,7 @@ definitions:
       - updatedAt
     properties:
       id:
-        type: string
+        type: integer
       naziv:
         type: string
       createdAt:
@@ -794,7 +915,7 @@ definitions:
       - updatedAt
     properties:
       id:
-        type: string
+        type: integer
       naziv:
         type: string
       poslovnica:
@@ -828,7 +949,7 @@ definitions:
       - updatedAt
     properties:
       id:
-        type: string
+        type: integer
       naziv:
         type: string
       vrstaVozila:
@@ -857,6 +978,69 @@ definitions:
         type: string
       updatedAt:
         type: string
+
+  Taksa:
+    type: object
+    required:
+      - id
+      - usluga
+      - opstina
+      - vrstaVozila
+      - godisteOd
+      - godisteDo
+      - zapreminaOd
+      - zapreminaDo
+      - snagaOd
+      - snagaDo
+      - starostOd
+      - starostDo
+      - brSedistaOd
+      - brSedistaDo
+      - nosivostOd
+      - nosivostDo
+      - cena
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: integer
+      usluga:
+        type: string
+      opstina:
+        type: integer
+      vrstaVozila:
+        type: string
+      godisteOd:
+        type: integer
+      godisteDo:
+        type: integer
+      zapreminaOd:
+        type: integer
+      zapreminaDo:
+        type: integer
+      snagaOd:
+        type: integer
+      snagaDo:
+        type: integer
+      starostOd:
+        type: integer
+      starostDo:
+        type: integer
+      brSedistaOd:
+        type: integer
+      brSedistaDo:
+        type: integer
+      nosivostOd:
+        type: integer
+      nosivostDo:
+        type: integer
+      cena:
+        type: integer
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
   #################################################################
   #################################################################
   #params
@@ -1076,6 +1260,98 @@ definitions:
         type: array
         items:
           type: integer
+
+  ###############
+  #Taksa
+  PostTakseBody:
+    type: object
+    required:
+      - usluga
+      - opstina
+      - vrstaVozila
+      - godisteOd
+      - godisteDo
+      - zapreminaOd
+      - zapreminaDo
+      - snagaOd
+      - snagaDo
+      - starostOd
+      - starostDo
+      - brSedistaOd
+      - brSedistaDo
+      - nosivostOd
+      - nosivostDo
+      - cena
+    properties:
+      usluga:
+        type: string
+      opstina:
+        type: integer
+      vrstaVozila:
+        type: string
+      godisteOd:
+        type: integer
+      godisteDo:
+        type: integer
+      zapreminaOd:
+        type: integer
+      zapreminaDo:
+        type: integer
+      snagaOd:
+        type: integer
+      snagaDo:
+        type: integer
+      starostOd:
+        type: integer
+      starostDo:
+        type: integer
+      brSedistaOd:
+        type: integer
+      brSedistaDo:
+        type: integer
+      nosivostOd:
+        type: integer
+      nosivostDo:
+        type: integer
+      cena:
+        type: integer
+
+  PutTakseBody:
+    type: object
+    properties:
+      usluga:
+        type: string
+      opstina:
+        type: integer
+      vrstaVozila:
+        type: string
+      godisteOd:
+        type: integer
+      godisteDo:
+        type: integer
+      zapreminaOd:
+        type: integer
+      zapreminaDo:
+        type: integer
+      snagaOd:
+        type: integer
+      snagaDo:
+        type: integer
+      starostOd:
+        type: integer
+      starostDo:
+        type: integer
+      brSedistaOd:
+        type: integer
+      brSedistaDo:
+        type: integer
+      nosivostOd:
+        type: integer
+      nosivostDo:
+        type: integer
+      cena:
+        type: integer
+
   ###############################################################
   ###############################################################
   #responses
@@ -1285,3 +1561,41 @@ definitions:
         properties:
           osiguranje:
             $ref: "#/definitions/Osiguranje"
+
+  ###################
+  #Taksa
+  TaksaResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - takse
+        properties:
+          taksa:
+            type: 'array'
+            items:
+              $ref: "#/definitions/Taksa"
+
+  TakseResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - taksa
+        properties:
+          taksa:
+            $ref: "#/definitions/Taksa"

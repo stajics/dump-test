@@ -52,6 +52,13 @@ module.exports = {
     'PUT /v1/osiguranja/:id': 'v1/OsiguranjeController.update',
     'DELETE /v1/osiguranja/:id': 'v1/OsiguranjeController.delete',
 
+    //takse
+    'GET /v1/takse': 'v1/TaksaController.read',
+    'GET /v1/takse/:id': 'v1/TaksaController.read',
+    'POST /v1/takse': 'v1/TaksaController.create',
+    'PUT /v1/takse/:id': 'v1/TaksaController.update',
+    'DELETE /v1/takse/:id': 'v1/TaksaController.delete',
+
     //Documentation
     'GET /v1/doc': 'v1/DocumentationController.getDocumentationJson',
   }

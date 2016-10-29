@@ -37,7 +37,7 @@ module.exports = {
         return res.notFound("No poslovnica with that ID.");
       };
       if( (poslovnicaToUpdate.id !== req.user.poslovnica) && !req.user.rola === 'super_user') {
-        return res.unauthorized("Can't update usluga from another poslovnica.");
+        return res.unauthorized("Can't update another poslovnica.");
       };
       let updatedPoslovnica = await Poslovnica.update({ id: req.params.id }, values);
       res.ok({poslovnica: updatedPoslovnica[0]});

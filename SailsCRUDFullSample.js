@@ -107,6 +107,8 @@ module.exports = {
 //***********************************************************
 //*********test/factories/BoxFactory.js
 //********************************************************
+"use strict";
+
 const _ = require('lodash');
 
 const boxAttributes = ['id', 'name', 'createdAt', 'updatedAt'];
@@ -567,7 +569,7 @@ Box:
       type: string
 
 //#############################################################
-//definitions: responses
+//definitions: params
 
 ###############
 #Box
@@ -585,6 +587,8 @@ PutBoxesBody:
     name:
       type: string
 
+//#############################################################
+//definitions: responses
 ###################
 #Box
   BoxResponse:
