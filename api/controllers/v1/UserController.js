@@ -6,12 +6,22 @@ module.exports = {
   read: async(req, res) => {
     try {
       let users = null;
-      if( req.params.id ){
-        users = await User.findOne({id: req.params.id});
-        res.ok({ user: users });
-        } else {
-        users = await User.find();
-        res.ok({ users });
+      if( req.user.rola === 'super_user') {
+        if( req.params.id ){
+          users = await User.findOne({id: req.params.id});
+          res.ok({ user: users });
+          } else {
+          users = await User.find();
+          res.ok({ users });
+        }
+      } else {
+        if( req.params.id ){
+          users = await User.findOne({id: req.params.id, poslovnica: req.user.poslovnica});
+          res.ok({ user: users });
+          } else {
+          users = await User.find({poslovnica: req.user.poslovnica});
+          res.ok({ users });
+        }
       }
     } catch (err) {
       res.badRequest(err);

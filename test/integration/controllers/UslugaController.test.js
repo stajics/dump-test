@@ -118,7 +118,7 @@ describe('controllers:UslugaController', () => {
   });
 
   describe(':read', () => {
-    it('Should list usluge.', (done) => {
+    it('Should list usluge. (menadzer)', (done) => {
       request.get(`v1/usluge`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
@@ -134,7 +134,7 @@ describe('controllers:UslugaController', () => {
         });
     });
 
-    it('Should list 1 usluga.', (done) => {
+    it('Should list 1 usluga. (superuser)', (done) => {
       request.get(`v1/usluge/${existingUsluga.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
@@ -150,19 +150,38 @@ describe('controllers:UslugaController', () => {
         });
     });
 
-    it('Should get error. (not a super_user)', (done) => {
+    it('Should list usluge. (korisnik)', (done) => {
       request.get(`v1/usluge`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send()
-        .expect(401)
+        .expect(200)
         .end(function(err, res) {
           if (err) throw err;
-          res.body.should.have.keys('status', 'data');
-          res.body.status.should.equal('fail');
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.have.all.keys('usluga');
+          res.body.data.usluga.length.should.be.above(0);
           done();
         });
     });
+
+    it('Should list 1 usluga. (korisnik)', (done) => {
+      request.get(`v1/usluge/${existingUsluga.id}`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
+        })
+        .send()
+        .expect(200)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.have.all.keys('usluga');
+          res.body.data.usluga.should.have.all.keys(uslugaFactory.uslugaAttributes);
+          done();
+        });
+    });
+
 
     it('Should get error. (no token)', (done) => {
       request.get(`v1/usluge`)

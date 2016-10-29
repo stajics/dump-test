@@ -125,7 +125,7 @@ describe('controllers:PoslovnicaController', () => {
   });
 
   describe(':read', () => {
-    it('Should list poslovnice.', (done) => {
+    it('Should list poslovnice. (super_user)', (done) => {
       request.get(`v1/poslovnice`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
@@ -141,16 +141,34 @@ describe('controllers:PoslovnicaController', () => {
         });
     });
 
-    it('Should get error. (not a super_user)', (done) => {
+    it('Should list poslovnica. (menadzer)', (done) => {
       request.get(`v1/poslovnice`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send()
-        .expect(401)
+        .expect(200)
         .end(function(err, res) {
           if (err) throw err;
-          res.body.should.have.keys('status', 'data');
-          res.body.status.should.equal('fail');
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.have.all.keys('poslovnica');
+          res.body.data.poslovnica.should.not.be.empty;
+          done();
+        });
+    });
+
+    it('Should list poslovnice. (korisnik)', (done) => {
+      request.get(`v1/poslovnice`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
+        })
+        .send()
+        .expect(200)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.have.all.keys('poslovnica');
+          res.body.data.poslovnica.should.not.be.empty;
           done();
         });
     });

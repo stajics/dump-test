@@ -48,7 +48,7 @@ paths:
       tags:
         - User
       summary: Add new user.
-      description: "Requires logged in user to be menadzer or super_user."
+      description: "Requires logged in user to be menadzer or super_user. Menadzer can create korisnik for his poslovnica."
       operationId: signUp
       consumes:
         - application/json
@@ -117,7 +117,7 @@ paths:
         - Bearer: []
       tags:
         - User
-      summary: Get all users.
+      summary: Get all users. Super_user get all users. Others get users from own poslovnica.
       operationId: getUsers
       consumes:
         - application/json
@@ -135,7 +135,7 @@ paths:
         - Bearer: []
       tags:
         - User
-      summary: Get all users.
+      summary: Get user. Super_user get all users. Others get users from own poslovnica.
       operationId: getUsers
       consumes:
         - application/json
@@ -158,7 +158,7 @@ paths:
       tags:
         - User
       summary: Update user.
-      description: "Requires logged in user to be super_user."
+      description: "Requires logged in user to be super_user or menadzer. Mendazer can edit users from his poslovnica."
       operationId: updateUser
       consumes:
         - application/json
@@ -188,7 +188,7 @@ paths:
       tags:
         - User
       summary: Delete user.
-      description: "Requires logged in user to be super_user."
+      description: "Requires logged in user to be super_user or menadzer. Mendazer can delete users from his poslovnica."
       operationId: deleteUser
       consumes:
         - application/json
@@ -214,7 +214,7 @@ paths:
       tags:
         - Poslovnica
       summary: Get all poslovnice.
-      description: "Requires logged in user to be super_user."
+      description: "Super_user gets all poslovnice. Others get ther own poslovnica."
       operationId: getPoslovnice
       consumes:
         - application/json
@@ -256,7 +256,7 @@ paths:
       tags:
         - Poslovnica
       summary: Get all poslovnice.
-      description: "Requires logged in user to be super_user."
+      description: "Super_user gets all poslovnice. Others get ther own poslovnica."
       operationId: getPoslovnica
       consumes:
         - application/json
@@ -309,7 +309,7 @@ paths:
       tags:
         - Poslovnica
       summary: Delete poslovnica.
-      description: "Requires logged in user to be super_user."
+      description: "Requires logged in user to be super_user or menadzer. Mendazer can delete users from his poslovnica."
       operationId: deleteUser
       consumes:
         - application/json
@@ -457,7 +457,7 @@ paths:
       tags:
         - Usluga
       summary: Get all usluge.
-      description: "Requires logged in user to be manager."
+      description: "Super_user gets all usluge. Others get from ther own poslovnica."
       operationId: getUsluge
       consumes:
         - application/json
@@ -474,7 +474,7 @@ paths:
       tags:
         - Usluga
       summary: Add new usluga.
-      description: "Requires logged in user to be manager."
+      description: "Requires logged in user to be manager. Create usluga for users poslovnica."
       operationId: createUsluga
       consumes:
         - application/json
@@ -499,7 +499,7 @@ paths:
       tags:
         - Usluga
       summary: Get usluga.
-      description: "Requires logged in user to be manager."
+      description: "Super_user gets all usluge. Others get from ther own poslovnica."
       operationId: getUsluga
       consumes:
         - application/json
@@ -522,7 +522,7 @@ paths:
       tags:
         - Usluga
       summary: Update usluga.
-      description: "Requires logged in user to be super_user."
+      description: "Requires logged in user to be manager. Update usluga from users poslovnica."
       operationId: updateUsluga
       consumes:
         - application/json
@@ -552,7 +552,7 @@ paths:
       tags:
         - Usluga
       summary: Delete usluga.
-      description: "Requires logged in user to be super_user."
+      description: "Requires logged in user to be manager. Delete usluga from users poslovnica."
       operationId: deleteUser
       consumes:
         - application/json
@@ -578,7 +578,7 @@ paths:
       tags:
         - Osiguranje
       summary: Get all osiguranja.
-      description: "Requires logged in user to be super_user."
+      description: "Requires logged in user to be manager."
       operationId: getOsiguranjees
       consumes:
         - application/json
@@ -620,7 +620,7 @@ paths:
       tags:
         - Osiguranje
       summary: Get osiguranje.
-      description: "Requires logged in user to be super_user."
+      description: "Requires logged in user to be manager."
       operationId: getOsiguranje
       consumes:
         - application/json
@@ -699,7 +699,7 @@ paths:
       tags:
         - Taksa
       summary: Get all takse.
-      description: "Requires logged in user to be super_user."
+      description: "Super_user gets all takse. Others get takse for their poslovnica opstina and other takse (with opstina attribute value 0)"
       operationId: getTakse
       consumes:
         - application/json
@@ -741,7 +741,7 @@ paths:
       tags:
         - Taksa
       summary: Get taksa.
-      description: "Requires logged in user to be super_user."
+      description: "Super_user gets all takse. Others get takse for their poslovnica opstina and other takse (with opstina attribute value 0)"
       operationId: getTaksa
       consumes:
         - application/json
@@ -1165,13 +1165,10 @@ definitions:
     type: object
     required:
       - naziv
-      - poslovnica
       - opis
       - cena
     properties:
       naziv:
-        type: string
-      poslovnica:
         type: string
       opis:
         type: string

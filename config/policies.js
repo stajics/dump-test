@@ -21,7 +21,7 @@ module.exports = {
 
     "v1/PoslovnicaController": {
       create: ["isAuthenticated", "isSuperUser" ],
-      read: ["isAuthenticated", "isSuperUser"],
+      read: ["isAuthenticated"],
       update: ["isAuthenticated", "isManager" ],
       delete: ["isAuthenticated", "isSuperUser" ]
     },
@@ -35,7 +35,7 @@ module.exports = {
 
     "v1/UslugaController": {
       create: ["isAuthenticated", "isManager" ],
-      read: ["isAuthenticated", "isManager"],
+      read: ["isAuthenticated"],
       update: ["isAuthenticated", "isManager" ],
       delete: ["isAuthenticated", "isManager" ]
     },

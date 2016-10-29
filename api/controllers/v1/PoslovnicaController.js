@@ -17,6 +17,10 @@ module.exports = {
   read: async(req, res) => {
     try {
       let poslovnice = null;
+      if(req.user.rola !== 'super_user') {
+        poslovnice = await Poslovnica.findOne({id: req.user.poslovnica});
+        return res.ok({ poslovnica: poslovnice });
+      }
       if( req.params.id ){
         poslovnice = await Poslovnica.findOne({id: req.params.id});
         res.ok({ poslovnica: poslovnice });
