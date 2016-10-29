@@ -22,7 +22,7 @@ module.exports = {
         res.ok({ usluga: usluge });
         } else {
         usluge = await Usluga.find();
-        res.ok({ usluge });
+        res.ok({ usluga: usluge });
       }
     } catch (err) {
       res.badRequest(err);

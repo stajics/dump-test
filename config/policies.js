@@ -22,7 +22,7 @@ module.exports = {
     "v1/PoslovnicaController": {
       create: ["isAuthenticated", "isSuperUser" ],
       read: ["isAuthenticated", "isSuperUser"],
-      update: ["isAuthenticated", "isSuperUser" ],
+      update: ["isAuthenticated", "isManager" ],
       delete: ["isAuthenticated", "isSuperUser" ]
     },
 

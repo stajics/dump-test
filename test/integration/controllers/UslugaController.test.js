@@ -128,8 +128,8 @@ describe('controllers:UslugaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('usluge');
-          res.body.data.usluge.length.should.be.above(0);
+          res.body.data.should.have.all.keys('usluga');
+          res.body.data.usluga.length.should.be.above(0);
           done();
         });
     });

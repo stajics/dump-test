@@ -22,7 +22,7 @@ module.exports = {
         res.ok({ opstina: opstine });
         } else {
         opstine = await Opstina.find();
-        res.ok({ opstine });
+        res.ok({ opstina: opstine });
       }
     } catch (err) {
       res.badRequest(err);

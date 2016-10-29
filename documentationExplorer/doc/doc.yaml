@@ -369,7 +369,7 @@ paths:
         "201":
           description: Opstina created.
           schema:
-            $ref: "#/definitions/DeleteOpstineResponse"
+            $ref: "#/definitions/OpstineResponse"
   /opstine/{id}:
     get:
       security:
@@ -393,7 +393,7 @@ paths:
         "200":
           description: All users.
           schema:
-            $ref: "#/definitions/DeleteOpstineResponse"
+            $ref: "#/definitions/OpstineResponse"
     put:
       security:
         - Bearer: []
@@ -422,7 +422,7 @@ paths:
         "200":
           description: Opstina updated.
           schema:
-            $ref: "#/definitions/DeleteOpstineResponse"
+            $ref: "#/definitions/OpstineResponse"
 
     delete:
       security:
@@ -446,7 +446,7 @@ paths:
         "200":
           description: Opstina deleted.
           schema:
-            $ref: "#/definitions/DeleteOpstineResponse"
+            $ref: "#/definitions/OpstineResponse"
 
 ########################################
 #######USLUGE
@@ -925,6 +925,10 @@ definitions:
         type: string
       email:
         type: string
+      osiguranja:
+        type: array
+        items:
+          type: integer
 
   PostPoslovniceBody:
     type: object
@@ -1147,7 +1151,7 @@ definitions:
         required:
           - poslovnice
         properties:
-          poslovnice:
+          poslovnica:
             type: 'array'
             items:
               $ref: "#/definitions/Poslovnica"
@@ -1185,12 +1189,12 @@ definitions:
         required:
           - opstine
         properties:
-          opstine:
+          opstina:
             type: 'array'
             items:
               $ref: "#/definitions/Opstina"
 
-  DeleteOpstineResponse:
+  OpstineResponse:
     type: object
     required:
       - status

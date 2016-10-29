@@ -22,7 +22,7 @@ module.exports = {
         res.ok({ poslovnica: poslovnice });
         } else {
         poslovnice = await Poslovnica.find();
-        res.ok({ poslovnice });
+        res.ok({ poslovnica: poslovnice });
       }
     } catch (err) {
       res.badRequest(err);
@@ -31,11 +31,15 @@ module.exports = {
 
   update: async(req, res) => {
     try {
-      const values = omit(req.allParams(), ['id']);
-      let updatedPoslovnica = await Poslovnica.update({ id: req.params.id }, values);
-      if( isEmpty(updatedPoslovnica) ) {
+      let values = omit(req.allParams(), ['id']);
+      let poslovnicaToUpdate = await Poslovnica.findOne({ id: req.params.id });
+      if( isEmpty(poslovnicaToUpdate) ) {
         return res.notFound("No poslovnica with that ID.");
-      }
+      };
+      if( (poslovnicaToUpdate.id !== req.user.poslovnica) && !req.user.rola === 'super_user') {
+        return res.unauthorized("Can't update usluga from another poslovnica.");
+      };
+      let updatedPoslovnica = await Poslovnica.update({ id: req.params.id }, values);
       res.ok({poslovnica: updatedPoslovnica[0]});
     } catch (err) {
       res.badRequest(err);

@@ -116,8 +116,8 @@ describe('controllers:OpstinaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('opstine');
-          res.body.data.opstine.length.should.be.above(0);
+          res.body.data.should.have.all.keys('opstina');
+          res.body.data.opstina.length.should.be.above(0);
           done();
         });
     });

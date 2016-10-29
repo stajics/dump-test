@@ -152,7 +152,8 @@ describe('controllers:BoxController', () => {
       existingUser1 = objects[1];
       existingBox = objects[2];
       done();
-    });
+    })
+    .catch(done);
   });
 
   describe(':create', () => {

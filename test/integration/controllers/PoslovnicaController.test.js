@@ -8,22 +8,32 @@ const request = require('supertest')(url);
 //factories
 const userFactory = require('../../factories/UserFactory');
 const poslovnicaFactory = require('../../factories/poslovnicaFactory');
+const osiguranjeFactory = require('../../factories/osiguranjeFactory');
 
 describe('controllers:PoslovnicaController', () => {
   let existingUser = null;
   let existingUser1 = null;
+  let existingUser2 = null;
   let existingPoslovnica = null;
+  let existingOsiguranje = null;
+  let existingOsiguranje1 = null;
   before(done => {
     Promise.all([
       userFactory.createSuperUser({poslovnica: 1}),
       userFactory.createManager({poslovnica: 1}),
-      poslovnicaFactory.create()
+      userFactory.create({poslovnica: 1}),
+      poslovnicaFactory.create(),
+      osiguranjeFactory.create(),
+      osiguranjeFactory.create()
     ]).then(objects => {
       existingUser = objects[0];
       existingUser1 = objects[1];
-      existingPoslovnica = objects[2];
+      existingUser2 = objects[2];
+      existingPoslovnica = objects[3];
+      existingOsiguranje = objects[4];
+      existingOsiguranje1 = objects[5];
       done();
-    });
+    }).catch(done);
   });
 
   describe(':create', () => {
@@ -125,8 +135,8 @@ describe('controllers:PoslovnicaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('poslovnice');
-          res.body.data.poslovnice.length.should.be.above(0);
+          res.body.data.should.have.all.keys('poslovnica');
+          res.body.data.poslovnica.length.should.be.above(0);
           done();
         });
     });
@@ -179,9 +189,47 @@ describe('controllers:PoslovnicaController', () => {
         });
     });
 
-    it('Should get error. (not a super_admin)', (done) => {
+    it('Should update poslovnica. (manager)', (done) => {
       request.put(`v1/poslovnice/${existingPoslovnica.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
+        })
+        .send({
+          naziv: "updatednaziv"
+        })
+        .expect(200)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.have.all.keys('poslovnica');
+          res.body.data.poslovnica.should.have.all.keys(poslovnicaFactory.poslovnicaAttributes);
+          res.body.data.poslovnica.naziv.should.equal('updatednaziv');
+          done();
+        });
+    });
+
+    it('Should select osiguranja for poslovnica.', (done) => {
+      request.put(`v1/poslovnice/${existingPoslovnica.id}`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
+        })
+        .send({
+          osiguranja: [`${existingOsiguranje.id}`, `${existingOsiguranje1.id}`]
+        })
+        .expect(200)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('success');
+          res.body.data.should.have.all.keys('poslovnica');
+          res.body.data.poslovnica.should.have.all.keys(poslovnicaFactory.poslovnicaAttributes);
+          res.body.data.poslovnica.naziv.should.equal('updatednaziv');
+          done();
+        });
+    });
+
+    it('Should get error. (not a super_admin)', (done) => {
+      request.put(`v1/poslovnice/${existingPoslovnica.id}`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
         })
         .send({
           naziv: "updatednaziv",
