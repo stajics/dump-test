@@ -4,14 +4,9 @@ module.exports = {
   schema: true,
 
   attributes: {
-    usluga: {
-      type: 'string',
+    osiguranje: {
+      model: 'osiguranje',
       required: true
-    },
-
-    opstina: {
-      type: 'integer',
-      defaultsTo: 0
     },
 
     vrstaVozila: {
@@ -19,35 +14,11 @@ module.exports = {
       required: true
     },
 
-    godisteOd: {
+    kwOd: {
       type: 'integer'
     },
 
-    godisteDo: {
-      type: 'integer'
-    },
-
-    zapreminaOd: {
-      type: 'integer'
-    },
-
-    zapreminaDo: {
-      type: 'integer'
-    },
-
-    snagaOd: {
-      type: 'integer'
-    },
-
-    snagaDo: {
-      type: 'integer'
-    },
-
-    brSedistaOd: {
-      type: 'integer'
-    },
-
-    brSedistaDo: {
+    kwDo: {
       type: 'integer'
     },
 
@@ -56,6 +27,22 @@ module.exports = {
     },
 
     nosivostDo: {
+      type: 'integer'
+    },
+
+    ccmOd: {
+      type: 'integer'
+    },
+
+    ccmDo: {
+      type: 'integer'
+    },
+
+    brMestaOd: {
+      type: 'integer'
+    },
+
+    brMestaDo: {
       type: 'integer'
     },
 

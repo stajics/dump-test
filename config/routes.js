@@ -8,6 +8,7 @@
 
 module.exports = {
   routes: {
+
     // User
     'GET /v1/users': 'v1/UserController.read',
     'GET /v1/users/refresh_token': 'v1/user/SessionController.refreshToken',
@@ -52,12 +53,23 @@ module.exports = {
     'PUT /v1/osiguranja/:id': 'v1/OsiguranjeController.update',
     'DELETE /v1/osiguranja/:id': 'v1/OsiguranjeController.delete',
 
+    //StavkaOsiguranja
+    'GET /v1/stavkeOsiguranja': 'v1/StavkaOsiguranjaController.read',
+    'GET /v1/stavkeOsiguranja/:id': 'v1/StavkaOsiguranjaController.read',
+    'POST /v1/stavkeOsiguranja': 'v1/StavkaOsiguranjaController.create',
+    'PUT /v1/stavkeOsiguranja/:id': 'v1/StavkaOsiguranjaController.update',
+    'DELETE /v1/stavkeOsiguranja/:id': 'v1/StavkaOsiguranjaController.delete',
+
     //takse
     'GET /v1/takse': 'v1/TaksaController.read',
     'GET /v1/takse/:id': 'v1/TaksaController.read',
     'POST /v1/takse': 'v1/TaksaController.create',
     'PUT /v1/takse/:id': 'v1/TaksaController.update',
     'DELETE /v1/takse/:id': 'v1/TaksaController.delete',
+
+    //Calculator
+    'GET /v1/calculator/takse': 'v1/CalculatorController.filterTakse',
+    'GET /v1/calculator/stavkeOsiguranja': 'v1/CalculatorController.filterStavkeOsiguranja',
 
     //Documentation
     'GET /v1/doc': 'v1/DocumentationController.getDocumentationJson',

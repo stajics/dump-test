@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const poslovnicaAttributes = ['id', 'naziv', 'adresa', 'pib', 'matBr', 'ziro', 'telefon', 'email', 'opstina', 'createdAt', 'updatedAt'];
+const poslovnicaAttributes = ['id', 'naziv', 'adresa', 'pib', 'matBr', 'ziro', 'telefon', 'email', 'osiguranja', 'users', 'usluge', 'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
   let randomNumber = _.random(1,1000);

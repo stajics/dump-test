@@ -56,8 +56,6 @@ describe('controllers:TaksaController', () => {
           zapreminaDo: 125,
           snagaOd: 124,
           snagaDo: 12154,
-          starostOd: 123,
-          starostDo: 12343,
           brSedistaOd: 124,
           brSedistaDo: 15451,
           nosivostOd: 1  ,

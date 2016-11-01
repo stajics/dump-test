@@ -7,66 +7,68 @@ const request = require('supertest')(url);
 
 //factories
 const userFactory = require('../../factories/UserFactory');
-const poslovnicaFactory = require('../../factories/poslovnicaFactory');
-const osiguranjeFactory = require('../../factories/osiguranjeFactory');
+const stavkaOsiguranjaFactory = require('../../factories/StavkaOsiguranjaFactory');
 
-describe('controllers:PoslovnicaController', () => {
+describe('controllers:StavkaOsiguranjaController', () => {
   let existingUser = null;
   let existingUser1 = null;
-  let existingUser2 = null;
-  let existingPoslovnica = null;
-  let existingOsiguranje = null;
-  let existingOsiguranje1 = null;
+  let existingStavkaOsiguranja = null;
   before(done => {
     Promise.all([
       userFactory.createSuperUser({poslovnica: 1}),
       userFactory.createManager({poslovnica: 1}),
-      userFactory.create({poslovnica: 1}),
-      poslovnicaFactory.create(),
-      osiguranjeFactory.create(),
-      osiguranjeFactory.create()
+      stavkaOsiguranjaFactory.create()
     ]).then(objects => {
       existingUser = objects[0];
       existingUser1 = objects[1];
-      existingUser2 = objects[2];
-      existingPoslovnica = objects[3];
-      existingOsiguranje = objects[4];
-      existingOsiguranje1 = objects[5];
+      existingStavkaOsiguranja = objects[2];
       done();
-    }).catch(done);
+    });
   });
 
   describe(':create', () => {
-    it('Should create new poslovnica.', (done) => {
-      request.post(`v1/poslovnice`).set({
+    it('Should create new stavkaOsiguranja.', (done) => {
+      request.post(`v1/stavkeOsiguranja`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          naziv: 'nazivPoslovnice',
-          opstina: 1,
-          adresa: 'adresa 5',
-          pib: '1241245',
-          matBr: '124245',
-          ziro: '124',
-          telefon: '2134',
-          email: 'email@e.com'
+          osiguranje: 1,
+          vrstaVozila: `vrstaVozila123`,
+          kwOd: 123,
+          kwDo: 123,
+          nosivostOd: 124,
+          nosivostDo: 125,
+          ccmOd: 124,
+          ccmDo: 124,
+          brMestaOd: 124,
+          brMestaDo: 124,
+          cena: 123
         })
         .expect(201)
         .end(function(err, res) {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.poslovnica.should.contain.all.keys(["matBr","naziv","opstina","updatedAt","ziro"]);
-          res.body.data.poslovnica.naziv.should.equal('nazivPoslovnice');
+          res.body.data.stavkaOsiguranja.should.have.all.keys(stavkaOsiguranjaFactory.stavkaOsiguranjaAttributes);
+          res.body.data.stavkaOsiguranja.vrstaVozila.should.equal('vrstaVozila123');
           done();
         });
     });
 
     it('Should get error (missing token).', (done) => {
-      request.post(`v1/poslovnice`)
+      request.post(`v1/stavkeOsiguranja`)
         .send({
-          naziv: `naziv`,
-          opstina: 1
+          osiguranje: 1,
+          vrstaVozila: `vrstaVozila123`,
+          kwOd: 123,
+          kwDo: 123,
+          nosivostOd: 124,
+          nosivostDo: 125,
+          ccmOd: 124,
+          ccmDo: 124,
+          brMestaOd: 124,
+          brMestaDo: 124,
+          cena: 123
         })
         .expect(401)
         .end(function(err, res) {
@@ -78,12 +80,11 @@ describe('controllers:PoslovnicaController', () => {
     });
 
     it('Should get error (user is not super_user).', (done) => {
-      request.post(`v1/poslovnice`).set({
+      request.post(`v1/stavkeOsiguranja`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          naziv: 'naziv',
-          opstina: 1
+          naziv: 'naziv'
         })
         .expect(401)
         .end(function(err, res) {
@@ -96,7 +97,7 @@ describe('controllers:PoslovnicaController', () => {
 
 
     it('Should get error (missing parameter).', (done) => {
-      request.post(`v1/poslovnice`).set({
+      request.post(`v1/stavkeOsiguranja`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({})
@@ -110,7 +111,7 @@ describe('controllers:PoslovnicaController', () => {
     });
 
     it('Should get error (missing body).', (done) => {
-      request.post(`v1/poslovnice`).set({
+      request.post(`v1/stavkeOsiguranja`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -125,8 +126,8 @@ describe('controllers:PoslovnicaController', () => {
   });
 
   describe(':read', () => {
-    it('Should list poslovnice. (super_user)', (done) => {
-      request.get(`v1/poslovnice`).set({
+    it('Should list stavkeOsiguranja.', (done) => {
+      request.get(`v1/stavkeOsiguranja`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -135,46 +136,28 @@ describe('controllers:PoslovnicaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('poslovnica');
-          res.body.data.poslovnica.length.should.be.above(0);
+          res.body.data.should.have.all.keys('stavkaOsiguranja');
+          res.body.data.stavkaOsiguranja.length.should.be.above(0);
           done();
         });
     });
 
-    it('Should list poslovnica. (menadzer)', (done) => {
-      request.get(`v1/poslovnice`).set({
+    it('Should get error. (not a super_user)', (done) => {
+      request.get(`v1/stavkeOsiguranja`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send()
-        .expect(200)
+        .expect(401)
         .end(function(err, res) {
           if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('poslovnica');
-          res.body.data.poslovnica.should.not.be.empty;
-          done();
-        });
-    });
-
-    it('Should list poslovnice. (korisnik)', (done) => {
-      request.get(`v1/poslovnice`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
-        })
-        .send()
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('poslovnica');
-          res.body.data.poslovnica.should.not.be.empty;
+          res.body.should.have.keys('status', 'data');
+          res.body.status.should.equal('fail');
           done();
         });
     });
 
     it('Should get error. (no token)', (done) => {
-      request.get(`v1/poslovnice`)
+      request.get(`v1/stavkeOsiguranja`)
         .send()
         .expect(401)
         .end(function(err, res) {
@@ -188,70 +171,31 @@ describe('controllers:PoslovnicaController', () => {
 
 
   describe(':update', () => {
-    it('Should update poslovnica.', (done) => {
-      request.put(`v1/poslovnice/${existingPoslovnica.id}`).set({
+    it('Should update stavkaOsiguranja.', (done) => {
+      request.put(`v1/stavkeOsiguranja/${existingStavkaOsiguranja.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          naziv: "updatednaziv"
+          vrstaVozila: "vrstaVozila1234"
         })
         .expect(200)
         .end(function(err, res) {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('poslovnica');
-          res.body.data.poslovnica.should.contain.all.keys(poslovnicaFactory.poslovnicaAttributes);
-          res.body.data.poslovnica.naziv.should.equal('updatednaziv');
-          done();
-        });
-    });
-
-    it('Should update poslovnica. (manager)', (done) => {
-      request.put(`v1/poslovnice/${existingPoslovnica.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
-        })
-        .send({
-          naziv: "updatednaziv"
-        })
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('poslovnica');
-          res.body.data.poslovnica.should.contain.all.keys(poslovnicaFactory.poslovnicaAttributes);
-          res.body.data.poslovnica.naziv.should.equal('updatednaziv');
-          done();
-        });
-    });
-
-    it('Should select osiguranja for poslovnica.', (done) => {
-      request.put(`v1/poslovnice/${existingPoslovnica.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
-        })
-        .send({
-          osiguranja: [`${existingOsiguranje.id}`, `${existingOsiguranje1.id}`]
-        })
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('poslovnica');
-          res.body.data.poslovnica.should.contain.all.keys(poslovnicaFactory.poslovnicaAttributes);
-          res.body.data.poslovnica.naziv.should.equal('updatednaziv');
+          res.body.data.should.have.all.keys('stavkaOsiguranja');
+          res.body.data.stavkaOsiguranja.should.have.all.keys(stavkaOsiguranjaFactory.stavkaOsiguranjaAttributes);
+          res.body.data.stavkaOsiguranja.vrstaVozila.should.equal('vrstaVozila1234');
           done();
         });
     });
 
     it('Should get error. (not a super_admin)', (done) => {
-      request.put(`v1/poslovnice/${existingPoslovnica.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
+      request.put(`v1/stavkeOsiguranja/${existingStavkaOsiguranja.id}`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          naziv: "updatednaziv",
-          opstina: 1
+          naziv: "updatednaziv"
         })
         .expect(401)
         .end(function(err, res) {
@@ -263,10 +207,9 @@ describe('controllers:PoslovnicaController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.put(`v1/poslovnice/${existingUser1.id}`)
+      request.put(`v1/stavkeOsiguranja/${existingUser1.id}`)
         .send({
-          naziv: "updatednaziv",
-          opstina: 1
+          naziv: "updatednaziv"
         })
         .expect(401)
         .end(function(err, res) {
@@ -280,8 +223,8 @@ describe('controllers:PoslovnicaController', () => {
 
 
   describe(':delete', () => {
-    it('Should delete poslovnica.', (done) => {
-      request.delete(`v1/poslovnice/${existingPoslovnica.id}`).set({
+    it('Should delete stavkaOsiguranja.', (done) => {
+      request.delete(`v1/stavkeOsiguranja/${existingStavkaOsiguranja.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -290,14 +233,14 @@ describe('controllers:PoslovnicaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.contain.all.keys('poslovnica');
-          res.body.data.poslovnica.should.contain.all.keys(["matBr","naziv","opstina","updatedAt","ziro"]);
+          res.body.data.should.have.all.keys('stavkaOsiguranja');
+          res.body.data.stavkaOsiguranja.should.have.all.keys(stavkaOsiguranjaFactory.stavkaOsiguranjaAttributes);
           done();
         });
     });
 
-    it('Should get error. (poslovnica does not exist)', (done) => {
-      request.delete(`v1/poslovnice/${existingPoslovnica.id}`).set({
+    it('Should get error. (stavkaOsiguranja does not exist)', (done) => {
+      request.delete(`v1/stavkeOsiguranja/${existingStavkaOsiguranja.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -311,7 +254,7 @@ describe('controllers:PoslovnicaController', () => {
     });
 
     it('Should get error. (user does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
-      request.delete(`v1/poslovnice/string`).set({
+      request.delete(`v1/stavkeOsiguranja/string`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -325,7 +268,7 @@ describe('controllers:PoslovnicaController', () => {
     });
 
     it('Should get error. (not a super_user)', (done) => {
-      request.delete(`v1/poslovnice/${existingUser.id}`).set({
+      request.delete(`v1/stavkeOsiguranja/${existingUser.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send()
@@ -339,7 +282,7 @@ describe('controllers:PoslovnicaController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.delete(`v1/poslovnice/${existingUser1.id}`)
+      request.delete(`v1/stavkeOsiguranja/${existingUser1.id}`)
         .send()
         .expect(401)
         .end(function(err, res) {

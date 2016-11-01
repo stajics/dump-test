@@ -35,17 +35,7 @@ describe('controllers:OsiguranjeController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          naziv: `naziv`,
-          vrstaVozila: 'vrstaVozila',
-          kwOd: '23',
-          kwDo: '45',
-          nosivost: '213',
-          ccm: '213',
-          brMesta: '4',
-          cena: '12',
-          cena5: '214',
-          cena10: '124',
-          cena15: '35'
+          naziv: `naziv`
         })
         .expect(201)
         .end(function(err, res) {
@@ -61,17 +51,7 @@ describe('controllers:OsiguranjeController', () => {
     it('Should get error (missing token).', (done) => {
       request.post(`v1/osiguranja`)
         .send({
-          naziv: `naziv`,
-          vrstaVozila: 'vrstaVozila',
-          kwOd: '23',
-          kwDo: '45',
-          nosivost: '213',
-          ccm: '213',
-          brMesta: '4',
-          cena: '12',
-          cena5: '214',
-          cena10: '124',
-          cena15: '35'
+          naziv: `naziv`
         })
         .expect(401)
         .end(function(err, res) {
@@ -87,17 +67,7 @@ describe('controllers:OsiguranjeController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          naziv: `naziv`,
-          vrstaVozila: 'vrstaVozila',
-          kwOd: '23',
-          kwDo: '45',
-          nosivost: '213',
-          ccm: '213',
-          brMesta: '4',
-          cena: '12',
-          cena5: '214',
-          cena10: '124',
-          cena15: '35'
+          naziv: `naziv`
         })
         .expect(401)
         .end(function(err, res) {

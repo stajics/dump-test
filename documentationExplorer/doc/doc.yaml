@@ -98,7 +98,7 @@ paths:
         - Bearer: []
       tags:
         - User
-      summary: Refresh login token..
+      summary: Refresh login token.
       description: "Gets new login token."
       operationId: refreshToken
       consumes:
@@ -117,7 +117,8 @@ paths:
         - Bearer: []
       tags:
         - User
-      summary: Get all users. Super_user get all users. Others get users from own poslovnica.
+      summary: Get users.
+      desciption: Get all users. Super_user get all users. Others get users from own poslovnica.
       operationId: getUsers
       consumes:
         - application/json
@@ -135,7 +136,8 @@ paths:
         - Bearer: []
       tags:
         - User
-      summary: Get user. Super_user get all users. Others get users from own poslovnica.
+      summary: Get user.
+      description: Get user. Super_user get all users. Others get users from own poslovnica.
       operationId: getUsers
       consumes:
         - application/json
@@ -811,6 +813,219 @@ paths:
           description: Taksa deleted.
           schema:
             $ref: "#/definitions/TakseResponse"
+########################################
+#######CALCULATOR
+  /calculator/takse:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Calculator
+      summary: Get filtered takse.
+      description: "Get filtered takse for users poslovnica for query."
+      operationId: filterTakse
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: vrstaVozila
+          description: Vrsta vozila.
+          required: true
+          type: string
+        - in: query
+          name: godiste
+          description: Godiste vozila.
+          type: integer
+        - in: query
+          name: zapremina
+          description: Zapremina motora.
+          type: integer
+        - in: query
+          name: snaga
+          description: Snaga motora.
+          type: integer
+        - in: query
+          name: brSedista
+          description: Broj sedista.
+          type: integer
+        - in: query
+          name: nosivost
+          description: Nosivost vozila.
+          type: integer
+      responses:
+        "200":
+          description: Takse.
+          schema:
+            $ref: "#/definitions/TakseResponse"
+  /calculator/stavkeOsiguranja:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Calculator
+      summary: Get filtered stavkeOsiguranja.
+      description: "Get filtered stavke osiguranja for osiguranje for query."
+      operationId: filterStavkeOsiguranja
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: query
+          name: osiguranje
+          description: Id osiguranja.
+          required: true
+          type: integer
+        - in: query
+          name: vrstaVozila
+          description: Vrsta vozila.
+          required: true
+          type: string
+        - in: query
+          name: kw
+          description: Kw vozila.
+          type: integer
+        - in: query
+          name: ccm
+          description: Ccm.
+          type: integer
+        - in: query
+          name: brMesta
+          description: Broj mesta.
+          type: integer
+        - in: query
+          name: nosivost
+          description: Nosivost vozila.
+          type: integer
+      responses:
+        "200":
+          description: Takse.
+          schema:
+            $ref: "#/definitions/StavkeOsiguranjaResponse"
+########################################
+#######STAVKE OSIGURANJA
+  /stavkeOsiguranja:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - StavkaOsiguranja
+      summary: Get all stavkeOsiguranja.
+      description: "Requires logged in user to be super_user."
+      operationId: getStavkeOsiguranja
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: All stavkeOsiguranja.
+          schema:
+            $ref: "#/definitions/StavkaOsiguranjaResponse"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - StavkaOsiguranja
+      summary: Add new stavkaOsiguranja.
+      description: "Requires logged in user to be super_user."
+      operationId: createStavkaOsiguranja
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: StavkaOsiguranja object that needs to be added to the stavkeOsiguranja.
+          required: true
+          schema:
+            $ref: "#/definitions/PostStavkeOsiguranjaBody"
+      responses:
+        "201":
+          description: StavkaOsiguranja created.
+          schema:
+            $ref: "#/definitions/StavkeOsiguranjaResponse"
+  /stavkeOsiguranja/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - StavkaOsiguranja
+      summary: Get stavkaOsiguranja.
+      description: "Requires logged in user to be super_user."
+      operationId: getStavkaOsiguranja
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the stavkaOsiguranja
+          required: true
+          type: string
+      responses:
+        "200":
+          description: All users.
+          schema:
+            $ref: "#/definitions/StavkeOsiguranjaResponse"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - StavkaOsiguranja
+      summary: Update stavkaOsiguranja.
+      description: "Requires logged in user to be super_user."
+      operationId: updateStavkaOsiguranja
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the stavkaOsiguranja that needs to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Attributes and values that will be updated.
+          required: true
+          schema:
+            $ref: "#/definitions/PutStavkeOsiguranjaBody"
+      responses:
+        "200":
+          description: StavkaOsiguranja updated.
+          schema:
+            $ref: "#/definitions/StavkeOsiguranjaResponse"
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - StavkaOsiguranja
+      summary: Delete stavkaOsiguranja.
+      description: "Requires logged in user to be super_user."
+      operationId: deleteUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the stavkaOsiguranja that needs to be deleted.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: StavkaOsiguranja deleted.
+          schema:
+            $ref: "#/definitions/StavkeOsiguranjaResponse"
+
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -934,17 +1149,6 @@ definitions:
     required:
       - id
       - naziv
-      - vrstaVozila
-      - kwOd
-      - kwDo
-      - nosivost
-      - ccm
-      - brMesta
-      - cena
-      - cena5
-      - cena10
-      - cena15
-      - poslovnice
       - createdAt
       - updatedAt
     properties:
@@ -952,28 +1156,14 @@ definitions:
         type: integer
       naziv:
         type: string
-      vrstaVozila:
-        type: string
-      kwOd:
-        type: string
-      kwDo:
-        type: string
-      nosivost:
-        type: string
-      ccm:
-        type: string
-      brMesta:
-        type: string
-      cena:
-        type: string
-      cena5:
-        type: string
-      cena10:
-        type: string
-      cena15:
-        type: string
+      stavkeOsiguranja:
+        type: array
+        items:
+          type: integer
       poslovnice:
-        type: string
+        type: array
+        items:
+          type: integer
       createdAt:
         type: string
       updatedAt:
@@ -992,8 +1182,6 @@ definitions:
       - zapreminaDo
       - snagaOd
       - snagaDo
-      - starostOd
-      - starostDo
       - brSedistaOd
       - brSedistaDo
       - nosivostOd
@@ -1022,10 +1210,6 @@ definitions:
         type: integer
       snagaDo:
         type: integer
-      starostOd:
-        type: integer
-      starostDo:
-        type: integer
       brSedistaOd:
         type: integer
       brSedistaDo:
@@ -1041,6 +1225,52 @@ definitions:
       updatedAt:
         type: string
 
+  StavkaOsiguranja:
+    type: object
+    required:
+      - id
+      - osiguranje
+      - vrstaVozila
+      - kwOd
+      - kwDo
+      - nosivostOd
+      - nosivostDo
+      - ccmOd
+      - ccmDo
+      - brMestaOd
+      - brMestaDo
+      - cena
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      osiguranje:
+        type: integer
+      vrstaVozila:
+        type: string
+      kwOd:
+        type: integer
+      kwDo:
+        type: integer
+      nosivostOd:
+        type: integer
+      nosivostDo:
+        type: integer
+      ccmOd:
+        type: integer
+      ccmDo:
+        type: integer
+      brMestaOd:
+        type: integer
+      brMestaDo:
+        type: string
+      cena:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
   #################################################################
   #################################################################
   #params
@@ -1194,39 +1424,13 @@ definitions:
     type: object
     required:
       - naziv
-      - vrstaVozila
-      - kwOd
-      - kwDo
-      - nosivost
-      - ccm
-      - brMesta
-      - cena
-      - cena5
-      - cena10
-      - cena15
     properties:
       naziv:
         type: string
-      vrstaVozila:
-        type: string
-      kwOd:
-        type: string
-      kwDo:
-        type: string
-      nosivost:
-        type: string
-      ccm:
-        type: string
-      brMesta:
-        type: string
-      cena:
-        type: string
-      cena5:
-        type: string
-      cena10:
-        type: string
-      cena15:
-        type: string
+      stavkeOsiguranja:
+        type: array
+        items:
+          type: integer
       poslovnice:
         type: array
         items:
@@ -1237,22 +1441,10 @@ definitions:
     properties:
       naziv:
         type: string
-      vrstaVozila:
-        type: string
-      kwOd:
-        type: string
-      kwDo:
-        type: string
-      nosivost:
-        type: string
-      ccm:
-        type: string
-      brMesta:
-        type: string
-      cena:
-        type: string
-      cena5:
-        type: string
+      stavkeOsiguranja:
+        type: array
+        items:
+          type: integer
       poslovnice:
         type: array
         items:
@@ -1272,8 +1464,6 @@ definitions:
       - zapreminaDo
       - snagaOd
       - snagaDo
-      - starostOd
-      - starostDo
       - brSedistaOd
       - brSedistaDo
       - nosivostOd
@@ -1297,10 +1487,6 @@ definitions:
       snagaOd:
         type: integer
       snagaDo:
-        type: integer
-      starostOd:
-        type: integer
-      starostDo:
         type: integer
       brSedistaOd:
         type: integer
@@ -1334,10 +1520,6 @@ definitions:
         type: integer
       snagaDo:
         type: integer
-      starostOd:
-        type: integer
-      starostDo:
-        type: integer
       brSedistaOd:
         type: integer
       brSedistaDo:
@@ -1348,7 +1530,71 @@ definitions:
         type: integer
       cena:
         type: integer
+  ###############
+  #StavkaOsiguranja
+  PostStavkeOsiguranjaBody:
+    type: object
+    required:
+      - osiguranje
+      - vrstaVozila
+      - kwOd
+      - kwDo
+      - nosivostOd
+      - nosivostDo
+      - ccmOd
+      - ccmDo
+      - brMestaOd
+      - brMestaDo
+      - cena
+    properties:
+      osiguranje:
+        type: integer
+      vrstaVozila:
+        type: string
+      kwOd:
+        type: integer
+      kwDo:
+        type: integer
+      nosivostOd:
+        type: integer
+      nosivostDo:
+        type: integer
+      ccmOd:
+        type: integer
+      ccmDo:
+        type: integer
+      brMestaOd:
+        type: integer
+      brMestaDo:
+        type: string
+      cena:
+        type: string
 
+  PutStavkeOsiguranjaBody:
+    type: object
+    properties:
+      osiguranje:
+        type: integer
+      vrstaVozila:
+        type: string
+      kwOd:
+        type: integer
+      kwDo:
+        type: integer
+      nosivostOd:
+        type: integer
+      nosivostDo:
+        type: integer
+      ccmOd:
+        type: integer
+      ccmDo:
+        type: integer
+      brMestaOd:
+        type: integer
+      brMestaDo:
+        type: string
+      cena:
+        type: string
   ###############################################################
   ###############################################################
   #responses
@@ -1596,3 +1842,41 @@ definitions:
         properties:
           taksa:
             $ref: "#/definitions/Taksa"
+
+###################
+#StavkaOsiguranja
+  StavkaOsiguranjaResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - stavkaOsiguranja
+        properties:
+          stavkaOsiguranja:
+            type: 'array'
+            items:
+              $ref: "#/definitions/StavkaOsiguranja"
+
+  StavkeOsiguranjaResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - stavkaOsiguranja
+        properties:
+          stavkaOsiguranja:
+            $ref: "#/definitions/StavkaOsiguranja"
