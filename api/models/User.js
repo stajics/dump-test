@@ -40,7 +40,7 @@ module.exports = {
 
     poslovnica: {
       model: 'poslovnica',
-      required: true
+      required: false
     },
 
     toJSON() {
