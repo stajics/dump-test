@@ -18,14 +18,14 @@ module.exports = {
     try {
       let poslovnice = null;
       if(req.user.rola !== 'super_user') {
-        poslovnice = await Poslovnica.findOne({id: req.user.poslovnica});
+        poslovnice = await Poslovnica.findOne({id: req.user.poslovnica}).populateAll();
         return res.ok({ poslovnica: poslovnice });
       }
       if( req.params.id ){
-        poslovnice = await Poslovnica.findOne({id: req.params.id});
+        poslovnice = await Poslovnica.findOne({id: req.params.id}).populateAll();
         res.ok({ poslovnica: poslovnice });
         } else {
-        poslovnice = await Poslovnica.find();
+        poslovnice = await Poslovnica.find().populateAll();
         res.ok({ poslovnica: poslovnice });
       }
     } catch (err) {
@@ -44,7 +44,8 @@ module.exports = {
         return res.unauthorized("Can't update another poslovnica.");
       };
       let updatedPoslovnica = await Poslovnica.update({ id: req.params.id }, values);
-      res.ok({poslovnica: updatedPoslovnica[0]});
+      updatedPoslovnica = await Poslovnica.findOne({ id: updatedPoslovnica[0].id }).populateAll();
+      res.ok({poslovnica: updatedPoslovnica});
     } catch (err) {
       res.badRequest(err);
     };
