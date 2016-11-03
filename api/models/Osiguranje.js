@@ -9,6 +9,16 @@ module.exports = {
       required: true
     },
 
+    telefon: {
+      type: 'string',
+      required: false
+    },
+
+    email: {
+      type: 'string',
+      required: false
+    },
+
     poslovnice: {
       collection: 'poslovnica',
       via: 'osiguranja'

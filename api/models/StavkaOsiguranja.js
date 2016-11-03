@@ -51,6 +51,10 @@ module.exports = {
       required: true
     },
 
+    popust: {
+      type: 'integer'
+    },
+
     toJSON() {
       let obj = this.toObject();
       return obj;
