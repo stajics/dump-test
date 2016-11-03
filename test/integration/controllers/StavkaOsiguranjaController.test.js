@@ -7,76 +7,68 @@ const request = require('supertest')(url);
 
 //factories
 const userFactory = require('../../factories/UserFactory');
-const taksaFactory = require('../../factories/TaksaFactory');
-const poslovnicaFactory = require('../../factories/PoslovnicaFactory');
+const stavkaOsiguranjaFactory = require('../../factories/StavkaOsiguranjaFactory');
 
-describe('controllers:TaksaController', () => {
+describe('controllers:StavkaOsiguranjaController', () => {
   let existingUser = null;
   let existingUser1 = null;
-  let existingUser2 = null;
-  let existingTaksa = null;
-  let existingTaksa1 = null;
-  let existingPoslovnica = null;
+  let existingStavkaOsiguranja = null;
   before(done => {
     Promise.all([
-      userFactory.createSuperUser({poslovnica: 3}),
-      userFactory.createManager({poslovnica: 3}),
-      userFactory.create({poslovnica: 3}),
-      taksaFactory.create({ opstina: 2}),
-      taksaFactory.create({ opstina: 1}),
-      taksaFactory.create({ opstina: 0}),
-      taksaFactory.create({ opstina: 2}),
-      taksaFactory.create({ opstina: 0}),
-      taksaFactory.create({ opstina: 1}),
-      poslovnicaFactory.create({opstina: 1})
+      userFactory.createSuperUser({poslovnica: 1}),
+      userFactory.createManager({poslovnica: 1}),
+      stavkaOsiguranjaFactory.create()
     ]).then(objects => {
       existingUser = objects[0];
       existingUser1 = objects[1];
-      existingUser2 = objects[2];
-      existingTaksa = objects[3];
-      existingTaksa1 = objects[4];
-      existingPoslovnica = objects[9];
+      existingStavkaOsiguranja = objects[2];
       done();
-    })
-    .catch(done);
+    });
   });
 
   describe(':create', () => {
-    it('Should create new taksa.', (done) => {
-      request.post(`v1/takse`).set({
+    it('Should create new stavkaOsiguranja.', (done) => {
+      request.post(`v1/stavkeOsiguranja`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          usluga: `usluga`,
-          opstina: 1,
-          vrstaVozila: 'putnicko',
-          godisteOd: 123,
-          godisteDo: 124,
-          zapreminaOd: 125,
-          zapreminaDo: 125,
-          snagaOd: 124,
-          snagaDo: 12154,
-          brSedistaOd: 124,
-          brSedistaDo: 15451,
-          nosivostOd: 1  ,
-          nosivostDo: 12,
-          cena: 1255
+          osiguranje: 1,
+          vrstaVozila: `vrstaVozila123`,
+          kwOd: 123,
+          kwDo: 123,
+          nosivostOd: 124,
+          nosivostDo: 125,
+          ccmOd: 124,
+          ccmDo: 124,
+          brMestaOd: 124,
+          brMestaDo: 124,
+          cena: 123
         })
         .expect(201)
         .end(function(err, res) {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.taksa.should.have.all.keys(taksaFactory.taksaAttributes);
-          res.body.data.taksa.usluga.should.equal('usluga');
+          res.body.data.stavkaOsiguranja.should.have.all.keys(stavkaOsiguranjaFactory.stavkaOsiguranjaAttributes);
+          res.body.data.stavkaOsiguranja.vrstaVozila.should.equal('vrstaVozila123');
           done();
         });
     });
 
     it('Should get error (missing token).', (done) => {
-      request.post(`v1/takse`)
+      request.post(`v1/stavkeOsiguranja`)
         .send({
-          usluga: 'usluga'
+          osiguranje: 1,
+          vrstaVozila: `vrstaVozila123`,
+          kwOd: 123,
+          kwDo: 123,
+          nosivostOd: 124,
+          nosivostDo: 125,
+          ccmOd: 124,
+          ccmDo: 124,
+          brMestaOd: 124,
+          brMestaDo: 124,
+          cena: 123
         })
         .expect(401)
         .end(function(err, res) {
@@ -87,14 +79,43 @@ describe('controllers:TaksaController', () => {
         });
     });
 
-    it('Should get error (user is not super_user or manager).', (done) => {
-      request.post(`v1/takse`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
+    it('Should get error (user is not super_user).', (done) => {
+      request.post(`v1/stavkeOsiguranja`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          name: 'name'
+          naziv: 'naziv'
         })
         .expect(401)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('fail');
+          done();
+        });
+    });
+
+
+    it('Should get error (missing parameter).', (done) => {
+      request.post(`v1/stavkeOsiguranja`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
+        })
+        .send({})
+        .expect(400)
+        .end(function(err, res) {
+          if (err) throw err;
+          res.body.should.have.all.keys('status', 'data');
+          res.body.status.should.equal('fail');
+          done();
+        });
+    });
+
+    it('Should get error (missing body).', (done) => {
+      request.post(`v1/stavkeOsiguranja`).set({
+          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
+        })
+        .send()
+        .expect(400)
         .end(function(err, res) {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
@@ -105,8 +126,8 @@ describe('controllers:TaksaController', () => {
   });
 
   describe(':read', () => {
-    it('Should list takse. (super_user)', (done) => {
-      request.get(`v1/takse`).set({
+    it('Should list stavkeOsiguranja.', (done) => {
+      request.get(`v1/stavkeOsiguranja`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -115,93 +136,28 @@ describe('controllers:TaksaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('taksa');
-          res.body.data.taksa.length.should.be.above(0);
+          res.body.data.should.have.all.keys('stavkaOsiguranja');
+          res.body.data.stavkaOsiguranja.length.should.be.above(0);
           done();
         });
     });
 
-    it('Should list takse. (manager)', (done) => {
-      request.get(`v1/takse`).set({
+    it('Should get error. (not a super_user)', (done) => {
+      request.get(`v1/stavkeOsiguranja`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send()
-        .expect(200)
+        .expect(401)
         .end(function(err, res) {
           if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('taksa');
-          res.body.data.taksa.length.should.be.above(2);
-          done();
-        });
-    });
-
-    it('Should list takse. (korisnik)', (done) => {
-      request.get(`v1/takse`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
-        })
-        .send()
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('taksa');
-          res.body.data.taksa.length.should.be.above(2);
-          done();
-        });
-    });
-
-    it('Should list 1 taksa. (super_user)', (done) => {
-      request.get(`v1/takse/${existingTaksa.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-        })
-        .send()
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('taksa');
-          res.body.data.taksa.should.have.all.keys(taksaFactory.taksaAttributes);
-          done();
-        });
-    });
-
-    it('Should list 1 taksa. (korisnik)', (done) => {
-      request.get(`v1/takse/${existingTaksa1.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
-        })
-        .send()
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('taksa');
-          res.body.data.taksa.should.have.all.keys(taksaFactory.taksaAttributes);
-          done();
-        });
-    });
-
-    it('Should list 0 taksa. (menadzer)(taksa not from users poslovnica opstina)', (done) => {
-      request.get(`v1/takse/${existingTaksa.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
-        })
-        .send()
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.be.empty;
+          res.body.should.have.keys('status', 'data');
+          res.body.status.should.equal('fail');
           done();
         });
     });
 
     it('Should get error. (no token)', (done) => {
-      request.get(`v1/takse`)
+      request.get(`v1/stavkeOsiguranja`)
         .send()
         .expect(401)
         .end(function(err, res) {
@@ -215,31 +171,31 @@ describe('controllers:TaksaController', () => {
 
 
   describe(':update', () => {
-    it('Should update taksa.', (done) => {
-      request.put(`v1/takse/${existingTaksa.id}`).set({
+    it('Should update stavkaOsiguranja.', (done) => {
+      request.put(`v1/stavkeOsiguranja/${existingStavkaOsiguranja.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          usluga: "uslugaUpdate"
+          vrstaVozila: "vrstaVozila1234"
         })
         .expect(200)
         .end(function(err, res) {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('taksa');
-          res.body.data.taksa.should.have.all.keys(taksaFactory.taksaAttributes);
-          res.body.data.taksa.usluga.should.equal('uslugaUpdate');
+          res.body.data.should.have.all.keys('stavkaOsiguranja');
+          res.body.data.stavkaOsiguranja.should.have.all.keys(stavkaOsiguranjaFactory.stavkaOsiguranjaAttributes);
+          res.body.data.stavkaOsiguranja.vrstaVozila.should.equal('vrstaVozila1234');
           done();
         });
     });
 
     it('Should get error. (not a super_admin)', (done) => {
-      request.put(`v1/takse/${existingTaksa.id}`).set({
+      request.put(`v1/stavkeOsiguranja/${existingStavkaOsiguranja.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send({
-          name: "updatedIme"
+          naziv: "updatednaziv"
         })
         .expect(401)
         .end(function(err, res) {
@@ -251,9 +207,9 @@ describe('controllers:TaksaController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.put(`v1/takse/${existingUser1.id}`)
+      request.put(`v1/stavkeOsiguranja/${existingUser1.id}`)
         .send({
-          name: "updatedIme"
+          naziv: "updatednaziv"
         })
         .expect(401)
         .end(function(err, res) {
@@ -267,8 +223,8 @@ describe('controllers:TaksaController', () => {
 
 
   describe(':delete', () => {
-    it('Should delete taksa.', (done) => {
-      request.delete(`v1/takse/${existingTaksa.id}`).set({
+    it('Should delete stavkaOsiguranja.', (done) => {
+      request.delete(`v1/stavkeOsiguranja/${existingStavkaOsiguranja.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -277,14 +233,14 @@ describe('controllers:TaksaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('taksa');
-          res.body.data.taksa.should.have.all.keys(taksaFactory.taksaAttributes);
+          res.body.data.should.have.all.keys('stavkaOsiguranja');
+          res.body.data.stavkaOsiguranja.should.have.all.keys(stavkaOsiguranjaFactory.stavkaOsiguranjaAttributes);
           done();
         });
     });
 
-    it('Should get error. (taksa does not exist)', (done) => {
-      request.delete(`v1/takse/${existingTaksa.id}`).set({
+    it('Should get error. (stavkaOsiguranja does not exist)', (done) => {
+      request.delete(`v1/stavkeOsiguranja/${existingStavkaOsiguranja.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -297,8 +253,8 @@ describe('controllers:TaksaController', () => {
         });
     });
 
-    it('Should get error. (taksa does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
-      request.delete(`v1/takse/string`).set({
+    it('Should get error. (user does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
+      request.delete(`v1/stavkeOsiguranja/string`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send()
@@ -312,7 +268,7 @@ describe('controllers:TaksaController', () => {
     });
 
     it('Should get error. (not a super_user)', (done) => {
-      request.delete(`v1/takse/${existingUser.id}`).set({
+      request.delete(`v1/stavkeOsiguranja/${existingUser.id}`).set({
           'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
         })
         .send()
@@ -326,7 +282,7 @@ describe('controllers:TaksaController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.delete(`v1/takse/${existingUser1.id}`)
+      request.delete(`v1/stavkeOsiguranja/${existingUser1.id}`)
         .send()
         .expect(401)
         .end(function(err, res) {

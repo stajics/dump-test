@@ -47,11 +47,22 @@ module.exports = {
       delete: ["isAuthenticated", "isSuperUser" ]
     },
 
+    "v1/StavkaOsiguranjaController": {
+      create: ["isAuthenticated", "isSuperUser" ],
+      read: ["isAuthenticated", "isSuperUser"],
+      update: ["isAuthenticated", "isSuperUser" ],
+      delete: ["isAuthenticated", "isSuperUser" ]
+    },
+
     "v1/TaksaController": {
       create: ["isAuthenticated", "isSuperUser" ],
       read: ["isAuthenticated"],
       update: ["isAuthenticated", "isSuperUser" ],
       delete: ["isAuthenticated", "isSuperUser" ]
+    },
+
+    "v1/CalculatorController": {
+      filterTakse: ["isAuthenticated"],
     },
 
     "v1/user/RegistrationController": {

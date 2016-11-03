@@ -48,6 +48,7 @@ describe('controllers:PoslovnicaController', () => {
           pib: '1241245',
           matBr: '124245',
           ziro: '124',
+          isActive: false,
           telefon: '2134',
           email: 'email@e.com'
         })
@@ -56,7 +57,7 @@ describe('controllers:PoslovnicaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.poslovnica.should.have.all.keys(poslovnicaFactory.poslovnicaAttributes);
+          res.body.data.poslovnica.should.contain.all.keys(["matBr","naziv","opstina","updatedAt","ziro"]);
           res.body.data.poslovnica.naziv.should.equal('nazivPoslovnice');
           done();
         });
@@ -201,7 +202,7 @@ describe('controllers:PoslovnicaController', () => {
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
           res.body.data.should.have.all.keys('poslovnica');
-          res.body.data.poslovnica.should.have.all.keys(poslovnicaFactory.poslovnicaAttributes);
+          res.body.data.poslovnica.should.contain.all.keys(poslovnicaFactory.poslovnicaAttributes);
           res.body.data.poslovnica.naziv.should.equal('updatednaziv');
           done();
         });
@@ -220,7 +221,7 @@ describe('controllers:PoslovnicaController', () => {
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
           res.body.data.should.have.all.keys('poslovnica');
-          res.body.data.poslovnica.should.have.all.keys(poslovnicaFactory.poslovnicaAttributes);
+          res.body.data.poslovnica.should.contain.all.keys(poslovnicaFactory.poslovnicaAttributes);
           res.body.data.poslovnica.naziv.should.equal('updatednaziv');
           done();
         });
@@ -239,7 +240,7 @@ describe('controllers:PoslovnicaController', () => {
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
           res.body.data.should.have.all.keys('poslovnica');
-          res.body.data.poslovnica.should.have.all.keys(poslovnicaFactory.poslovnicaAttributes);
+          res.body.data.poslovnica.should.contain.all.keys(poslovnicaFactory.poslovnicaAttributes);
           res.body.data.poslovnica.naziv.should.equal('updatednaziv');
           done();
         });
@@ -290,8 +291,8 @@ describe('controllers:PoslovnicaController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('poslovnica');
-          res.body.data.poslovnica.should.have.all.keys(poslovnicaFactory.poslovnicaAttributes);
+          res.body.data.should.contain.all.keys('poslovnica');
+          res.body.data.poslovnica.should.contain.all.keys(["matBr","naziv","opstina","updatedAt","ziro"]);
           done();
         });
     });

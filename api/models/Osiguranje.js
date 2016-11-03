@@ -9,59 +9,24 @@ module.exports = {
       required: true
     },
 
-    vrstaVozila: {
+    telefon: {
       type: 'string',
-      required: true
+      required: false
     },
 
-    kwOd: {
+    email: {
       type: 'string',
-      required: true
-    },
-
-    kwDo: {
-      type: 'string',
-      required: true
-    },
-
-    nosivost: {
-      type: 'string',
-      required: true
-    },
-
-    ccm: {
-      type: 'string',
-      required: true
-    },
-
-    brMesta: {
-      type: 'string',
-      required: true
-    },
-
-    cena: {
-      type: 'string',
-      required: true
-    },
-
-    cena5: {
-      type: 'string',
-      required: true
-    },
-
-    cena10: {
-      type: 'string',
-      required: true
-    },
-
-    cena15: {
-      type: 'string',
-      required: true
+      required: false
     },
 
     poslovnice: {
       collection: 'poslovnica',
       via: 'osiguranja'
+    },
+
+    stavkeOsiguranja: {
+      collection: 'stavkaOsiguranja',
+      via: 'osiguranje'
     },
 
     toJSON() {
