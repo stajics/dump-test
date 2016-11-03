@@ -18,7 +18,7 @@ module.exports = {
 
   filterStavkeOsiguranja: async(req, res) => {
     try {
-      let stavkeOsiguranja = await StavkaOsiguranja.find({or : constructFilterStavkeOsiguranjaQuery(req.query)});
+      let stavkeOsiguranja = await StavkaOsiguranja.find({or : constructFilterStavkeOsiguranjaQuery(req.query)}).populateAll();
       res.ok({stavkaOsiguranja: stavkeOsiguranja});
     } catch (err) {
       res.badRequest(err);
