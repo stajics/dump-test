@@ -28,7 +28,6 @@ module.exports = {
           }
           break;
         default:
-          let usersPoslovnica = await Poslovnica.findOne({id: req.user.poslovnica});
           if( req.params.id ){
             takse = await Taksa.findOne({
               or: [{
@@ -37,7 +36,7 @@ module.exports = {
               },
               {
                 id: req.params.id,
-                opstina: usersPoslovnica.opstina
+                opstina: req.user.poslovnica.opstina
               }]
             });
             return res.ok({ taksa: takse});
@@ -47,7 +46,7 @@ module.exports = {
                 opstina: 0
               },
               {
-                opstina: usersPoslovnica.opstina
+                opstina: req.user.poslovnica.opstina
               }]
             });
             return res.ok({ taksa: takse});

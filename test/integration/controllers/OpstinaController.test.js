@@ -8,6 +8,7 @@ const request = require('supertest')(url);
 //factories
 const userFactory = require('../../factories/UserFactory');
 const opstinaFactory = require('../../factories/OpstinaFactory');
+const poslovnicaFactory = require('../../factories/PoslovnicaFactory');
 
 describe('controllers:OpstinaController', () => {
   let existingUser = null;
@@ -17,7 +18,8 @@ describe('controllers:OpstinaController', () => {
     Promise.all([
       userFactory.createSuperUser({poslovnica: 1}),
       userFactory.createManager({poslovnica: 1}),
-      opstinaFactory.create()
+      opstinaFactory.create(),
+      poslovnicaFactory.create()
     ]).then(objects => {
       existingUser = objects[0];
       existingUser1 = objects[1];

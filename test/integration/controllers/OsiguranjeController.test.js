@@ -35,7 +35,9 @@ describe('controllers:OsiguranjeController', () => {
           'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
         })
         .send({
-          naziv: `naziv`
+          naziv: `naziv`,
+          telefon:  '124',
+          email: 'email@example.com'
         })
         .expect(201)
         .end(function(err, res) {
@@ -51,7 +53,9 @@ describe('controllers:OsiguranjeController', () => {
     it('Should get error (missing token).', (done) => {
       request.post(`v1/osiguranja`)
         .send({
-          naziv: `naziv`
+          naziv: `naziv`,
+          telefon:  '124',
+          email: 'email@example.com'
         })
         .expect(401)
         .end(function(err, res) {

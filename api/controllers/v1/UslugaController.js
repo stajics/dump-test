@@ -7,7 +7,7 @@ module.exports = {
   create: async(req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
-      values.poslovnica = req.user.poslovnica;
+      values.poslovnica = req.user.poslovnica.id;
       let newUsluga = await Usluga.create(values);
       res.created({usluga: newUsluga});
     } catch (err) {
@@ -28,10 +28,10 @@ module.exports = {
         }
       }else {
         if( req.params.id ){
-          usluge = await Usluga.findOne({id: req.params.id, poslovnica: req.user.poslovnica});
+          usluge = await Usluga.findOne({id: req.params.id, poslovnica: req.user.poslovnica.id});
           res.ok({ usluga: usluge });
           } else {
-          usluge = await Usluga.find({poslovnica: req.user.poslovnica});
+          usluge = await Usluga.find({poslovnica: req.user.poslovnica.id});
           res.ok({ usluga: usluge });
         }
       }
@@ -47,7 +47,7 @@ module.exports = {
       if( isEmpty(uslugaToUpdate) ) {
         return res.notFound("No usluga with that ID.");
       }
-      if( uslugaToUpdate.poslovnica !== req.user.poslovnica) {
+      if( uslugaToUpdate.poslovnica !== req.user.poslovnica.id) {
         return res.unauthorized("Can't update usluga from another poslovnica.");
       }
       let updatedUsluga = await Usluga.update({ id: req.params.id }, values);
@@ -63,7 +63,7 @@ module.exports = {
         if( isEmpty(uslugaToDelete) ) {
           return res.notFound("No usluga with that ID.");
         }
-        if( uslugaToDelete.poslovnica !== req.user.poslovnica) {
+        if( uslugaToDelete.poslovnica !== req.user.poslovnica.id) {
           return res.unauthorized("Can't delete usluga from another poslovnica.");
         }
         let uslugaForDelete = await Usluga.destroy({ id: req.params.id });
