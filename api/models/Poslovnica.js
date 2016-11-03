@@ -38,6 +38,11 @@ module.exports = {
       type: 'email'
     },
 
+    isActive: {
+      type: 'boolean',
+      defaultsTo: true
+    },
+
     users: {
       collection: 'user',
       via: 'poslovnica'

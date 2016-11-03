@@ -48,6 +48,7 @@ describe('controllers:PoslovnicaController', () => {
           pib: '1241245',
           matBr: '124245',
           ziro: '124',
+          isActive: false,
           telefon: '2134',
           email: 'email@e.com'
         })
