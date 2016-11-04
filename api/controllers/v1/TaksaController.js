@@ -32,7 +32,7 @@ module.exports = {
             takse = await Taksa.findOne({
               or: [{
                 id: req.params.id,
-                opstina: 0
+                opstina: null
               },
               {
                 id: req.params.id,
@@ -43,7 +43,7 @@ module.exports = {
           } else {
             takse = await Taksa.find({
               or: [{
-                opstina: 0
+                opstina: null
               },
               {
                 opstina: req.user.poslovnica.opstina

@@ -10,13 +10,11 @@ module.exports = {
     },
 
     opstina: {
-      type: 'integer',
-      defaultsTo: 0
+      type: 'integer'
     },
 
     vrstaVozila: {
-      type: 'string',
-      required: true
+      type: 'string'
     },
 
     godisteOd: {

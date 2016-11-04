@@ -43,7 +43,9 @@ describe('controllers:StavkaOsiguranjaController', () => {
           brMestaOd: 124,
           brMestaDo: 124,
           cena: 123,
-          popust: 123
+          popust: 123,
+          izuzetak: 'iz',
+          opis: 'op'
         })
         .expect(201)
         .end(function(err, res) {
@@ -70,7 +72,9 @@ describe('controllers:StavkaOsiguranjaController', () => {
           brMestaOd: 124,
           brMestaDo: 124,
           cena: 123,
-          popust: 123
+          popust: 123,
+          izuzetak: 'iz',
+          opis: 'op'
         })
         .expect(401)
         .end(function(err, res) {

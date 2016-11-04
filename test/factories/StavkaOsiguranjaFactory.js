@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const stavkaOsiguranjaAttributes = ['id', 'osiguranje', 'popust', 'vrstaVozila', 'kwOd', 'kwDo', 'nosivostOd', 'nosivostDo', 'ccmOd', 'ccmDo', 'brMestaOd', 'brMestaDo', 'cena', 'createdAt', 'updatedAt'];
+const stavkaOsiguranjaAttributes = ['id', 'osiguranje', 'popust', 'izuzetak', 'opis', 'vrstaVozila', 'kwOd', 'kwDo', 'nosivostOd', 'nosivostDo', 'ccmOd', 'ccmDo', 'brMestaOd', 'brMestaDo', 'cena', 'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
   let randomNumber = _.random(1,1000);
@@ -18,7 +18,9 @@ const create = (values = {}) => {
     brMestaOd: randomNumber,
     brMestaDo: randomNumber,
     cena: randomNumber,
-    popust: randomNumber
+    popust: randomNumber,
+    izuzetak: 'izuz',
+    opis: 'opis'
   });
 };
 

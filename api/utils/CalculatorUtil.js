@@ -17,7 +17,7 @@ export const constructFilterTakseQuery = (params) => {
       nosivostDo: null
     };
     let republickeTakseQuery = {
-      opstina: 0,
+      opstina: null,
       vrstaVozila: params.vrstaVozila,
       godisteOd: null,
       godisteDo: null,
@@ -32,7 +32,7 @@ export const constructFilterTakseQuery = (params) => {
     };
 
     let opstinaTakseQueryArray = [];
-    let republickeTakseQueryArray  = [];
+    let republickeTakseQueryArray  = [republickeTakseQuery];
 
     if(params.godiste) {
       opstinaTakseQueryArray.push(Object.assign({}, opstinaTakseQuery, { godisteOd: { '<=': params.godiste }, godisteDo: { '>': params.godiste }}));
@@ -166,7 +166,7 @@ export const constructFilterTakseQuery = (params) => {
       opstinaTakseQueryArray.push(Object.assign({}, opstinaTakseQuery,{ godisteOd: { '<=': params.godiste }, godisteDo: { '>': params.godiste }}, { zapreminaOd: { '<=': params.zapremina }, zapreminaDo: { '>': params.zapremina }}, {snagaOd: { '<=': params.snaga },snagaDo: { '>': params.snaga }}, {brSedistaOd: { '<=': params.brSedista },brSedistaDo: { '>': params.brSedista }}, {nosivostOd: { '<=': params.nosivost },nosivostDo: { '>': params.nosivost }}));
       republickeTakseQueryArray.push(Object.assign({}, republickeTakseQuery,{ godisteOd: { '<=': params.godiste }, godisteDo: { '>': params.godiste }}, { zapreminaOd: { '<=': params.zapremina }, zapreminaDo: { '>': params.zapremina }}, {snagaOd: { '<=': params.snaga },snagaDo: { '>': params.snaga }}, {brSedistaOd: { '<=': params.brSedista },brSedistaDo: { '>': params.brSedista }}, {nosivostOd: { '<=': params.nosivost },nosivostDo: { '>': params.nosivost }}));
     }
-    return [...opstinaTakseQueryArray, ...republickeTakseQuery];
+    return [...opstinaTakseQueryArray, ...republickeTakseQueryArray, Object.assign({}, republickeTakseQuery, {vrstaVozila: null})];
   } else {
     throw "vrstaVozila required as querry param.";
   }

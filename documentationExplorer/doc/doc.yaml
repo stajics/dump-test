@@ -1159,6 +1159,10 @@ definitions:
         type: integer
       naziv:
         type: string
+      telefon:
+        type: string
+      email:
+        type: string
       stavkeOsiguranja:
         type: array
         items:
@@ -1269,6 +1273,12 @@ definitions:
       brMestaDo:
         type: string
       cena:
+        type: string
+      popust:
+        type: integer
+      izuzetak:
+        type: string
+      opis:
         type: string
       createdAt:
         type: string
@@ -1434,6 +1444,10 @@ definitions:
     properties:
       naziv:
         type: string
+      telefon:
+        type: string
+      email:
+        type: string
       stavkeOsiguranja:
         type: array
         items:
@@ -1447,6 +1461,10 @@ definitions:
     type: object
     properties:
       naziv:
+        type: string
+      telefon:
+        type: string
+      email:
         type: string
       stavkeOsiguranja:
         type: array
@@ -1576,6 +1594,12 @@ definitions:
         type: string
       cena:
         type: string
+      popust:
+        type: integer
+      izuzetak:
+        type: string
+      opis:
+        type: string
 
   PutStavkeOsiguranjaBody:
     type: object
@@ -1601,6 +1625,12 @@ definitions:
       brMestaDo:
         type: string
       cena:
+        type: string
+      popust:
+        type: integer
+      izuzetak:
+        type: string
+      opis:
         type: string
   ###############################################################
   ###############################################################

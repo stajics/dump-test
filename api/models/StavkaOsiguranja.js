@@ -55,6 +55,14 @@ module.exports = {
       type: 'integer'
     },
 
+    izuzetak: {
+      type: 'string'
+    },
+
+    opis: {
+      type: 'string'
+    },
+
     toJSON() {
       let obj = this.toObject();
       return obj;
