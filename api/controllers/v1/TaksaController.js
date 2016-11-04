@@ -7,6 +7,9 @@ module.exports = {
   create: async(req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
+      if(req.user.rola !== 'super_user') {
+        values.isDefault = false;
+      }
       let newTaksa = await Taksa.create(values);
       res.created({taksa: newTaksa});
     } catch (err) {

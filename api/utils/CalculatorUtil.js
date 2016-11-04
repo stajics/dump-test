@@ -14,7 +14,8 @@ export const constructFilterTakseQuery = (params) => {
       brSedistaOd: null,
       brSedistaDo: null,
       nosivostOd: null,
-      nosivostDo: null
+      nosivostDo: null,
+      isDefault: true
     };
     let republickeTakseQuery = {
       opstina: null,
@@ -28,7 +29,8 @@ export const constructFilterTakseQuery = (params) => {
       brSedistaOd: null,
       brSedistaDo: null,
       nosivostOd: null,
-      nosivostDo: null
+      nosivostDo: null,
+      isDefault: true
     };
 
     let opstinaTakseQueryArray = [];
@@ -184,7 +186,8 @@ export const constructFilterStavkeOsiguranjaQuery = (params) => {
       brMestaOd: null,
       brMestaDo: null,
       nosivostOd: null,
-      nosivostDo: null
+      nosivostDo: null,
+      popust: null
     };
 
     let stavkeOsiguranjaQueryArray = [];

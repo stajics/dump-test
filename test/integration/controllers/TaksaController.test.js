@@ -60,7 +60,10 @@ describe('controllers:TaksaController', () => {
           brSedistaDo: 15451,
           nosivostOd: 1  ,
           nosivostDo: 12,
-          cena: 1255
+          cena: 1255,
+          komentar: 'koment',
+          izuzetak: 'izuzetak',
+          isDefault: true
         })
         .expect(201)
         .end(function(err, res) {
@@ -87,21 +90,21 @@ describe('controllers:TaksaController', () => {
         });
     });
 
-    it('Should get error (user is not super_user or manager).', (done) => {
-      request.post(`v1/takse`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
-        })
-        .send({
-          name: 'name'
-        })
-        .expect(401)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('fail');
-          done();
-        });
-    });
+    // it('Should get error (user is not super_user or manager).', (done) => {
+    //   request.post(`v1/takse`).set({
+    //       'authorization': `Bearer ${userFactory.getToken(existingUser2.id)}`
+    //     })
+    //     .send({
+    //       name: 'name'
+    //     })
+    //     .expect(401)
+    //     .end(function(err, res) {
+    //       if (err) throw err;
+    //       res.body.should.have.all.keys('status', 'data');
+    //       res.body.status.should.equal('fail');
+    //       done();
+    //     });
+    // });
   });
 
   describe(':read', () => {

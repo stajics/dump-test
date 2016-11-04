@@ -1227,6 +1227,12 @@ definitions:
         type: integer
       cena:
         type: integer
+      izuzetak:
+        type: string
+      komentar:
+        type: string
+      isDefault:
+        type: boolean
       createdAt:
         type: string
       updatedAt:
@@ -1523,6 +1529,12 @@ definitions:
         type: integer
       cena:
         type: integer
+      izuzetak:
+        type: string
+      komentar:
+        type: string
+      isDefault:
+        type: boolean
 
   PutTakseBody:
     type: object
@@ -1555,6 +1567,12 @@ definitions:
         type: integer
       cena:
         type: integer
+      izuzetak:
+        type: string
+      komentar:
+        type: string
+      isDefault:
+        type: boolean
   ###############
   #StavkaOsiguranja
   PostStavkeOsiguranjaBody:

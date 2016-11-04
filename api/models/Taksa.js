@@ -62,6 +62,19 @@ module.exports = {
       required: true
     },
 
+    izuzetak: {
+      type: 'string'
+    },
+
+    isDefault: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
+    komentar: {
+      type: 'string'
+    },
+
     toJSON() {
       let obj = this.toObject();
       return obj;
