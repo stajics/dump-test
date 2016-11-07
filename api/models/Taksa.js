@@ -10,13 +10,11 @@ module.exports = {
     },
 
     opstina: {
-      type: 'integer',
-      defaultsTo: 0
+      type: 'integer'
     },
 
     vrstaVozila: {
-      type: 'string',
-      required: true
+      type: 'string'
     },
 
     godisteOd: {
@@ -62,6 +60,19 @@ module.exports = {
     cena: {
       type: 'integer',
       required: true
+    },
+
+    izuzetak: {
+      type: 'string'
+    },
+
+    isDefault: {
+      type: 'boolean',
+      defaultsTo: false
+    },
+
+    komentar: {
+      type: 'string'
     },
 
     toJSON() {

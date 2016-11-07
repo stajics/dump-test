@@ -7,6 +7,7 @@ const request = require('supertest')(url);
 
 //factories
 const userFactory = require('../../../factories/UserFactory');
+const poslovnicaFactory = require('../../../factories/PoslovnicaFactory');
 
 describe('controllers:SessionController', () => {
   let existingUser = null;
@@ -14,9 +15,9 @@ describe('controllers:SessionController', () => {
   let existingUser2 = null;
   before(done => {
     Promise.all([
-      userFactory.createManager(),
-      userFactory.create(),
-      userFactory.create(),
+      userFactory.createManager({poslovnica: 1}),
+      userFactory.create({poslovnica: 1}),
+      userFactory.create({poslovnica: 1})
     ]).then(objects => {
       existingUser = objects[0];
       existingUser1 = objects[1];

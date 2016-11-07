@@ -7,6 +7,9 @@ module.exports = {
   create: async(req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
+      if(req.user.rola !== 'super_user') {
+        values.isDefault = false;
+      }
       let newTaksa = await Taksa.create(values);
       res.created({taksa: newTaksa});
     } catch (err) {
@@ -28,26 +31,25 @@ module.exports = {
           }
           break;
         default:
-          let usersPoslovnica = await Poslovnica.findOne({id: req.user.poslovnica});
           if( req.params.id ){
             takse = await Taksa.findOne({
               or: [{
                 id: req.params.id,
-                opstina: 0
+                opstina: null
               },
               {
                 id: req.params.id,
-                opstina: usersPoslovnica.opstina
+                opstina: req.user.poslovnica.opstina
               }]
             });
             return res.ok({ taksa: takse});
           } else {
             takse = await Taksa.find({
               or: [{
-                opstina: 0
+                opstina: null
               },
               {
-                opstina: usersPoslovnica.opstina
+                opstina: req.user.poslovnica.opstina
               }]
             });
             return res.ok({ taksa: takse});

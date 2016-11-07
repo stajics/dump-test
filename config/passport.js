@@ -46,9 +46,14 @@ const JWT_STRATEGY_CONFIG = {
  */
 const _onLocalStrategyAuth = (req, username, password, next) => {
   User
-    .findOne({[LOCAL_STRATEGY_CONFIG.usernameField]: username})
+    .findOne({[LOCAL_STRATEGY_CONFIG.usernameField]: username}).populate('poslovnica')
     .then(user => {
-      if (!user) return next(null, null, sails.config.errors.USER_NOT_FOUND);
+      if (!user) {
+        return next(null, null, sails.config.errors.USER_NOT_FOUND);
+      }
+      if (!user.poslovnica.isActive) {
+        return next(null, null, sails.config.errors.POSLOVNICA_INACTIVE);
+      }
       if (password !== CipherService.decrypt(user.password)) return next(null, null, sails.config.errors.USER_NOT_FOUND);
       return next(null, user, {});
     })
@@ -64,9 +69,14 @@ const _onLocalStrategyAuth = (req, username, password, next) => {
  */
 const _onJwtStrategyAuth = (req, payload, next) => {
   User
-    .findOne({id: payload.id})
+    .findOne({id: payload.id}).populate('poslovnica')
     .then(user => {
-      if (!user) return next(null, null, sails.config.errors.USER_NOT_FOUND);
+      if (!user) {
+        return next(null, null, sails.config.errors.USER_NOT_FOUND);
+      }
+      if (!user.poslovnica.isActive) {
+        return next(null, null, sails.config.errors.POSLOVNICA_INACTIVE);
+      }
       return next(null, user, {});
     })
     .catch(next);

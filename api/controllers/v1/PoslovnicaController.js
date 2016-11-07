@@ -18,8 +18,7 @@ module.exports = {
     try {
       let poslovnice = null;
       if(req.user.rola !== 'super_user') {
-        poslovnice = await Poslovnica.findOne({id: req.user.poslovnica}).populateAll();
-        return res.ok({ poslovnica: poslovnice });
+        return res.ok({ poslovnica: req.user.poslovnica });
       }
       if( req.params.id ){
         poslovnice = await Poslovnica.findOne({id: req.params.id}).populateAll();
@@ -40,7 +39,7 @@ module.exports = {
       if( isEmpty(poslovnicaToUpdate) ) {
         return res.notFound("No poslovnica with that ID.");
       };
-      if( (poslovnicaToUpdate.id !== req.user.poslovnica) && !req.user.rola === 'super_user') {
+      if( (poslovnicaToUpdate.id !== req.user.poslovnica.id) && !req.user.rola === 'super_user') {
         return res.unauthorized("Can't update another poslovnica.");
       };
       let updatedPoslovnica = await Poslovnica.update({ id: req.params.id }, values);

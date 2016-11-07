@@ -11,6 +11,9 @@ module.exports = {
   errors: {
     USER_NOT_FOUND: {
       data: 'User with specified credentials is not found'
+    },
+    POSLOVNICA_INACTIVE: {
+      data: 'Poslovnica inactive'
     }
   }
 };

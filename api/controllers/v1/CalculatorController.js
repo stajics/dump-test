@@ -7,8 +7,7 @@ module.exports = {
 
   filterTakse: async(req, res) => {
     try {
-      let usersPoslovnica = await Poslovnica.findOne({id: req.user.poslovnica});
-      req.query.opstina = usersPoslovnica.opstina;
+      req.query.opstina = req.user.poslovnica.opstina;
       let takse = await Taksa.find({or : constructFilterTakseQuery(req.query)});
       res.ok({taksa: takse});
     } catch (err) {

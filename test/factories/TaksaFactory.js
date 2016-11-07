@@ -2,7 +2,7 @@
 
 const _ = require('lodash');
 
-const taksaAttributes = ['id', 'usluga', 'opstina', 'vrstaVozila', 'godisteOd', 'godisteDo', 'zapreminaOd', 'zapreminaDo', 'snagaOd', 'snagaDo', 'brSedistaOd', 'brSedistaDo', 'nosivostOd', 'nosivostDo', 'cena',  'createdAt', 'updatedAt'];
+const taksaAttributes = ['id', 'usluga', 'opstina', 'komentar', 'isDefault', 'izuzetak', 'vrstaVozila', 'godisteOd', 'godisteDo', 'zapreminaOd', 'zapreminaDo', 'snagaOd', 'snagaDo', 'brSedistaOd', 'brSedistaDo', 'nosivostOd', 'nosivostDo', 'cena',  'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
   let randomNumber = _.random(1,1000);
@@ -20,7 +20,10 @@ const create = (values = {}) => {
     brSedistaDo: 15451,
     nosivostOd: 1  ,
     nosivostDo: 12,
-    cena: 1255
+    cena: 1255,
+    komentar: 'koment',
+    izuzetak: 'izuzetak',
+    isDefault: true
   });
 };
 

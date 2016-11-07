@@ -10,13 +10,11 @@ module.exports = {
     },
 
     telefon: {
-      type: 'string',
-      required: false
+      type: 'string'
     },
 
     email: {
-      type: 'string',
-      required: false
+      type: 'email'
     },
 
     poslovnice: {
