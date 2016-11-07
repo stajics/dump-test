@@ -28,7 +28,7 @@ module.exports = {
 
     "v1/OpstinaController": {
       create: ["isAuthenticated", "isSuperUser" ],
-      read: ["isAuthenticated", "isSuperUser"],
+      read: ["isAuthenticated"],
       update: ["isAuthenticated", "isSuperUser" ],
       delete: ["isAuthenticated", "isSuperUser" ]
     },
@@ -42,14 +42,14 @@ module.exports = {
 
     "v1/OsiguranjeController": {
       create: ["isAuthenticated", "isSuperUser" ],
-      read: ["isAuthenticated", "isManager"],
+      read: ["isAuthenticated"],
       update: ["isAuthenticated", "isSuperUser" ],
       delete: ["isAuthenticated", "isSuperUser" ]
     },
 
     "v1/StavkaOsiguranjaController": {
       create: ["isAuthenticated", "isSuperUser" ],
-      read: ["isAuthenticated", "isSuperUser"],
+      read: ["isAuthenticated"],
       update: ["isAuthenticated", "isSuperUser" ],
       delete: ["isAuthenticated", "isSuperUser" ]
     },
