@@ -1,36 +1,34 @@
-"use strict";
-
 module.exports = {
   schema: true,
 
   attributes: {
     naziv: {
       type: 'string',
-      required: true
+      required: true,
     },
 
     telefon: {
-      type: 'string'
+      type: 'string',
     },
 
     email: {
-      type: 'email'
+      type: 'email',
     },
 
     poslovnice: {
       collection: 'poslovnica',
-      via: 'osiguranja'
+      via: 'osiguranja',
     },
 
     stavkeOsiguranja: {
       collection: 'stavkaOsiguranja',
-      via: 'osiguranje'
+      via: 'osiguranje',
     },
 
     toJSON() {
-      let obj = this.toObject();
+      const obj = this.toObject();
       return obj;
-    }
-  }
+    },
+  },
 
 };

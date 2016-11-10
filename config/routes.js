@@ -1,4 +1,4 @@
-"use strict";
+
 
 /**
  * Route Mappings
@@ -46,32 +46,32 @@ module.exports = {
     'PUT /v1/usluge/:id': 'v1/UslugaController.update',
     'DELETE /v1/usluge/:id': 'v1/UslugaController.delete',
 
-    //Osiguranje
+    // Osiguranje
     'GET /v1/osiguranja': 'v1/OsiguranjeController.read',
     'GET /v1/osiguranja/:id': 'v1/OsiguranjeController.read',
     'POST /v1/osiguranja': 'v1/OsiguranjeController.create',
     'PUT /v1/osiguranja/:id': 'v1/OsiguranjeController.update',
     'DELETE /v1/osiguranja/:id': 'v1/OsiguranjeController.delete',
 
-    //StavkaOsiguranja
+    // StavkaOsiguranja
     'GET /v1/stavkeOsiguranja': 'v1/StavkaOsiguranjaController.read',
     'GET /v1/stavkeOsiguranja/:id': 'v1/StavkaOsiguranjaController.read',
     'POST /v1/stavkeOsiguranja': 'v1/StavkaOsiguranjaController.create',
     'PUT /v1/stavkeOsiguranja/:id': 'v1/StavkaOsiguranjaController.update',
     'DELETE /v1/stavkeOsiguranja/:id': 'v1/StavkaOsiguranjaController.delete',
 
-    //takse
+    // Takse
     'GET /v1/takse': 'v1/TaksaController.read',
     'GET /v1/takse/:id': 'v1/TaksaController.read',
     'POST /v1/takse': 'v1/TaksaController.create',
     'PUT /v1/takse/:id': 'v1/TaksaController.update',
     'DELETE /v1/takse/:id': 'v1/TaksaController.delete',
 
-    //Calculator
+    // Calculator
     'GET /v1/calculator/takse': 'v1/CalculatorController.filterTakse',
     'GET /v1/calculator/stavkeOsiguranja': 'v1/CalculatorController.filterStavkeOsiguranja',
 
-    //Documentation
+    // Documentation
     'GET /v1/doc': 'v1/DocumentationController.getDocumentationJson',
-  }
+  },
 };

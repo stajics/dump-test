@@ -1,70 +1,64 @@
-"use strict";
-
-/**
- * User
- * @description :: Model for storing users
- */
-
 module.exports = {
   schema: true,
 
   attributes: {
     ime: {
       type: 'string',
-      required: true
+      required: true,
     },
 
     username: {
       type: 'string',
       required: true,
       unique: true,
-      alphanumericdashed: true
+      alphanumericdashed: true,
     },
 
     password: {
       type: 'string',
-      required: true
+      required: true,
     },
 
     email: {
       type: 'email',
       unique: true,
-      required: true
+      required: true,
     },
 
     rola: {
       type: 'string',
       enum: ['super_user', 'menadzer', 'korisnik'],
-      defaultsTo: 'korisnik'
+      defaultsTo: 'korisnik',
     },
 
     poslovnica: {
       model: 'poslovnica',
-      required: true
+      required: true,
     },
 
     toJSON() {
-      let obj = this.toObject();
+      const obj = this.toObject();
 
       delete obj.password;
 
       return obj;
-    }
+    },
   },
 
+  /* eslint no-param-reassign: 'off'*/
   beforeCreate(values, next) {
-    if (!values.hasOwnProperty('password')) {
+    if (!values.password) {
       return next();
     }
     values.password = CipherService.encrypt(values.password);
-    next();
+    return next();
   },
 
   beforeUpdate(values, next) {
-    if (!values.hasOwnProperty('password')) {
+    if (!values.password) {
       return next();
     }
     values.password = CipherService.encrypt(values.password);
-    next();
-  }
+    return next();
+  },
 };

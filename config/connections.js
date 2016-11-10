@@ -1,4 +1,4 @@
-"use strict";
+
 
 /**
  * Connections API Configuration
@@ -27,7 +27,7 @@ module.exports = {
       password: secrets.dbPassword,
       database: 'greenauto_development',
       charset: 'utf8',
-      collation: 'utf8_swedish_ci'
+      collation: 'utf8_swedish_ci',
     },
 
     test: {
@@ -38,7 +38,7 @@ module.exports = {
       password: secrets.dbPassword,
       database: 'greenauto_test',
       charset: 'utf8',
-      collation: 'utf8_swedish_ci'
+      collation: 'utf8_swedish_ci',
     },
-  }
+  },
 };

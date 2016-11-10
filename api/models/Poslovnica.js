@@ -1,72 +1,65 @@
-"use strict";
-
-/**
- * User
- * @description :: Model for storing users
- */
-
 module.exports = {
   schema: true,
 
   attributes: {
     naziv: {
       type: 'string',
-      required: true
+      required: true,
     },
 
     adresa: {
-      type: 'string'
+      type: 'string',
     },
 
     pib: {
-      type: 'string'
+      type: 'string',
     },
 
     matBr: {
-      type: 'string'
+      type: 'string',
     },
 
     ziro: {
-      type: 'string'
+      type: 'string',
     },
 
     telefon: {
-      type: 'string'
+      type: 'string',
     },
 
     email: {
-      type: 'email'
+      type: 'email',
     },
 
     isActive: {
       type: 'boolean',
-      defaultsTo: true
+      defaultsTo: true,
     },
 
     users: {
       collection: 'user',
-      via: 'poslovnica'
+      via: 'poslovnica',
     },
 
     usluge: {
       collection: 'usluga',
-      via: 'poslovnica'
+      via: 'poslovnica',
     },
 
     osiguranja: {
       collection: 'osiguranje',
-      via: 'poslovnice'
+      via: 'poslovnice',
     },
 
     opstina: {
       model: 'opstina',
-      required: true
+      required: true,
     },
 
     toJSON() {
-      let obj = this.toObject();
+      const obj = this.toObject();
       return obj;
-    }
+    },
   },
 
 };

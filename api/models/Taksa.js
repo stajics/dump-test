@@ -1,84 +1,82 @@
-"use strict";
-
 module.exports = {
   schema: true,
 
   attributes: {
     usluga: {
       type: 'string',
-      required: true
+      required: true,
     },
 
     opstina: {
-      type: 'integer'
+      type: 'integer',
     },
 
     vrstaVozila: {
-      type: 'string'
+      type: 'string',
     },
 
     godisteOd: {
-      type: 'integer'
+      type: 'integer',
     },
 
     godisteDo: {
-      type: 'integer'
+      type: 'integer',
     },
 
     zapreminaOd: {
-      type: 'integer'
+      type: 'integer',
     },
 
     zapreminaDo: {
-      type: 'integer'
+      type: 'integer',
     },
 
     snagaOd: {
-      type: 'integer'
+      type: 'integer',
     },
 
     snagaDo: {
-      type: 'integer'
+      type: 'integer',
     },
 
     brSedistaOd: {
-      type: 'integer'
+      type: 'integer',
     },
 
     brSedistaDo: {
-      type: 'integer'
+      type: 'integer',
     },
 
     nosivostOd: {
-      type: 'integer'
+      type: 'integer',
     },
 
     nosivostDo: {
-      type: 'integer'
+      type: 'integer',
     },
 
     cena: {
       type: 'integer',
-      required: true
+      required: true,
     },
 
     izuzetak: {
-      type: 'string'
+      type: 'string',
     },
 
     isDefault: {
       type: 'boolean',
-      defaultsTo: false
+      defaultsTo: false,
     },
 
     komentar: {
-      type: 'string'
+      type: 'string',
     },
 
     toJSON() {
-      let obj = this.toObject();
+      const obj = this.toObject();
       return obj;
-    }
-  }
+    },
+  },
 
 };
