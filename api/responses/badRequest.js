@@ -7,7 +7,7 @@
  */
 const util = require('util');
 
-module.exports = (data, config) => {
+module.exports = function badRequest(data, config) {
   if (sails.config.log.consoleLogErrorResponses) {
     console.log(data);
   }

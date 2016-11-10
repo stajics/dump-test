@@ -161,19 +161,19 @@ describe('controllers:OsiguranjeController', () => {
       });
     });
 
-    it('Should get error. (not a super_user or manager)', (done) => {
-      request.get('v1/osiguranja').set({
-        authorization: `Bearer ${userFactory.getToken(existingUser2.id)}`,
-      })
-      .send()
-      .expect(401)
-      .end((err, res) => {
-        if (err) throw err;
-        res.body.should.have.keys('status', 'data');
-        res.body.status.should.equal('fail');
-        done();
-      });
-    });
+    // it('Should get error. (not a super_user or manager)', (done) => {
+    //   request.get('v1/osiguranja').set({
+    //     authorization: `Bearer ${userFactory.getToken(existingUser2.id)}`,
+    //   })
+    //   .send()
+    //   .expect(401)
+    //   .end((err, res) => {
+    //     if (err) throw err;
+    //     res.body.should.have.keys('status', 'data');
+    //     res.body.status.should.equal('fail');
+    //     done();
+    //   });
+    // });
 
     it('Should get error. (no token)', (done) => {
       request.get('v1/osiguranja')

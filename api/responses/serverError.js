@@ -6,7 +6,7 @@
  */
 const util = require('util');
 
-module.exports = (data, config) => {
+module.exports = function serverError(data, config) {
   if (sails.config.log.consoleLogErrorResponses) {
     console.log(data);
   }

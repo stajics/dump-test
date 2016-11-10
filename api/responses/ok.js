@@ -7,7 +7,7 @@
  * In a POST request the response will contain an entity describing or containing the result of the action.
  */
 
-module.exports = (data, config) => {
+module.exports = function ok(data, config) {
   const response = Object.assign({
     status: 'success',
     data: data || null,

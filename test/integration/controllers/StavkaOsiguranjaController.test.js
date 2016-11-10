@@ -148,19 +148,19 @@ describe('controllers:StavkaOsiguranjaController', () => {
       });
     });
 
-    it('Should get error. (not a super_user)', (done) => {
-      request.get('v1/stavkeOsiguranja').set({
-        authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
-      })
-      .send()
-      .expect(401)
-      .end((err, res) => {
-        if (err) throw err;
-        res.body.should.have.keys('status', 'data');
-        res.body.status.should.equal('fail');
-        done();
-      });
-    });
+    // it('Should get error. (not a super_user)', (done) => {
+    //   request.get('v1/stavkeOsiguranja').set({
+    //     authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
+    //   })
+    //   .send()
+    //   .expect(401)
+    //   .end((err, res) => {
+    //     if (err) throw err;
+    //     res.body.should.have.keys('status', 'data');
+    //     res.body.status.should.equal('fail');
+    //     done();
+    //   });
+    // });
 
     it('Should get error. (no token)', (done) => {
       request.get('v1/stavkeOsiguranja')

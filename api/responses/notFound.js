@@ -6,7 +6,7 @@
  * Used when the requested resource is not found, whether it doesn't exist.
  */
 
-module.exports = (data, config) => {
+module.exports = function notFound(data, config) {
   const response = Object.assign({
     status: 'fail',
     data: data || {
