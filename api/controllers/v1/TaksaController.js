@@ -21,10 +21,10 @@ module.exports = {
       switch (req.user.rola) {
         case 'super_user':
           if (req.params.id) {
-            takse = await Taksa.findOne({ id: req.params.id });
+            takse = await Taksa.findOne({ id: req.params.id }).populate('nazivTakse');
             return res.ok({ taksa: takse });
           }
-          takse = await Taksa.find();
+          takse = await Taksa.find().populate('nazivTakse');
           return res.ok({ taksa: takse });
         default:
           if (req.params.id) {
@@ -37,7 +37,7 @@ module.exports = {
                 id: req.params.id,
                 opstina: req.user.poslovnica.opstina,
               }],
-            });
+            }).populate('nazivTakse');
             return res.ok({ taksa: takse });
           }
           takse = await Taksa.find({
@@ -47,7 +47,7 @@ module.exports = {
             {
               opstina: req.user.poslovnica.opstina,
             }],
-          });
+          }).populate('nazivTakse');
           return res.ok({ taksa: takse });
       }
     } catch (err) {

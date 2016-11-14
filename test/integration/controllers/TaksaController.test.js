@@ -28,6 +28,7 @@ describe('controllers:TaksaController', () => {
       taksaFactory.create({ opstina: 0 }),
       taksaFactory.create({ opstina: 1 }),
       poslovnicaFactory.create({ opstina: 1 }),
+      NazivTakse.create({ naziv: 'Naziv takse' }),
     ]).then((objects) => {
       existingUser = objects[0];
       existingUser1 = objects[1];
@@ -45,7 +46,7 @@ describe('controllers:TaksaController', () => {
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send({
-        usluga: 'usluga',
+        nazivTakse: 1,
         opstina: 1,
         vrstaVozila: 'putnicko',
         godisteOd: 123,
@@ -69,7 +70,7 @@ describe('controllers:TaksaController', () => {
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
         res.body.data.taksa.should.have.all.keys(taksaFactory.taksaAttributes);
-        res.body.data.taksa.usluga.should.equal('usluga');
+        res.body.data.taksa.godisteOd.should.equal(123);
         done();
       });
     });
@@ -77,7 +78,7 @@ describe('controllers:TaksaController', () => {
     it('Should get error (missing token).', (done) => {
       request.post('v1/takse')
         .send({
-          usluga: 'usluga',
+          godisteOd: 123,
         })
         .expect(401)
         .end((err, res) => {
@@ -221,7 +222,7 @@ describe('controllers:TaksaController', () => {
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send({
-        usluga: 'uslugaUpdate',
+        godisteOd: 555,
       })
       .expect(200)
       .end((err, res) => {
@@ -230,7 +231,7 @@ describe('controllers:TaksaController', () => {
         res.body.status.should.equal('success');
         res.body.data.should.have.all.keys('taksa');
         res.body.data.taksa.should.have.all.keys(taksaFactory.taksaAttributes);
-        res.body.data.taksa.usluga.should.equal('uslugaUpdate');
+        res.body.data.taksa.godisteOd.should.equal(555);
         done();
       });
     });

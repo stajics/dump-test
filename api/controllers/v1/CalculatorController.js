@@ -6,7 +6,7 @@ module.exports = {
     try {
       const query = req.query;
       query.opstina = req.user.poslovnica.opstina;
-      const takse = await Taksa.find({ or: constructFilterTakseQuery(query) });
+      const takse = await Taksa.find({ or: constructFilterTakseQuery(query) }).populate('nazivTakse');
       return res.ok({ taksa: takse });
     } catch (err) {
       return res.badRequest(err);

@@ -1180,6 +1180,7 @@ definitions:
     type: object
     required:
       - id
+      - naziv
       - usluga
       - opstina
       - vrstaVozila
@@ -1198,6 +1199,8 @@ definitions:
       - updatedAt
     properties:
       id:
+        type: integer
+      nazivTakse:
         type: integer
       usluga:
         type: string
@@ -1486,7 +1489,7 @@ definitions:
   PostTakseBody:
     type: object
     required:
-      - usluga
+      - nazivTakse
       - opstina
       - vrstaVozila
       - godisteOd
@@ -1501,8 +1504,8 @@ definitions:
       - nosivostDo
       - cena
     properties:
-      usluga:
-        type: string
+      nazivTakse:
+        type: integer
       opstina:
         type: integer
       vrstaVozila:
@@ -1539,8 +1542,8 @@ definitions:
   PutTakseBody:
     type: object
     properties:
-      usluga:
-        type: string
+      nazivTakse:
+        type: integer
       opstina:
         type: integer
       vrstaVozila:

@@ -2,8 +2,8 @@ module.exports = {
   schema: true,
 
   attributes: {
-    usluga: {
-      type: 'string',
+    nazivTakse: {
+      model: 'nazivTakse',
       required: true,
     },
 
