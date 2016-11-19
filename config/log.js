@@ -1,4 +1,4 @@
-"use strict";
+
 
 /**
  * Winston Logger Configuration
@@ -29,6 +29,6 @@ module.exports = {
      *   config: {}
      * }]
      */
-    transports: []
-  }
+    transports: [],
+  },
 };

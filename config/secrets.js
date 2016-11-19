@@ -1,12 +1,11 @@
-"use strict";
-
+/* eslint global-require: 'off', import/no-extraneous-dependencies: 'off' */
 module.exports.secrets = {
-  jwtSecretKey: process.env.CHIPHER_JWT_SECRET_KEY || require('node-uuid').v4(),  //required (or defaults to new secret every server restart)
-  hashPassword: process.env.HASH_PASSWORD,  //required
+  jwtSecretKey: process.env.CHIPHER_JWT_SECRET_KEY || require('node-uuid').v4(),  // required (or defaults to new secret every server restart)
+  hashPassword: process.env.HASH_PASSWORD,  // required
 
-  //db
+  // db
   ip: process.env.GREENAUTO_MYSQL_IP || '172.17.0.1',
-  dbPassword: process.env.GREENAUTO_DB_PASSWORD || ""
+  dbPassword: process.env.GREENAUTO_DB_PASSWORD || '',
 };
 
 /*

@@ -1,28 +1,25 @@
-"use strict";
-
-import { omit, get, isEmpty } from 'lodash';
-import { constructFilterTakseQuery, constructFilterStavkeOsiguranjaQuery } from '../../utils/CalculatorUtil.js';
+import { constructFilterTakseQuery, constructFilterStavkeOsiguranjaQuery } from '../../utils/CalculatorUtil';
 
 module.exports = {
 
-  filterTakse: async(req, res) => {
+  filterTakse: async (req, res) => {
     try {
-      let usersPoslovnica = await Poslovnica.findOne({id: req.user.poslovnica});
-      req.query.opstina = usersPoslovnica.opstina;
-      let takse = await Taksa.find({or : constructFilterTakseQuery(req.query)});
-      res.ok({taksa: takse});
+      const query = req.query;
+      query.opstina = req.user.poslovnica.opstina;
+      const takse = await Taksa.find({ or: constructFilterTakseQuery(query) }).populate('nazivTakse');
+      return res.ok({ taksa: takse });
     } catch (err) {
-      res.badRequest(err);
-    };
+      return res.badRequest(err);
+    }
   },
 
-  filterStavkeOsiguranja: async(req, res) => {
+  filterStavkeOsiguranja: async (req, res) => {
     try {
-      let stavkeOsiguranja = await StavkaOsiguranja.find({or : constructFilterStavkeOsiguranjaQuery(req.query)}).populateAll();
-      res.ok({stavkaOsiguranja: stavkeOsiguranja});
+      const stavkeOsiguranja = await StavkaOsiguranja.find({ or: constructFilterStavkeOsiguranjaQuery(req.query) }).populateAll();
+      return res.ok({ stavkaOsiguranja: stavkeOsiguranja });
     } catch (err) {
-      res.badRequest(err);
-    };
-  }
+      return res.badRequest(err);
+    }
+  },
 
 };

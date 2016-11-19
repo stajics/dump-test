@@ -1,64 +1,70 @@
-"use strict";
-
 module.exports = {
   schema: true,
 
   attributes: {
     osiguranje: {
       model: 'osiguranje',
-      required: true
+      required: true,
     },
 
     vrstaVozila: {
       type: 'string',
-      required: true
+      required: true,
     },
 
     kwOd: {
-      type: 'integer'
+      type: 'integer',
     },
 
     kwDo: {
-      type: 'integer'
+      type: 'integer',
     },
 
     nosivostOd: {
-      type: 'integer'
+      type: 'integer',
     },
 
     nosivostDo: {
-      type: 'integer'
+      type: 'integer',
     },
 
     ccmOd: {
-      type: 'integer'
+      type: 'integer',
     },
 
     ccmDo: {
-      type: 'integer'
+      type: 'integer',
     },
 
     brMestaOd: {
-      type: 'integer'
+      type: 'integer',
     },
 
     brMestaDo: {
-      type: 'integer'
+      type: 'integer',
     },
 
     cena: {
       type: 'integer',
-      required: true
+      required: true,
     },
 
     popust: {
-      type: 'integer'
+      type: 'integer',
+    },
+
+    izuzetak: {
+      type: 'string',
+    },
+
+    opis: {
+      type: 'string',
     },
 
     toJSON() {
-      let obj = this.toObject();
+      const obj = this.toObject();
       return obj;
-    }
-  }
+    },
+  },
 
 };

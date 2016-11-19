@@ -1,32 +1,30 @@
-"use strict";
-
 module.exports = {
   schema: true,
 
   attributes: {
     naziv: {
       type: 'string',
-      required: true
+      required: true,
     },
 
     opis: {
-      type: 'string'
+      type: 'string',
     },
 
     cena: {
       type: 'string',
-      required: true
+      required: true,
     },
 
     poslovnica: {
       model: 'poslovnica',
-      required: true
+      required: true,
     },
 
     toJSON() {
-      let obj = this.toObject();
+      const obj = this.toObject();
       return obj;
-    }
+    },
   },
 
 };

@@ -1159,6 +1159,10 @@ definitions:
         type: integer
       naziv:
         type: string
+      telefon:
+        type: string
+      email:
+        type: string
       stavkeOsiguranja:
         type: array
         items:
@@ -1176,6 +1180,7 @@ definitions:
     type: object
     required:
       - id
+      - naziv
       - usluga
       - opstina
       - vrstaVozila
@@ -1194,6 +1199,8 @@ definitions:
       - updatedAt
     properties:
       id:
+        type: integer
+      nazivTakse:
         type: integer
       usluga:
         type: string
@@ -1223,6 +1230,12 @@ definitions:
         type: integer
       cena:
         type: integer
+      izuzetak:
+        type: string
+      komentar:
+        type: string
+      isDefault:
+        type: boolean
       createdAt:
         type: string
       updatedAt:
@@ -1269,6 +1282,12 @@ definitions:
       brMestaDo:
         type: string
       cena:
+        type: string
+      popust:
+        type: integer
+      izuzetak:
+        type: string
+      opis:
         type: string
       createdAt:
         type: string
@@ -1434,6 +1453,10 @@ definitions:
     properties:
       naziv:
         type: string
+      telefon:
+        type: string
+      email:
+        type: string
       stavkeOsiguranja:
         type: array
         items:
@@ -1447,6 +1470,10 @@ definitions:
     type: object
     properties:
       naziv:
+        type: string
+      telefon:
+        type: string
+      email:
         type: string
       stavkeOsiguranja:
         type: array
@@ -1462,7 +1489,7 @@ definitions:
   PostTakseBody:
     type: object
     required:
-      - usluga
+      - nazivTakse
       - opstina
       - vrstaVozila
       - godisteOd
@@ -1477,8 +1504,8 @@ definitions:
       - nosivostDo
       - cena
     properties:
-      usluga:
-        type: string
+      nazivTakse:
+        type: integer
       opstina:
         type: integer
       vrstaVozila:
@@ -1505,12 +1532,18 @@ definitions:
         type: integer
       cena:
         type: integer
+      izuzetak:
+        type: string
+      komentar:
+        type: string
+      isDefault:
+        type: boolean
 
   PutTakseBody:
     type: object
     properties:
-      usluga:
-        type: string
+      nazivTakse:
+        type: integer
       opstina:
         type: integer
       vrstaVozila:
@@ -1537,6 +1570,12 @@ definitions:
         type: integer
       cena:
         type: integer
+      izuzetak:
+        type: string
+      komentar:
+        type: string
+      isDefault:
+        type: boolean
   ###############
   #StavkaOsiguranja
   PostStavkeOsiguranjaBody:
@@ -1576,6 +1615,12 @@ definitions:
         type: string
       cena:
         type: string
+      popust:
+        type: integer
+      izuzetak:
+        type: string
+      opis:
+        type: string
 
   PutStavkeOsiguranjaBody:
     type: object
@@ -1601,6 +1646,12 @@ definitions:
       brMestaDo:
         type: string
       cena:
+        type: string
+      popust:
+        type: integer
+      izuzetak:
+        type: string
+      opis:
         type: string
   ###############################################################
   ###############################################################
