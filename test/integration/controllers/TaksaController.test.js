@@ -18,9 +18,9 @@ describe('controllers:TaksaController', () => {
   let existingTaksa1 = null;
   before((done) => {
     Promise.all([
-      userFactory.createSuperUser({ poslovnica: 4 }),
-      userFactory.createManager({ poslovnica: 4 }),
-      userFactory.create({ poslovnica: 4 }),
+      userFactory.createSuperUser({ poslovnica: 5 }), // increse number here and factory nazivTakse if test fail err 401
+      userFactory.createManager({ poslovnica: 5 }),
+      userFactory.create({ poslovnica: 5 }),
       taksaFactory.create({ opstina: 2 }),
       taksaFactory.create({ opstina: 1 }),
       taksaFactory.create({ opstina: 0 }),
@@ -48,7 +48,7 @@ describe('controllers:TaksaController', () => {
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send({
-        nazivTakse: 2,
+        nazivTakse: 3,
         opstina: 1,
         vrstaVozila: 'putnicko',
         godisteOd: 123,
