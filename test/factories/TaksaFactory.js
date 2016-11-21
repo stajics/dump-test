@@ -5,7 +5,7 @@ const taksaAttributes = ['id', 'nazivTakse', 'opstina', 'komentar', 'isDefault',
 const create = (values = {}) => {
   const randomNumber = _.random(1, 1000);
   return Taksa.create({
-    nazivTakse: 1,
+    nazivTakse: 2,
     opstina: (values.opstina === 0) || values.opstina ? values.opstina : randomNumber,
     vrstaVozila: 'putnicko',
     godisteOd: 123,

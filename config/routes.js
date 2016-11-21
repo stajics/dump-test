@@ -67,6 +67,13 @@ module.exports = {
     'PUT /v1/takse/:id': 'v1/TaksaController.update',
     'DELETE /v1/takse/:id': 'v1/TaksaController.delete',
 
+    // Naziv takse
+    'GET /v1/naziviTaksa': 'v1/NazivTakseController.read',
+    'GET /v1/naziviTaksa/:id': 'v1/NazivTakseController.read',
+    'POST /v1/naziviTaksa': 'v1/NazivTakseController.create',
+    'PUT /v1/naziviTaksa/:id': 'v1/NazivTakseController.update',
+    'DELETE /v1/naziviTaksa/:id': 'v1/NazivTakseController.delete',
+
     // Calculator
     'GET /v1/calculator/takse': 'v1/CalculatorController.filterTakse',
     'GET /v1/calculator/stavkeOsiguranja': 'v1/CalculatorController.filterStavkeOsiguranja',

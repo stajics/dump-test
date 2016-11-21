@@ -61,6 +61,13 @@ module.exports = {
       delete: ['isAuthenticated', 'isSuperUser'],
     },
 
+    'v1/NazivTakseController': {
+      create: ['isAuthenticated', 'isSuperUser'],
+      read: ['isAuthenticated', 'isSuperUser'],
+      update: ['isAuthenticated', 'isSuperUser'],
+      delete: ['isAuthenticated', 'isSuperUser'],
+    },
+
     'v1/CalculatorController': {
       filterTakse: ['isAuthenticated'],
     },

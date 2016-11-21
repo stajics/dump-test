@@ -14,6 +14,7 @@ export const constructFilterTakseQuery = (params) => {
       brSedistaDo: null,
       nosivostOd: null,
       nosivostDo: null,
+      izuzetak: params.izuzetak || null,
       isDefault: true,
     };
     const republickeTakseQuery = {
@@ -29,6 +30,7 @@ export const constructFilterTakseQuery = (params) => {
       brSedistaDo: null,
       nosivostOd: null,
       nosivostDo: null,
+      izuzetak: params.izuzetak || null,
       isDefault: true,
     };
 

@@ -854,6 +854,10 @@ paths:
           name: nosivost
           description: Nosivost vozila.
           type: integer
+        - in: query
+          name: izuzetak
+          description: Nosivost vozila.
+          type: string
       responses:
         "200":
           description: Takse.
@@ -1025,6 +1029,128 @@ paths:
           description: StavkaOsiguranja deleted.
           schema:
             $ref: "#/definitions/StavkeOsiguranjaResponse"
+
+########################################
+#######NAZIV TAKSE
+  /naziviTaksa:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - NazivTakse
+      summary: Get all naziviTaksa.
+      description: "Requires logged in user to be super_user."
+      operationId: getNaziviTaksa
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: All naziviTaksa.
+          schema:
+            $ref: "#/definitions/NazivTakseResponse"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - NazivTakse
+      summary: Add new nazivTakse.
+      description: "Requires logged in user to be super_user."
+      operationId: createNazivTakse
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: NazivTakse object that needs to be added to the naziviTaksa.
+          required: true
+          schema:
+            $ref: "#/definitions/PostNaziviTaksaBody"
+      responses:
+        "201":
+          description: NazivTakse created.
+          schema:
+            $ref: "#/definitions/NaziviTaksaResponse"
+  /naziviTaksa/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - NazivTakse
+      summary: Get nazivTakse.
+      description: "Requires logged in user to be super_user."
+      operationId: getNazivTakse
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the nazivTakse
+          required: true
+          type: string
+      responses:
+        "200":
+          description: All users.
+          schema:
+            $ref: "#/definitions/NaziviTaksaResponse"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - NazivTakse
+      summary: Update nazivTakse.
+      description: "Requires logged in user to be super_user."
+      operationId: updateNazivTakse
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the nazivTakse that needs to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Attributes and values that will be updated.
+          required: true
+          schema:
+            $ref: "#/definitions/PutNaziviTaksaBody"
+      responses:
+        "200":
+          description: NazivTakse updated.
+          schema:
+            $ref: "#/definitions/NaziviTaksaResponse"
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - NazivTakse
+      summary: Delete nazivTakse.
+      description: "Requires logged in user to be super_user."
+      operationId: deleteUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the nazivTakse that needs to be deleted.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: NazivTakse deleted.
+          schema:
+            $ref: "#/definitions/NaziviTaksaResponse"
 
 ################################################################################
 #                                 Definitions                                  #
@@ -1293,6 +1419,24 @@ definitions:
         type: string
       updatedAt:
         type: string
+
+  NazivTakse:
+    type: object
+    required:
+      - id
+      - naziv
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      naziv:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
   #################################################################
   #################################################################
   #params
@@ -1653,6 +1797,21 @@ definitions:
         type: string
       opis:
         type: string
+  ###############
+  #NazivTakse
+  PostNaziviTaksaBody:
+    type: object
+    required:
+      - naziv
+    properties:
+      naziv:
+        type: string
+
+  PutNaziviTaksaBody:
+    type: object
+    properties:
+      naziv:
+        type: string
   ###############################################################
   ###############################################################
   #responses
@@ -1938,3 +2097,41 @@ definitions:
         properties:
           stavkaOsiguranja:
             $ref: "#/definitions/StavkaOsiguranja"
+
+###################
+#NazivTakse
+  NazivTakseResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - naziviTaksa
+        properties:
+          naziviTaksa:
+            type: 'array'
+            items:
+              $ref: "#/definitions/NazivTakse"
+
+  NaziviTaksaResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - nazivTakse
+        properties:
+          nazivTakse:
+            $ref: "#/definitions/NazivTakse"
