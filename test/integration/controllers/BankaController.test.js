@@ -13,17 +13,20 @@ const poslovnicaFactory = require('../../factories/PoslovnicaFactory');
 describe('controllers:BankaController', () => {
   let existingUser = null;
   let existingUser1 = null;
+  let existingUser2 = null;
   let existingBanka = null;
   before((done) => {
     Promise.all([
       userFactory.createSuperUser({ poslovnica: 1 }),
       userFactory.createManager({ poslovnica: 1 }),
-      bankaFactory.create(),
+      userFactory.create({ poslovnica: 1 }),
+      bankaFactory.create({ poslovnica: 1 }),
       poslovnicaFactory.create(),
     ]).then((objects) => {
       existingUser = objects[0];
       existingUser1 = objects[1];
-      existingBanka = objects[2];
+      existingUser2 = objects[2];
+      existingBanka = objects[3];
       done();
     })
     .catch(done);
@@ -64,9 +67,9 @@ describe('controllers:BankaController', () => {
         });
     });
 
-    it('Should get error (user is not super_user).', (done) => {
+    it('Should get error (user is not manager).', (done) => {
       request.post('v1/banke').set({
-        authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
+        authorization: `Bearer ${userFactory.getToken(existingUser2.id)}`,
       })
       .send({
         naziv: 'naziv',
@@ -144,20 +147,6 @@ describe('controllers:BankaController', () => {
       });
     });
 
-    it('Should get error. (not a super_user)', (done) => {
-      request.get('v1/banke').set({
-        authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
-      })
-      .send()
-      .expect(401)
-      .end((err, res) => {
-        if (err) throw err;
-        res.body.should.have.keys('status', 'data');
-        res.body.status.should.equal('fail');
-        done();
-      });
-    });
-
     it('Should get error. (no token)', (done) => {
       request.get('v1/banke')
         .send()
@@ -192,9 +181,9 @@ describe('controllers:BankaController', () => {
       });
     });
 
-    it('Should get error. (not a super_admin)', (done) => {
+    it('Should get error. (not a manager)', (done) => {
       request.put(`v1/banke/${existingBanka.id}`).set({
-        authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
+        authorization: `Bearer ${userFactory.getToken(existingUser2.id)}`,
       })
       .send({
         naziv: 'updatedIme',
@@ -269,9 +258,9 @@ describe('controllers:BankaController', () => {
       });
     });
 
-    it('Should get error. (not a super_user)', (done) => {
+    it('Should get error. (not a manager)', (done) => {
       request.delete(`v1/banke/${existingUser.id}`).set({
-        authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
+        authorization: `Bearer ${userFactory.getToken(existingUser2.id)}`,
       })
       .send()
       .expect(401)

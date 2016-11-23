@@ -46,6 +46,11 @@ module.exports = {
       via: 'poslovnica',
     },
 
+    banke: {
+      collection: 'banka',
+      via: 'poslovnica',
+    },
+
     osiguranja: {
       collection: 'osiguranje',
       via: 'poslovnice',

@@ -12,6 +12,11 @@ module.exports = {
       required: true,
     },
 
+    poslovnica: {
+      model: 'poslovnica',
+      required: true,
+    },
+
     toJSON() {
       const obj = this.toObject();
       return obj;

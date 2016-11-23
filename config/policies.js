@@ -69,10 +69,10 @@ module.exports = {
     },
 
     'v1/BankaController': {
-      create: ['isAuthenticated', 'isSuperUser'],
-      read: ['isAuthenticated', 'isSuperUser'],
-      update: ['isAuthenticated', 'isSuperUser'],
-      delete: ['isAuthenticated', 'isSuperUser'],
+      create: ['isAuthenticated', 'isManager'],
+      read: ['isAuthenticated'],
+      update: ['isAuthenticated', 'isManager'],
+      delete: ['isAuthenticated', 'isManager'],
     },
 
     'v1/CalculatorController': {

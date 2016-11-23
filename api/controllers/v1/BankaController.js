@@ -5,6 +5,7 @@ module.exports = {
   create: async (req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
+      values.poslovnica = req.user.poslovnica.id;
       const newBanka = await Banka.create(values);
       res.created({ banka: newBanka });
     } catch (err) {
@@ -16,10 +17,10 @@ module.exports = {
     try {
       let banke = null;
       if (req.params.id) {
-        banke = await Banka.findOne({ id: req.params.id });
+        banke = await Banka.findOne({ id: req.params.id, poslovnica: req.user.poslovnica.id });
         res.ok({ banka: banke });
       } else {
-        banke = await Banka.find();
+        banke = await Banka.find({ poslovnica: req.user.poslovnica.id });
         res.ok({ banke });
       }
     } catch (err) {
@@ -30,7 +31,7 @@ module.exports = {
   update: async (req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
-      const updatedBanka = await Banka.update({ id: req.params.id }, values);
+      const updatedBanka = await Banka.update({ id: req.params.id, poslovnica: req.user.poslovnica.id }, values);
       if (isEmpty(updatedBanka)) {
         return res.notFound('No banka with that ID.');
       }
@@ -42,7 +43,7 @@ module.exports = {
 
   delete: async (req, res) => {
     try {
-      const bankaForDelete = await Banka.destroy({ id: req.params.id });
+      const bankaForDelete = await Banka.destroy({ id: req.params.id, poslovnica: req.user.poslovnica.id });
       if (isEmpty(bankaForDelete)) {
         return res.notFound('No banka with that ID.');
       }
