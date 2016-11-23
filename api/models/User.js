@@ -24,6 +24,11 @@ module.exports = {
       unique: true,
     },
 
+    telefon: {
+      type: 'string',
+      required: false,
+    },
+
     rola: {
       type: 'string',
       enum: ['super_user', 'menadzer', 'korisnik'],

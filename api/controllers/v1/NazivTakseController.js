@@ -20,7 +20,7 @@ module.exports = {
         res.ok({ nazivTakse: naziviTaksa });
       } else {
         naziviTaksa = await NazivTakse.find();
-        res.ok({ naziviTaksa });
+        res.ok({ nazivTakse: naziviTaksa });
       }
     } catch (err) {
       res.badRequest(err);
