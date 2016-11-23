@@ -119,8 +119,8 @@ describe('controllers:NazivTakseController', () => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('naziviTaksa');
-          res.body.data.naziviTaksa.length.should.be.above(0);
+          res.body.data.should.have.all.keys('nazivTakse');
+          res.body.data.nazivTakse.length.should.be.above(0);
           done();
         });
     });

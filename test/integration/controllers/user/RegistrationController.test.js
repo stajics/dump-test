@@ -32,6 +32,7 @@ describe('controllers:RegistrationController', () => {
         ime: 'ime',
         poslovnica: 1,
         password: 'password',
+        telefon: '213',
         email: 'email@email.com',
       })
       .expect(201)
@@ -55,6 +56,7 @@ describe('controllers:RegistrationController', () => {
         ime: 'ime',
         poslovnica: 2,
         password: 'password',
+        telefon: '213',
         email: 'otherEmail@email.com',
       })
       .expect(401)
@@ -75,6 +77,7 @@ describe('controllers:RegistrationController', () => {
         ime: 'ime',
         poslovnica: 1,
         password: 'password',
+        telefon: '213',
         email: 'email1@email.com',
       })
       .expect(400)
@@ -93,6 +96,7 @@ describe('controllers:RegistrationController', () => {
           ime: 'ime',
           poslovnica: 1,
           password: 'password',
+          telefon: '213',
           email: 'email12@email.com',
         })
         .expect(401)
@@ -113,6 +117,7 @@ describe('controllers:RegistrationController', () => {
         ime: 'ime',
         poslovnica: 1,
         password: 'password',
+        telefon: '213',
         email: 'email12@email.com',
       })
       .expect(401)
@@ -133,6 +138,7 @@ describe('controllers:RegistrationController', () => {
         ime: 'ime',
         poslovnica: 1,
         password: 'password',
+        telefon: '213',
         email: `${existingUser.email}`,
       })
       .expect(400)
@@ -152,6 +158,7 @@ describe('controllers:RegistrationController', () => {
         ime: 'ime',
         poslovnica: 1,
         password: 'password',
+        telefon: '213',
         email: `${existingUser.email}`,
       })
       .expect(400)

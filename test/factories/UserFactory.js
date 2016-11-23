@@ -1,6 +1,6 @@
 const _ = require('lodash');
 
-const userAttributes = ['id', 'username', 'ime', 'poslovnica', 'rola', 'email', 'createdAt', 'updatedAt'];
+const userAttributes = ['id', 'username', 'ime', 'poslovnica', 'rola', 'telefon', 'email', 'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
   const randomNumber = _.random(1, 100000);
@@ -9,6 +9,7 @@ const create = (values = {}) => {
     poslovnica: values.poslovnica || randomNumber,
     ime: `ime${randomNumber}`,
     password: 'password',
+    telefon: '1254',
     email: `email${randomNumber}@email.com`,
   });
 };
@@ -20,6 +21,7 @@ const createSuperUser = (values = {}) => {
     ime: `ime${randomNumber}`,
     poslovnica: values.poslovnica || randomNumber,
     password: 'password',
+    telefon: '1254',
     rola: 'super_user',
     email: `email${randomNumber}@email.com`,
   });

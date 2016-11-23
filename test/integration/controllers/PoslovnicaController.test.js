@@ -174,6 +174,22 @@ describe('controllers:PoslovnicaController', () => {
       });
     });
 
+    it('Should list 1 poslovnica. (korisnik)', (done) => {
+      request.get('v1/poslovnice/1').set({
+        authorization: `Bearer ${userFactory.getToken(existingUser2.id)}`,
+      })
+      .send()
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.all.keys('status', 'data');
+        res.body.status.should.equal('success');
+        res.body.data.should.have.all.keys('poslovnica');
+        res.body.data.poslovnica.should.not.be.empty; // eslint-disable-line
+        done();
+      });
+    });
+
     it('Should get error. (no token)', (done) => {
       request.get('v1/poslovnice')
         .send()

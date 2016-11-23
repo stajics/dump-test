@@ -15,10 +15,6 @@ module.exports = {
       type: 'email',
     },
 
-    izuzetak: {
-      type: 'string',
-    },
-
     poslovnice: {
       collection: 'poslovnica',
       via: 'osiguranja',

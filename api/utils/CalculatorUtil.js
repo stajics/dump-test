@@ -188,6 +188,7 @@ export const constructFilterStavkeOsiguranjaQuery = (params) => {
       nosivostOd: null,
       nosivostDo: null,
       popust: null,
+      izuzetak: params.izuzetak || null,
     };
 
     const stavkeOsiguranjaQueryArray = [];

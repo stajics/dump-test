@@ -26,7 +26,6 @@ module.exports = {
 
     telefon: {
       type: 'string',
-      required: false,
     },
 
     rola: {

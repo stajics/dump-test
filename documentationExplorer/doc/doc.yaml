@@ -903,6 +903,10 @@ paths:
           name: nosivost
           description: Nosivost vozila.
           type: integer
+        - in: query
+          name: izuzetak
+          description: Nosivost vozila.
+          type: string
       responses:
         "200":
           description: Takse.
