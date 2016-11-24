@@ -16,6 +16,10 @@ module.exports = {
       required: true,
     },
 
+    vrstaVozila: {
+      type: 'string',
+    },
+
     poslovnica: {
       model: 'poslovnica',
       required: true,

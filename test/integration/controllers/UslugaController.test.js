@@ -39,6 +39,7 @@ describe('controllers:UslugaController', () => {
         poslovnica: 1,
         cena: '1245',
         opis: 'opes',
+        vrstaVozila: 'vrstaVozila',
       })
       .expect(201)
       .end((err, res) => {

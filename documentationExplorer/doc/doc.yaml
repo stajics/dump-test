@@ -1396,6 +1396,127 @@ paths:
           schema:
             $ref: "#/definitions/LicaResponse"
 
+########################################
+#######VOZILO
+  /vozila:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Vozilo
+      summary: Get all vozila.
+      description: "Requires logged in user to be super_user."
+      operationId: getVozila
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: All vozila.
+          schema:
+            $ref: "#/definitions/VoziloResponse"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Vozilo
+      summary: Add new vozilo.
+      description: "Requires logged in user to be super_user."
+      operationId: createVozilo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Vozilo object that needs to be added to the vozila.
+          required: true
+          schema:
+            $ref: "#/definitions/PostVozilaBody"
+      responses:
+        "201":
+          description: Vozilo created.
+          schema:
+            $ref: "#/definitions/VozilaResponse"
+  /vozila/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Vozilo
+      summary: Get vozilo.
+      description: "Requires logged in user to be super_user."
+      operationId: getVozilo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the vozilo
+          required: true
+          type: string
+      responses:
+        "200":
+          description: All users.
+          schema:
+            $ref: "#/definitions/VozilaResponse"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Vozilo
+      summary: Update vozilo.
+      description: "Requires logged in user to be super_user."
+      operationId: updateVozilo
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the vozilo that needs to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Attributes and values that will be updated.
+          required: true
+          schema:
+            $ref: "#/definitions/PutVozilaBody"
+      responses:
+        "200":
+          description: Vozilo updated.
+          schema:
+            $ref: "#/definitions/VozilaResponse"
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Vozilo
+      summary: Delete vozilo.
+      description: "Requires logged in user to be super_user."
+      operationId: deleteUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the vozilo that needs to be deleted.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Vozilo deleted.
+          schema:
+            $ref: "#/definitions/VozilaResponse"
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -1750,6 +1871,69 @@ definitions:
         type: string
       email:
         type: string
+      poslovnica:
+        type: integer
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
+  Vozilo:
+    type: object
+    required:
+      - id
+      - vrstaVozila
+      - registarskiBr
+      - brMotora
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      vrstaVozila:
+        type: string
+      registarskiBr:
+        type: string
+      marka:
+        type: string
+      tip:
+        type: string
+      model:
+        type: string
+      godiste:
+        type: integer
+      snagaKw:
+        type: integer
+      zapremina:
+        type: integer
+      nosivost:
+        type: integer
+      masa:
+        type: integer
+      maxMasa:
+        type: integer
+      gorivo:
+        type: string
+      boja:
+        type: string
+      bojaSasija:
+        type: string
+      brMotora:
+        type: string
+      brOsovina:
+        type: string
+      homoOznaka:
+        type: string
+      prvaReg:
+        type: string
+      mestaSedenje:
+        type: integer
+      mestaStajanje:
+        type: integer
+      istekReg:
+        type: string
+      sestomesecni:
+        type: boolean
       poslovnica:
         type: integer
       createdAt:
@@ -2238,6 +2422,114 @@ definitions:
       email:
         type: string
 
+  ###############
+  #Vozilo
+  PostVozilaBody:
+    type: object
+    required:
+      - vrstaVozila
+      - registarskiBr
+      - brMotora
+      - lice
+      - createdAt
+      - updatedAt
+    properties:
+      vrstaVozila:
+        type: string
+      lice:
+        type: integer
+      registarskiBr:
+        type: string
+      marka:
+        type: string
+      tip:
+        type: string
+      model:
+        type: string
+      godiste:
+        type: integer
+      snagaKw:
+        type: integer
+      zapremina:
+        type: integer
+      nosivost:
+        type: integer
+      masa:
+        type: integer
+      maxMasa:
+        type: integer
+      gorivo:
+        type: string
+      boja:
+        type: string
+      bojaSasija:
+        type: string
+      brMotora:
+        type: string
+      brOsovina:
+        type: string
+      homoOznaka:
+        type: string
+      prvaReg:
+        type: string
+      mestaSedenje:
+        type: integer
+      mestaStajanje:
+        type: integer
+      istekReg:
+        type: string
+      sestomesecni:
+        type: boolean
+
+  PutVozilaBody:
+    type: object
+    properties:
+            vrstaVozila:
+              type: string
+            registarskiBr:
+              type: string
+            lice:
+              type: integer
+            marka:
+              type: string
+            tip:
+              type: string
+            model:
+              type: string
+            godiste:
+              type: integer
+            snagaKw:
+              type: integer
+            zapremina:
+              type: integer
+            nosivost:
+              type: integer
+            masa:
+              type: integer
+            maxMasa:
+              type: integer
+            gorivo:
+              type: string
+            boja:
+              type: string
+            bojaSasija:
+              type: string
+            brMotora:
+              type: string
+            brOsovina:
+              type: string
+            homoOznaka:
+              type: string
+            prvaReg:
+              type: string
+            mestaSedenje:
+              type: integer
+            mestaStajanje:
+              type: integer
+            istekReg:
+              type: string
+            sestomesecni:
+              type: boolean
   ###############################################################
   ###############################################################
   #responses
@@ -2636,3 +2928,41 @@ definitions:
         properties:
           lice:
             $ref: "#/definitions/Lice"
+
+###################
+#Vozilo
+  VoziloResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - vozila
+        properties:
+          vozila:
+            type: 'array'
+            items:
+              $ref: "#/definitions/Vozilo"
+
+  VozilaResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - vozilo
+        properties:
+          vozilo:
+            $ref: "#/definitions/Vozilo"

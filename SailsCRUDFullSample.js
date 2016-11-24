@@ -47,7 +47,7 @@ module.exports = {
         res.ok({ box: boxes });
       } else {
         boxes = await Box.find();
-        res.ok({ boxes });
+        res.ok({ box: boxes });
       }
     } catch (err) {
       res.badRequest(err);

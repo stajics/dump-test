@@ -64,6 +64,11 @@ module.exports = {
       required: true,
     },
 
+    vozila: {
+      collection: 'vozilo',
+      via: 'lice',
+    },
+
     toJSON() {
       const obj = this.toObject();
       return obj;

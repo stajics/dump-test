@@ -1,8 +1,8 @@
 //***********************************************************
-//*********models/Lice.js
+//*********models/Vozilo.js
 //********************************************************
-// Lice, lice, Lica, lica
-// Add Lice to globals in eslint
+// Vozilo, vozilo, Vozila, vozila
+// Add Vozilo to globals in eslint
 module.exports = {
   schema: true,
 
@@ -22,7 +22,7 @@ module.exports = {
 };
 
 //***********************************************************
-//*********controllers/LiceController.js
+//*********controllers/VoziloController.js
 //********************************************************
 
 import { omit, isEmpty } from 'lodash';
@@ -32,8 +32,8 @@ module.exports = {
   create: async (req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
-      const newLice = await Lice.create(values);
-      res.created({ lice: newLice });
+      const newVozilo = await Vozilo.create(values);
+      res.created({ vozilo: newVozilo });
     } catch (err) {
       res.badRequest(err);
     }
@@ -41,13 +41,13 @@ module.exports = {
 
   read: async (req, res) => {
     try {
-      let lica = null;
+      let vozila = null;
       if (req.params.id) {
-        lica = await Lice.findOne({ id: req.params.id });
-        res.ok({ lice: lica });
+        vozila = await Vozilo.findOne({ id: req.params.id });
+        res.ok({ vozilo: vozila });
       } else {
-        lica = await Lice.find();
-        res.ok({ lice: lica });
+        vozila = await Vozilo.find();
+        res.ok({ vozilo: vozila });
       }
     } catch (err) {
       res.badRequest(err);
@@ -57,11 +57,11 @@ module.exports = {
   update: async (req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
-      const updatedLice = await Lice.update({ id: req.params.id }, values);
-      if (isEmpty(updatedLice)) {
-        return res.notFound('No lice with that ID.');
+      const updatedVozilo = await Vozilo.update({ id: req.params.id }, values);
+      if (isEmpty(updatedVozilo)) {
+        return res.notFound('No vozilo with that ID.');
       }
-      return res.ok({ lice: updatedLice[0] });
+      return res.ok({ vozilo: updatedVozilo[0] });
     } catch (err) {
       return res.badRequest(err);
     }
@@ -69,11 +69,11 @@ module.exports = {
 
   delete: async (req, res) => {
     try {
-      const liceForDelete = await Lice.destroy({ id: req.params.id });
-      if (isEmpty(liceForDelete)) {
-        return res.notFound('No lice with that ID.');
+      const voziloForDelete = await Vozilo.destroy({ id: req.params.id });
+      if (isEmpty(voziloForDelete)) {
+        return res.notFound('No vozilo with that ID.');
       }
-      return res.ok({ lice: liceForDelete[0] });
+      return res.ok({ vozilo: voziloForDelete[0] });
     } catch (err) {
       return res.badRequest(err);
     }
@@ -86,16 +86,16 @@ module.exports = {
 //***********************************************************
 //*********config/routes.js
 //********************************************************
-'GET /v1/lica': 'v1/LiceController.read',
-'GET /v1/lica/:id': 'v1/LiceController.read',
-'POST /v1/lica': 'v1/LiceController.create',
-'PUT /v1/lica/:id': 'v1/LiceController.update',
-'DELETE /v1/lica/:id': 'v1/LiceController.delete',
+'GET /v1/vozila': 'v1/VoziloController.read',
+'GET /v1/vozila/:id': 'v1/VoziloController.read',
+'POST /v1/vozila': 'v1/VoziloController.create',
+'PUT /v1/vozila/:id': 'v1/VoziloController.update',
+'DELETE /v1/vozila/:id': 'v1/VoziloController.delete',
 
 //***********************************************************
 //*********config/policies.js
 //********************************************************
-'v1/LiceController': {
+'v1/VoziloController': {
   create: ['isAuthenticated', 'isSuperUser'],
   read: ['isAuthenticated', 'isSuperUser'],
   update: ['isAuthenticated', 'isSuperUser'],
@@ -103,83 +103,83 @@ module.exports = {
 },
 
 //***********************************************************
-//*********test/factories/LiceFactory.js
+//*********test/factories/VoziloFactory.js
 //********************************************************
 const _ = require('lodash');
 
-const liceAttributes = ['id', 'name', 'createdAt', 'updatedAt'];
+const voziloAttributes = ['id', 'name', 'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
   const randomNumber = _.random(1, 100000);
-  return Lice.create({
+  return Vozilo.create({
     name: `name${randomNumber}`,
   });
 };
 
 module.exports = {
-  liceAttributes,
+  voziloAttributes,
   create,
 };
 
 //***********************************************************
-//*********test/integration/controllers/LiceController.test.js
+//*********test/integration/controllers/VoziloController.test.js
 //********************************************************
 //Requires userFactory and required policies to exist.
-"use strict";
-
+/* eslint import/no-extraneous-dependencies: 'off' */
 const chai = require('chai');
-const should = chai.should();
+
+const should = chai.should(); // eslint-disable-line no-unused-vars
 const url = 'http://localhost:3000/';
 const request = require('supertest')(url);
 
-//factories
+// factories
 const userFactory = require('../../factories/UserFactory');
-const liceFactory = require('../../factories/LiceFactory');
+const voziloFactory = require('../../factories/VoziloFactory');
 
-describe('controllers:LiceController', () => {
+describe('controllers:VoziloController', () => {
   let existingUser = null;
   let existingUser1 = null;
-  let existingLice = null;
-  before(done => {
+  let existingVozilo = null;
+  before((done) => {
     Promise.all([
-      userFactory.createSuperUser({poslovnica: 1}),
-      userFactory.createManager({poslovnica: 1}),
-      liceFactory.create()
-    ]).then(objects => {
+      userFactory.createSuperUser({ poslovnica: 1 }),
+      userFactory.createManager({ poslovnica: 1 }),
+      voziloFactory.create(),
+    ]).then((objects) => {
       existingUser = objects[0];
       existingUser1 = objects[1];
-      existingLice = objects[2];
+      existingVozilo = objects[2];
       done();
     })
     .catch(done);
   });
 
   describe(':create', () => {
-    it('Should create new lice.', (done) => {
-      request.post(`v1/lica`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-        })
-        .send({
-          name: 'name'
-        })
-        .expect(201)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.lice.should.have.all.keys(liceFactory.liceAttributes);
-          res.body.data.lice.name.should.equal('name');
-          done();
-        });
+    it('Should create new vozilo.', (done) => {
+      request.post('v1/vozila').set({
+        authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
+      })
+      .send({
+        name: 'name',
+      })
+      .expect(201)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.all.keys('status', 'data');
+        res.body.status.should.equal('success');
+        res.body.data.vozilo.should.have.all.keys(voziloFactory.voziloAttributes);
+        res.body.data.vozilo.name.should.equal('name');
+        done();
+      });
     });
 
     it('Should get error (missing token).', (done) => {
-      request.post(`v1/lica`)
+      request.post('v1/vozila')
         .send({
-          name: 'name'
+          name: 'name',
         })
         .expect(401)
-        .end(function(err, res) {
+        .end((err, res) => {
           if (err) throw err;
           res.body.should.have.all.keys('status', 'data');
           res.body.status.should.equal('fail');
@@ -188,103 +188,103 @@ describe('controllers:LiceController', () => {
     });
 
     it('Should get error (user is not super_user).', (done) => {
-      request.post(`v1/lica`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
-        })
-        .send({
-          name: 'name'
-        })
-        .expect(401)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('fail');
-          done();
-        });
+      request.post('v1/vozila').set({
+        authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
+      })
+      .send({
+        name: 'name',
+      })
+      .expect(401)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.all.keys('status', 'data');
+        res.body.status.should.equal('fail');
+        done();
+      });
     });
 
 
     it('Should get error (missing parameter).', (done) => {
-      request.post(`v1/lica`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-        })
-        .send({})
-        .expect(400)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('fail');
-          done();
-        });
+      request.post('v1/vozila').set({
+        authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
+      })
+      .send({})
+      .expect(400)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.all.keys('status', 'data');
+        res.body.status.should.equal('fail');
+        done();
+      });
     });
 
     it('Should get error (missing body).', (done) => {
-      request.post(`v1/lica`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-        })
-        .send()
-        .expect(400)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('fail');
-          done();
-        });
+      request.post('v1/vozila').set({
+        authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
+      })
+      .send()
+      .expect(400)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.all.keys('status', 'data');
+        res.body.status.should.equal('fail');
+        done();
+      });
     });
   });
 
   describe(':read', () => {
-    it('Should list lica.', (done) => {
-      request.get(`v1/lica`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-        })
-        .send()
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('lica');
-          res.body.data.lica.length.should.be.above(0);
-          done();
-        });
+    it('Should list vozila.', (done) => {
+      request.get('v1/vozila').set({
+        authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
+      })
+      .send()
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.all.keys('status', 'data');
+        res.body.status.should.equal('success');
+        res.body.data.should.have.all.keys('vozila');
+        res.body.data.vozila.length.should.be.above(0);
+        done();
+      });
     });
 
-    it('Should list 1 lice.', (done) => {
-      request.get(`v1/lica/${existingLice.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-        })
-        .send()
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('lice');
-          res.body.data.lice.should.have.all.keys(liceFactory.liceAttributes);
-          done();
-        });
+    it('Should list 1 vozilo.', (done) => {
+      request.get(`v1/vozila/${existingVozilo.id}`).set({
+        authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
+      })
+      .send()
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.all.keys('status', 'data');
+        res.body.status.should.equal('success');
+        res.body.data.should.have.all.keys('vozilo');
+        res.body.data.vozilo.should.have.all.keys(voziloFactory.voziloAttributes);
+        done();
+      });
     });
 
     it('Should get error. (not a super_user)', (done) => {
-      request.get(`v1/lica`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
-        })
-        .send()
-        .expect(401)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.keys('status', 'data');
-          res.body.status.should.equal('fail');
-          done();
-        });
+      request.get('v1/vozila').set({
+        authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
+      })
+      .send()
+      .expect(401)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.keys('status', 'data');
+        res.body.status.should.equal('fail');
+        done();
+      });
     });
 
     it('Should get error. (no token)', (done) => {
-      request.get(`v1/lica`)
+      request.get('v1/vozila')
         .send()
         .expect(401)
-        .end(function(err, res) {
+        .end((err, res) => {
           if (err) throw err;
           res.body.should.have.keys('status', 'data');
           res.body.status.should.equal('fail');
@@ -295,48 +295,48 @@ describe('controllers:LiceController', () => {
 
 
   describe(':update', () => {
-    it('Should update lice.', (done) => {
-      request.put(`v1/lica/${existingLice.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-        })
-        .send({
-          name: "updatedIme"
-        })
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('lice');
-          res.body.data.lice.should.have.all.keys(liceFactory.liceAttributes);
-          res.body.data.lice.name.should.equal('updatedIme');
-          done();
-        });
+    it('Should update vozilo.', (done) => {
+      request.put(`v1/vozila/${existingVozilo.id}`).set({
+        authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
+      })
+      .send({
+        name: 'updatedIme',
+      })
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.all.keys('status', 'data');
+        res.body.status.should.equal('success');
+        res.body.data.should.have.all.keys('vozilo');
+        res.body.data.vozilo.should.have.all.keys(voziloFactory.voziloAttributes);
+        res.body.data.vozilo.name.should.equal('updatedIme');
+        done();
+      });
     });
 
     it('Should get error. (not a super_admin)', (done) => {
-      request.put(`v1/lica/${existingLice.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
-        })
-        .send({
-          name: "updatedIme"
-        })
-        .expect(401)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.keys('status', 'data');
-          res.body.status.should.equal('fail');
-          done();
-        });
+      request.put(`v1/vozila/${existingVozilo.id}`).set({
+        authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
+      })
+      .send({
+        name: 'updatedIme',
+      })
+      .expect(401)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.keys('status', 'data');
+        res.body.status.should.equal('fail');
+        done();
+      });
     });
 
     it('Should get error. (no token)', (done) => {
-      request.put(`v1/lica/${existingUser1.id}`)
+      request.put(`v1/vozila/${existingUser1.id}`)
         .send({
-          name: "updatedIme"
+          name: 'updatedIme',
         })
         .expect(401)
-        .end(function(err, res) {
+        .end((err, res) => {
           if (err) throw err;
           res.body.should.have.keys('status', 'data');
           res.body.status.should.equal('fail');
@@ -347,69 +347,69 @@ describe('controllers:LiceController', () => {
 
 
   describe(':delete', () => {
-    it('Should delete lice.', (done) => {
-      request.delete(`v1/lica/${existingLice.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-        })
-        .send()
-        .expect(200)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.all.keys('status', 'data');
-          res.body.status.should.equal('success');
-          res.body.data.should.have.all.keys('lice');
-          res.body.data.lice.should.have.all.keys(liceFactory.liceAttributes);
-          done();
-        });
+    it('Should delete vozilo.', (done) => {
+      request.delete(`v1/vozila/${existingVozilo.id}`).set({
+        authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
+      })
+      .send()
+      .expect(200)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.all.keys('status', 'data');
+        res.body.status.should.equal('success');
+        res.body.data.should.have.all.keys('vozilo');
+        res.body.data.vozilo.should.have.all.keys(voziloFactory.voziloAttributes);
+        done();
+      });
     });
 
-    it('Should get error. (lice does not exist)', (done) => {
-      request.delete(`v1/lica/${existingLice.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-        })
-        .send()
-        .expect(404)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.keys('status', 'data');
-          res.body.status.should.equal('fail');
-          done();
-        });
+    it('Should get error. (vozilo does not exist)', (done) => {
+      request.delete(`v1/vozila/${existingVozilo.id}`).set({
+        authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
+      })
+      .send()
+      .expect(404)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.keys('status', 'data');
+        res.body.status.should.equal('fail');
+        done();
+      });
     });
 
-    it('Should get error. (lice does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
-      request.delete(`v1/lica/string`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser.id)}`
-        })
-        .send()
-        .expect(400)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.keys('status', 'data');
-          res.body.status.should.equal('fail');
-          done();
-        });
+    it('Should get error. (vozilo does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
+      request.delete('v1/vozila/string').set({
+        authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
+      })
+      .send()
+      .expect(400)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.keys('status', 'data');
+        res.body.status.should.equal('fail');
+        done();
+      });
     });
 
     it('Should get error. (not a super_user)', (done) => {
-      request.delete(`v1/lica/${existingUser.id}`).set({
-          'authorization': `Bearer ${userFactory.getToken(existingUser1.id)}`
-        })
-        .send()
-        .expect(401)
-        .end(function(err, res) {
-          if (err) throw err;
-          res.body.should.have.keys('status', 'data');
-          res.body.status.should.equal('fail');
-          done();
-        });
+      request.delete(`v1/vozila/${existingUser.id}`).set({
+        authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
+      })
+      .send()
+      .expect(401)
+      .end((err, res) => {
+        if (err) throw err;
+        res.body.should.have.keys('status', 'data');
+        res.body.status.should.equal('fail');
+        done();
+      });
     });
 
     it('Should get error. (no token)', (done) => {
-      request.delete(`v1/lica/${existingUser1.id}`)
+      request.delete(`v1/vozila/${existingUser1.id}`)
         .send()
         .expect(401)
-        .end(function(err, res) {
+        .end((err, res) => {
           if (err) throw err;
           res.body.should.have.keys('status', 'data');
           res.body.status.should.equal('fail');
@@ -424,33 +424,33 @@ describe('controllers:LiceController', () => {
 //#######################################################
 //paths
 ########################################
-#######LICE
-  /lica:
+#######VOZILO
+  /vozila:
     get:
       security:
         - Bearer: []
       tags:
-        - Lice
-      summary: Get all lica.
+        - Vozilo
+      summary: Get all vozila.
       description: "Requires logged in user to be super_user."
-      operationId: getLica
+      operationId: getVozila
       consumes:
         - application/json
       produces:
         - application/json
       responses:
         "200":
-          description: All lica.
+          description: All vozila.
           schema:
-            $ref: "#/definitions/LiceResponse"
+            $ref: "#/definitions/VoziloResponse"
     post:
       security:
         - Bearer: []
       tags:
-        - Lice
-      summary: Add new lice.
+        - Vozilo
+      summary: Add new vozilo.
       description: "Requires logged in user to be super_user."
-      operationId: createLice
+      operationId: createVozilo
       consumes:
         - application/json
       produces:
@@ -458,24 +458,24 @@ describe('controllers:LiceController', () => {
       parameters:
         - in: body
           name: body
-          description: Lice object that needs to be added to the lica.
+          description: Vozilo object that needs to be added to the vozila.
           required: true
           schema:
-            $ref: "#/definitions/PostLicaBody"
+            $ref: "#/definitions/PostVozilaBody"
       responses:
         "201":
-          description: Lice created.
+          description: Vozilo created.
           schema:
-            $ref: "#/definitions/LicaResponse"
-  /lica/{id}:
+            $ref: "#/definitions/VozilaResponse"
+  /vozila/{id}:
     get:
       security:
         - Bearer: []
       tags:
-        - Lice
-      summary: Get lice.
+        - Vozilo
+      summary: Get vozilo.
       description: "Requires logged in user to be super_user."
-      operationId: getLice
+      operationId: getVozilo
       consumes:
         - application/json
       produces:
@@ -483,22 +483,22 @@ describe('controllers:LiceController', () => {
       parameters:
         - in: path
           name: id
-          description: ID of the lice
+          description: ID of the vozilo
           required: true
           type: string
       responses:
         "200":
           description: All users.
           schema:
-            $ref: "#/definitions/LicaResponse"
+            $ref: "#/definitions/VozilaResponse"
     put:
       security:
         - Bearer: []
       tags:
-        - Lice
-      summary: Update lice.
+        - Vozilo
+      summary: Update vozilo.
       description: "Requires logged in user to be super_user."
-      operationId: updateLice
+      operationId: updateVozilo
       consumes:
         - application/json
       produces:
@@ -506,7 +506,7 @@ describe('controllers:LiceController', () => {
       parameters:
         - in: path
           name: id
-          description: ID of the lice that needs to be updated
+          description: ID of the vozilo that needs to be updated
           required: true
           type: string
         - in: body
@@ -514,19 +514,19 @@ describe('controllers:LiceController', () => {
           description: Attributes and values that will be updated.
           required: true
           schema:
-            $ref: "#/definitions/PutLicaBody"
+            $ref: "#/definitions/PutVozilaBody"
       responses:
         "200":
-          description: Lice updated.
+          description: Vozilo updated.
           schema:
-            $ref: "#/definitions/LicaResponse"
+            $ref: "#/definitions/VozilaResponse"
 
     delete:
       security:
         - Bearer: []
       tags:
-        - Lice
-      summary: Delete lice.
+        - Vozilo
+      summary: Delete vozilo.
       description: "Requires logged in user to be super_user."
       operationId: deleteUser
       consumes:
@@ -536,18 +536,18 @@ describe('controllers:LiceController', () => {
       parameters:
         - in: path
           name: id
-          description: ID of the lice that needs to be deleted.
+          description: ID of the vozilo that needs to be deleted.
           required: true
           type: string
       responses:
         "200":
-          description: Lice deleted.
+          description: Vozilo deleted.
           schema:
-            $ref: "#/definitions/LicaResponse"
+            $ref: "#/definitions/VozilaResponse"
 
 //#####################################################
 //definitions: models
-Lice:
+Vozilo:
   type: object
   required:
     - id
@@ -568,8 +568,8 @@ Lice:
 //definitions: params
 
 ###############
-#Lice
-PostLicaBody:
+#Vozilo
+PostVozilaBody:
   type: object
   required:
     - name
@@ -577,7 +577,7 @@ PostLicaBody:
     name:
       type: string
 
-PutLicaBody:
+PutVozilaBody:
   type: object
   properties:
     name:
@@ -586,8 +586,8 @@ PutLicaBody:
 //#############################################################
 //definitions: responses
 ###################
-#Lice
-  LiceResponse:
+#Vozilo
+  VoziloResponse:
     type: object
     required:
       - status
@@ -599,14 +599,14 @@ PutLicaBody:
       data:
         type: object
         required:
-          - lica
+          - vozila
         properties:
-          lica:
+          vozila:
             type: 'array'
             items:
-              $ref: "#/definitions/Lice"
+              $ref: "#/definitions/Vozilo"
 
-  LicaResponse:
+  VozilaResponse:
     type: object
     required:
       - status
@@ -618,7 +618,7 @@ PutLicaBody:
       data:
         type: object
         required:
-          - lice
+          - vozilo
         properties:
-          lice:
-            $ref: "#/definitions/Lice"
+          vozilo:
+            $ref: "#/definitions/Vozilo"
