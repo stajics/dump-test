@@ -75,6 +75,13 @@ module.exports = {
       delete: ['isAuthenticated', 'isManager'],
     },
 
+    'v1/LiceController': {
+      create: ['isAuthenticated'],
+      read: ['isAuthenticated'],
+      update: ['isAuthenticated'],
+      delete: ['isAuthenticated'],
+    },
+
     'v1/CalculatorController': {
       filterTakse: ['isAuthenticated'],
     },

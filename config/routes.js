@@ -81,6 +81,13 @@ module.exports = {
     'PUT /v1/banke/:id': 'v1/BankaController.update',
     'DELETE /v1/banke/:id': 'v1/BankaController.delete',
 
+    // Lice
+    'GET /v1/lica': 'v1/LiceController.read',
+    'GET /v1/lica/:id': 'v1/LiceController.read',
+    'POST /v1/lica': 'v1/LiceController.create',
+    'PUT /v1/lica/:id': 'v1/LiceController.update',
+    'DELETE /v1/lica/:id': 'v1/LiceController.delete',
+
     // Calculator
     'GET /v1/calculator/takse': 'v1/CalculatorController.filterTakse',
     'GET /v1/calculator/stavkeOsiguranja': 'v1/CalculatorController.filterStavkeOsiguranja',

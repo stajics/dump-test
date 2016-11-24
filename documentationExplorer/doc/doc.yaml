@@ -1274,6 +1274,128 @@ paths:
           description: Banka deleted.
           schema:
             $ref: "#/definitions/BankeResponse"
+########################################
+#######LICE
+  /lica:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Lice
+      summary: Get all lica.
+      description: "Requires logged in user to be super_user."
+      operationId: getLica
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: All lica.
+          schema:
+            $ref: "#/definitions/LiceResponse"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Lice
+      summary: Add new lice.
+      description: "Requires logged in user to be super_user."
+      operationId: createLice
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Lice object that needs to be added to the lica.
+          required: true
+          schema:
+            $ref: "#/definitions/PostLicaBody"
+      responses:
+        "201":
+          description: Lice created.
+          schema:
+            $ref: "#/definitions/LicaResponse"
+  /lica/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Lice
+      summary: Get lice.
+      description: "Requires logged in user to be super_user."
+      operationId: getLice
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the lice
+          required: true
+          type: string
+      responses:
+        "200":
+          description: All users.
+          schema:
+            $ref: "#/definitions/LicaResponse"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Lice
+      summary: Update lice.
+      description: "Requires logged in user to be super_user."
+      operationId: updateLice
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the lice that needs to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Attributes and values that will be updated.
+          required: true
+          schema:
+            $ref: "#/definitions/PutLicaBody"
+      responses:
+        "200":
+          description: Lice updated.
+          schema:
+            $ref: "#/definitions/LicaResponse"
+
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Lice
+      summary: Delete lice.
+      description: "Requires logged in user to be super_user."
+      operationId: deleteUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the lice that needs to be deleted.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Lice deleted.
+          schema:
+            $ref: "#/definitions/LicaResponse"
+
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -1579,6 +1701,61 @@ definitions:
       updatedAt:
         type: string
 
+  Lice:
+    type: object
+    required:
+      - id
+      - tip
+      - nazivFirme
+      - ime
+      - prezime
+      - adresa
+      - maticniBroj
+      - licnaKarta
+      - pib
+      - ziroRacun
+      - telFiksni
+      - telMobilni
+      - kontakt
+      - email
+      - poslovnica
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      tip:
+        type: string
+      nazivFirme:
+        type: string
+      ime:
+        type: string
+      prezime:
+        type: string
+      adresa:
+        type: string
+      maticniBroj:
+        type: string
+      licnaKarta:
+        type: string
+      pib:
+        type: string
+      ziroRacun:
+        type: string
+      telFiksni:
+        type: string
+      telMobilni:
+        type: string
+      kontakt:
+        type: string
+      email:
+        type: string
+      poslovnica:
+        type: integer
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
   #################################################################
   #################################################################
   #params
@@ -1975,6 +2152,92 @@ definitions:
         type: string
       provizija:
         type: number
+
+  ###############
+  #Lice
+  PostLicaBody:
+    type: object
+    required:
+      - id
+      - tip
+      - nazivFirme
+      - ime
+      - prezime
+      - adresa
+      - maticniBroj
+      - licnaKarta
+      - pib
+      - ziroRacun
+      - telFiksni
+      - telMobilni
+      - kontakt
+      - email
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      tip:
+        type: string
+      nazivFirme:
+        type: string
+      ime:
+        type: string
+      prezime:
+        type: string
+      adresa:
+        type: string
+      maticniBroj:
+        type: string
+      licnaKarta:
+        type: string
+      pib:
+        type: string
+      ziroRacun:
+        type: string
+      telFiksni:
+        type: string
+      telMobilni:
+        type: string
+      kontakt:
+        type: string
+      email:
+        type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
+  PutLicaBody:
+    type: object
+    properties:
+      tip:
+        type: string
+      nazivFirme:
+        type: string
+      ime:
+        type: string
+      prezime:
+        type: string
+      adresa:
+        type: string
+      maticniBroj:
+        type: string
+      licnaKarta:
+        type: string
+      pib:
+        type: string
+      ziroRacun:
+        type: string
+      telFiksni:
+        type: string
+      telMobilni:
+        type: string
+      kontakt:
+        type: string
+      email:
+        type: string
+
   ###############################################################
   ###############################################################
   #responses
@@ -2335,3 +2598,41 @@ definitions:
         properties:
           banka:
             $ref: "#/definitions/Banka"
+
+###################
+#Lice
+  LiceResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - lica
+        properties:
+          lica:
+            type: 'array'
+            items:
+              $ref: "#/definitions/Lice"
+
+  LicaResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - lice
+        properties:
+          lice:
+            $ref: "#/definitions/Lice"
