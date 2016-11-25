@@ -95,6 +95,13 @@ module.exports = {
     'PUT /v1/vozila/:id': 'v1/VoziloController.update',
     'DELETE /v1/vozila/:id': 'v1/VoziloController.delete',
 
+    // TipPredmeta
+    'GET /v1/tipoviPredmeta': 'v1/TipPredmetaController.read',
+    'GET /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.read',
+    'POST /v1/tipoviPredmeta': 'v1/TipPredmetaController.create',
+    'PUT /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.update',
+    'DELETE /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.delete',
+
     // Calculator
     'GET /v1/calculator/takse': 'v1/CalculatorController.filterTakse',
     'GET /v1/calculator/stavkeOsiguranja': 'v1/CalculatorController.filterStavkeOsiguranja',

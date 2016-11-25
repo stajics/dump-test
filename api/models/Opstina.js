@@ -1,8 +1,3 @@
-/**
- * User
- * @description :: Model for storing users
- */
-
 module.exports = {
   schema: true,
 

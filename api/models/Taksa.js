@@ -73,6 +73,11 @@ module.exports = {
       type: 'string',
     },
 
+    tipoviPredmeta: {
+      collection: 'tipPredmeta',
+      via: 'takse',
+    },
+
     toJSON() {
       const obj = this.toObject();
       return obj;

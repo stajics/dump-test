@@ -29,6 +29,10 @@
       "Banka": true,
       "Lice": true,
       "Vozilo": true,
+      "TipPredmeta": true,
+      "Taksa": true,
+      "Taksa": true,
+      "Taksa": true,
       "Taksa": true,
       "Taksa": true
     }

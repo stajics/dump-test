@@ -1,8 +1,8 @@
 //***********************************************************
-//*********models/Vozilo.js
+//*********models/TipPredmeta.js
 //********************************************************
-// Vozilo, vozilo, Vozila, vozila
-// Add Vozilo to globals in eslint
+// TipPredmeta, tipPredmeta, TipoviPredmeta, tipoviPredmeta
+// Add TipPredmeta to globals in eslint
 module.exports = {
   schema: true,
 
@@ -22,7 +22,7 @@ module.exports = {
 };
 
 //***********************************************************
-//*********controllers/VoziloController.js
+//*********controllers/TipPredmetaController.js
 //********************************************************
 
 import { omit, isEmpty } from 'lodash';
@@ -32,8 +32,8 @@ module.exports = {
   create: async (req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
-      const newVozilo = await Vozilo.create(values);
-      res.created({ vozilo: newVozilo });
+      const newTipPredmeta = await TipPredmeta.create(values);
+      res.created({ tipPredmeta: newTipPredmeta });
     } catch (err) {
       res.badRequest(err);
     }
@@ -41,13 +41,13 @@ module.exports = {
 
   read: async (req, res) => {
     try {
-      let vozila = null;
+      let tipoviPredmeta = null;
       if (req.params.id) {
-        vozila = await Vozilo.findOne({ id: req.params.id });
-        res.ok({ vozilo: vozila });
+        tipoviPredmeta = await TipPredmeta.findOne({ id: req.params.id });
+        res.ok({ tipPredmeta: tipoviPredmeta });
       } else {
-        vozila = await Vozilo.find();
-        res.ok({ vozilo: vozila });
+        tipoviPredmeta = await TipPredmeta.find();
+        res.ok({ tipPredmeta: tipoviPredmeta });
       }
     } catch (err) {
       res.badRequest(err);
@@ -57,11 +57,11 @@ module.exports = {
   update: async (req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
-      const updatedVozilo = await Vozilo.update({ id: req.params.id }, values);
-      if (isEmpty(updatedVozilo)) {
-        return res.notFound('No vozilo with that ID.');
+      const updatedTipPredmeta = await TipPredmeta.update({ id: req.params.id }, values);
+      if (isEmpty(updatedTipPredmeta)) {
+        return res.notFound('No tipPredmeta with that ID.');
       }
-      return res.ok({ vozilo: updatedVozilo[0] });
+      return res.ok({ tipPredmeta: updatedTipPredmeta[0] });
     } catch (err) {
       return res.badRequest(err);
     }
@@ -69,11 +69,11 @@ module.exports = {
 
   delete: async (req, res) => {
     try {
-      const voziloForDelete = await Vozilo.destroy({ id: req.params.id });
-      if (isEmpty(voziloForDelete)) {
-        return res.notFound('No vozilo with that ID.');
+      const tipPredmetaForDelete = await TipPredmeta.destroy({ id: req.params.id });
+      if (isEmpty(tipPredmetaForDelete)) {
+        return res.notFound('No tipPredmeta with that ID.');
       }
-      return res.ok({ vozilo: voziloForDelete[0] });
+      return res.ok({ tipPredmeta: tipPredmetaForDelete[0] });
     } catch (err) {
       return res.badRequest(err);
     }
@@ -86,16 +86,16 @@ module.exports = {
 //***********************************************************
 //*********config/routes.js
 //********************************************************
-'GET /v1/vozila': 'v1/VoziloController.read',
-'GET /v1/vozila/:id': 'v1/VoziloController.read',
-'POST /v1/vozila': 'v1/VoziloController.create',
-'PUT /v1/vozila/:id': 'v1/VoziloController.update',
-'DELETE /v1/vozila/:id': 'v1/VoziloController.delete',
+'GET /v1/tipoviPredmeta': 'v1/TipPredmetaController.read',
+'GET /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.read',
+'POST /v1/tipoviPredmeta': 'v1/TipPredmetaController.create',
+'PUT /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.update',
+'DELETE /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.delete',
 
 //***********************************************************
 //*********config/policies.js
 //********************************************************
-'v1/VoziloController': {
+'v1/TipPredmetaController': {
   create: ['isAuthenticated', 'isSuperUser'],
   read: ['isAuthenticated', 'isSuperUser'],
   update: ['isAuthenticated', 'isSuperUser'],
@@ -103,26 +103,26 @@ module.exports = {
 },
 
 //***********************************************************
-//*********test/factories/VoziloFactory.js
+//*********test/factories/TipPredmetaFactory.js
 //********************************************************
 const _ = require('lodash');
 
-const voziloAttributes = ['id', 'name', 'createdAt', 'updatedAt'];
+const tipPredmetaAttributes = ['id', 'name', 'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
   const randomNumber = _.random(1, 100000);
-  return Vozilo.create({
+  return TipPredmeta.create({
     name: `name${randomNumber}`,
   });
 };
 
 module.exports = {
-  voziloAttributes,
+  tipPredmetaAttributes,
   create,
 };
 
 //***********************************************************
-//*********test/integration/controllers/VoziloController.test.js
+//*********test/integration/controllers/TipPredmetaController.test.js
 //********************************************************
 //Requires userFactory and required policies to exist.
 /* eslint import/no-extraneous-dependencies: 'off' */
@@ -134,29 +134,29 @@ const request = require('supertest')(url);
 
 // factories
 const userFactory = require('../../factories/UserFactory');
-const voziloFactory = require('../../factories/VoziloFactory');
+const tipPredmetaFactory = require('../../factories/TipPredmetaFactory');
 
-describe('controllers:VoziloController', () => {
+describe('controllers:TipPredmetaController', () => {
   let existingUser = null;
   let existingUser1 = null;
-  let existingVozilo = null;
+  let existingTipPredmeta = null;
   before((done) => {
     Promise.all([
       userFactory.createSuperUser({ poslovnica: 1 }),
       userFactory.createManager({ poslovnica: 1 }),
-      voziloFactory.create(),
+      tipPredmetaFactory.create(),
     ]).then((objects) => {
       existingUser = objects[0];
       existingUser1 = objects[1];
-      existingVozilo = objects[2];
+      existingTipPredmeta = objects[2];
       done();
     })
     .catch(done);
   });
 
   describe(':create', () => {
-    it('Should create new vozilo.', (done) => {
-      request.post('v1/vozila').set({
+    it('Should create new tipPredmeta.', (done) => {
+      request.post('v1/tipoviPredmeta').set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send({
@@ -167,14 +167,14 @@ describe('controllers:VoziloController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.vozilo.should.have.all.keys(voziloFactory.voziloAttributes);
-        res.body.data.vozilo.name.should.equal('name');
+        res.body.data.tipPredmeta.should.have.all.keys(tipPredmetaFactory.tipPredmetaAttributes);
+        res.body.data.tipPredmeta.name.should.equal('name');
         done();
       });
     });
 
     it('Should get error (missing token).', (done) => {
-      request.post('v1/vozila')
+      request.post('v1/tipoviPredmeta')
         .send({
           name: 'name',
         })
@@ -188,7 +188,7 @@ describe('controllers:VoziloController', () => {
     });
 
     it('Should get error (user is not super_user).', (done) => {
-      request.post('v1/vozila').set({
+      request.post('v1/tipoviPredmeta').set({
         authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
       })
       .send({
@@ -205,7 +205,7 @@ describe('controllers:VoziloController', () => {
 
 
     it('Should get error (missing parameter).', (done) => {
-      request.post('v1/vozila').set({
+      request.post('v1/tipoviPredmeta').set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send({})
@@ -219,7 +219,7 @@ describe('controllers:VoziloController', () => {
     });
 
     it('Should get error (missing body).', (done) => {
-      request.post('v1/vozila').set({
+      request.post('v1/tipoviPredmeta').set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -234,8 +234,8 @@ describe('controllers:VoziloController', () => {
   });
 
   describe(':read', () => {
-    it('Should list vozila.', (done) => {
-      request.get('v1/vozila').set({
+    it('Should list tipoviPredmeta.', (done) => {
+      request.get('v1/tipoviPredmeta').set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -244,14 +244,14 @@ describe('controllers:VoziloController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.should.have.all.keys('vozila');
-        res.body.data.vozila.length.should.be.above(0);
+        res.body.data.should.have.all.keys('tipoviPredmeta');
+        res.body.data.tipoviPredmeta.length.should.be.above(0);
         done();
       });
     });
 
-    it('Should list 1 vozilo.', (done) => {
-      request.get(`v1/vozila/${existingVozilo.id}`).set({
+    it('Should list 1 tipPredmeta.', (done) => {
+      request.get(`v1/tipoviPredmeta/${existingTipPredmeta.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -260,14 +260,14 @@ describe('controllers:VoziloController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.should.have.all.keys('vozilo');
-        res.body.data.vozilo.should.have.all.keys(voziloFactory.voziloAttributes);
+        res.body.data.should.have.all.keys('tipPredmeta');
+        res.body.data.tipPredmeta.should.have.all.keys(tipPredmetaFactory.tipPredmetaAttributes);
         done();
       });
     });
 
     it('Should get error. (not a super_user)', (done) => {
-      request.get('v1/vozila').set({
+      request.get('v1/tipoviPredmeta').set({
         authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
       })
       .send()
@@ -281,7 +281,7 @@ describe('controllers:VoziloController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.get('v1/vozila')
+      request.get('v1/tipoviPredmeta')
         .send()
         .expect(401)
         .end((err, res) => {
@@ -295,8 +295,8 @@ describe('controllers:VoziloController', () => {
 
 
   describe(':update', () => {
-    it('Should update vozilo.', (done) => {
-      request.put(`v1/vozila/${existingVozilo.id}`).set({
+    it('Should update tipPredmeta.', (done) => {
+      request.put(`v1/tipoviPredmeta/${existingTipPredmeta.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send({
@@ -307,15 +307,15 @@ describe('controllers:VoziloController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.should.have.all.keys('vozilo');
-        res.body.data.vozilo.should.have.all.keys(voziloFactory.voziloAttributes);
-        res.body.data.vozilo.name.should.equal('updatedIme');
+        res.body.data.should.have.all.keys('tipPredmeta');
+        res.body.data.tipPredmeta.should.have.all.keys(tipPredmetaFactory.tipPredmetaAttributes);
+        res.body.data.tipPredmeta.name.should.equal('updatedIme');
         done();
       });
     });
 
     it('Should get error. (not a super_admin)', (done) => {
-      request.put(`v1/vozila/${existingVozilo.id}`).set({
+      request.put(`v1/tipoviPredmeta/${existingTipPredmeta.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
       })
       .send({
@@ -331,7 +331,7 @@ describe('controllers:VoziloController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.put(`v1/vozila/${existingUser1.id}`)
+      request.put(`v1/tipoviPredmeta/${existingUser1.id}`)
         .send({
           name: 'updatedIme',
         })
@@ -347,8 +347,8 @@ describe('controllers:VoziloController', () => {
 
 
   describe(':delete', () => {
-    it('Should delete vozilo.', (done) => {
-      request.delete(`v1/vozila/${existingVozilo.id}`).set({
+    it('Should delete tipPredmeta.', (done) => {
+      request.delete(`v1/tipoviPredmeta/${existingTipPredmeta.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -357,14 +357,14 @@ describe('controllers:VoziloController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.should.have.all.keys('vozilo');
-        res.body.data.vozilo.should.have.all.keys(voziloFactory.voziloAttributes);
+        res.body.data.should.have.all.keys('tipPredmeta');
+        res.body.data.tipPredmeta.should.have.all.keys(tipPredmetaFactory.tipPredmetaAttributes);
         done();
       });
     });
 
-    it('Should get error. (vozilo does not exist)', (done) => {
-      request.delete(`v1/vozila/${existingVozilo.id}`).set({
+    it('Should get error. (tipPredmeta does not exist)', (done) => {
+      request.delete(`v1/tipoviPredmeta/${existingTipPredmeta.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -377,8 +377,8 @@ describe('controllers:VoziloController', () => {
       });
     });
 
-    it('Should get error. (vozilo does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
-      request.delete('v1/vozila/string').set({
+    it('Should get error. (tipPredmeta does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
+      request.delete('v1/tipoviPredmeta/string').set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -392,7 +392,7 @@ describe('controllers:VoziloController', () => {
     });
 
     it('Should get error. (not a super_user)', (done) => {
-      request.delete(`v1/vozila/${existingUser.id}`).set({
+      request.delete(`v1/tipoviPredmeta/${existingUser.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
       })
       .send()
@@ -406,7 +406,7 @@ describe('controllers:VoziloController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.delete(`v1/vozila/${existingUser1.id}`)
+      request.delete(`v1/tipoviPredmeta/${existingUser1.id}`)
         .send()
         .expect(401)
         .end((err, res) => {
@@ -424,33 +424,33 @@ describe('controllers:VoziloController', () => {
 //#######################################################
 //paths
 ########################################
-#######VOZILO
-  /vozila:
+#######TIP PREDMETA
+  /tipoviPredmeta:
     get:
       security:
         - Bearer: []
       tags:
-        - Vozilo
-      summary: Get all vozila.
+        - TipPredmeta
+      summary: Get all tipoviPredmeta.
       description: "Requires logged in user to be super_user."
-      operationId: getVozila
+      operationId: getTipoviPredmeta
       consumes:
         - application/json
       produces:
         - application/json
       responses:
         "200":
-          description: All vozila.
+          description: All tipoviPredmeta.
           schema:
-            $ref: "#/definitions/VoziloResponse"
+            $ref: "#/definitions/TipPredmetaResponse"
     post:
       security:
         - Bearer: []
       tags:
-        - Vozilo
-      summary: Add new vozilo.
+        - TipPredmeta
+      summary: Add new tipPredmeta.
       description: "Requires logged in user to be super_user."
-      operationId: createVozilo
+      operationId: createTipPredmeta
       consumes:
         - application/json
       produces:
@@ -458,24 +458,24 @@ describe('controllers:VoziloController', () => {
       parameters:
         - in: body
           name: body
-          description: Vozilo object that needs to be added to the vozila.
+          description: TipPredmeta object that needs to be added to the tipoviPredmeta.
           required: true
           schema:
-            $ref: "#/definitions/PostVozilaBody"
+            $ref: "#/definitions/PostTipoviPredmetaBody"
       responses:
         "201":
-          description: Vozilo created.
+          description: TipPredmeta created.
           schema:
-            $ref: "#/definitions/VozilaResponse"
-  /vozila/{id}:
+            $ref: "#/definitions/TipoviPredmetaResponse"
+  /tipoviPredmeta/{id}:
     get:
       security:
         - Bearer: []
       tags:
-        - Vozilo
-      summary: Get vozilo.
+        - TipPredmeta
+      summary: Get tipPredmeta.
       description: "Requires logged in user to be super_user."
-      operationId: getVozilo
+      operationId: getTipPredmeta
       consumes:
         - application/json
       produces:
@@ -483,22 +483,22 @@ describe('controllers:VoziloController', () => {
       parameters:
         - in: path
           name: id
-          description: ID of the vozilo
+          description: ID of the tipPredmeta
           required: true
           type: string
       responses:
         "200":
           description: All users.
           schema:
-            $ref: "#/definitions/VozilaResponse"
+            $ref: "#/definitions/TipoviPredmetaResponse"
     put:
       security:
         - Bearer: []
       tags:
-        - Vozilo
-      summary: Update vozilo.
+        - TipPredmeta
+      summary: Update tipPredmeta.
       description: "Requires logged in user to be super_user."
-      operationId: updateVozilo
+      operationId: updateTipPredmeta
       consumes:
         - application/json
       produces:
@@ -506,7 +506,7 @@ describe('controllers:VoziloController', () => {
       parameters:
         - in: path
           name: id
-          description: ID of the vozilo that needs to be updated
+          description: ID of the tipPredmeta that needs to be updated
           required: true
           type: string
         - in: body
@@ -514,19 +514,19 @@ describe('controllers:VoziloController', () => {
           description: Attributes and values that will be updated.
           required: true
           schema:
-            $ref: "#/definitions/PutVozilaBody"
+            $ref: "#/definitions/PutTipoviPredmetaBody"
       responses:
         "200":
-          description: Vozilo updated.
+          description: TipPredmeta updated.
           schema:
-            $ref: "#/definitions/VozilaResponse"
+            $ref: "#/definitions/TipoviPredmetaResponse"
 
     delete:
       security:
         - Bearer: []
       tags:
-        - Vozilo
-      summary: Delete vozilo.
+        - TipPredmeta
+      summary: Delete tipPredmeta.
       description: "Requires logged in user to be super_user."
       operationId: deleteUser
       consumes:
@@ -536,18 +536,18 @@ describe('controllers:VoziloController', () => {
       parameters:
         - in: path
           name: id
-          description: ID of the vozilo that needs to be deleted.
+          description: ID of the tipPredmeta that needs to be deleted.
           required: true
           type: string
       responses:
         "200":
-          description: Vozilo deleted.
+          description: TipPredmeta deleted.
           schema:
-            $ref: "#/definitions/VozilaResponse"
+            $ref: "#/definitions/TipoviPredmetaResponse"
 
 //#####################################################
 //definitions: models
-Vozilo:
+TipPredmeta:
   type: object
   required:
     - id
@@ -568,8 +568,8 @@ Vozilo:
 //definitions: params
 
 ###############
-#Vozilo
-PostVozilaBody:
+#TipPredmeta
+PostTipoviPredmetaBody:
   type: object
   required:
     - name
@@ -577,7 +577,7 @@ PostVozilaBody:
     name:
       type: string
 
-PutVozilaBody:
+PutTipoviPredmetaBody:
   type: object
   properties:
     name:
@@ -586,8 +586,8 @@ PutVozilaBody:
 //#############################################################
 //definitions: responses
 ###################
-#Vozilo
-  VoziloResponse:
+#TipPredmeta
+  TipPredmetaResponse:
     type: object
     required:
       - status
@@ -599,14 +599,14 @@ PutVozilaBody:
       data:
         type: object
         required:
-          - vozila
+          - tipoviPredmeta
         properties:
-          vozila:
+          tipoviPredmeta:
             type: 'array'
             items:
-              $ref: "#/definitions/Vozilo"
+              $ref: "#/definitions/TipPredmeta"
 
-  VozilaResponse:
+  TipoviPredmetaResponse:
     type: object
     required:
       - status
@@ -618,7 +618,7 @@ PutVozilaBody:
       data:
         type: object
         required:
-          - vozilo
+          - tipPredmeta
         properties:
-          vozilo:
-            $ref: "#/definitions/Vozilo"
+          tipPredmeta:
+            $ref: "#/definitions/TipPredmeta"

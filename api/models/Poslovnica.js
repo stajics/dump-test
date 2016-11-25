@@ -46,6 +46,11 @@ module.exports = {
       via: 'poslovnica',
     },
 
+    tipoviPredmeta: {
+      collection: 'tipPredmeta',
+      via: 'poslovnica',
+    },
+
     banke: {
       collection: 'banka',
       via: 'poslovnica',

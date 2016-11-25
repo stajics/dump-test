@@ -89,6 +89,13 @@ module.exports = {
       delete: ['isAuthenticated', 'isSuperUser'],
     },
 
+    'v1/TipPredmetaController': {
+      create: ['isAuthenticated', 'isManager'],
+      read: ['isAuthenticated'],
+      update: ['isAuthenticated', 'isManager'],
+      delete: ['isAuthenticated', 'isManager'],
+    },
+
     'v1/CalculatorController': {
       filterTakse: ['isAuthenticated'],
     },

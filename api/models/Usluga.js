@@ -25,6 +25,11 @@ module.exports = {
       required: true,
     },
 
+    tipoviPredmeta: {
+      collection: 'tipPredmeta',
+      via: 'usluge',
+    },
+
     toJSON() {
       const obj = this.toObject();
       return obj;
