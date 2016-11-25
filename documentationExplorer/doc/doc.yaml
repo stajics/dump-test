@@ -1638,7 +1638,127 @@ paths:
           description: TipPredmeta deleted.
           schema:
             $ref: "#/definitions/TipoviPredmetaResponse"
+########################################
+#######PREDMET
+  /predmeti:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Predmet
+      summary: Get all predmeti.
+      description: "Requires logged in user to be super_user."
+      operationId: getPredmeti
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: All predmeti.
+          schema:
+            $ref: "#/definitions/PredmetResponse"
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Predmet
+      summary: Add new predmet.
+      description: "Requires logged in user to be super_user."
+      operationId: createPredmet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Predmet object that needs to be added to the predmeti.
+          required: true
+          schema:
+            $ref: "#/definitions/PostPredmetiBody"
+      responses:
+        "201":
+          description: Predmet created.
+          schema:
+            $ref: "#/definitions/PredmetiResponse"
+  /predmeti/{id}:
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Predmet
+      summary: Get predmet.
+      description: "Requires logged in user to be super_user."
+      operationId: getPredmet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the predmet
+          required: true
+          type: string
+      responses:
+        "200":
+          description: All users.
+          schema:
+            $ref: "#/definitions/PredmetiResponse"
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Predmet
+      summary: Update predmet.
+      description: "Requires logged in user to be super_user."
+      operationId: updatePredmet
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the predmet that needs to be updated
+          required: true
+          type: string
+        - in: body
+          name: body
+          description: Attributes and values that will be updated.
+          required: true
+          schema:
+            $ref: "#/definitions/PutPredmetiBody"
+      responses:
+        "200":
+          description: Predmet updated.
+          schema:
+            $ref: "#/definitions/PredmetiResponse"
 
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Predmet
+      summary: Delete predmet.
+      description: "Requires logged in user to be super_user."
+      operationId: deleteUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          description: ID of the predmet that needs to be deleted.
+          required: true
+          type: string
+      responses:
+        "200":
+          description: Predmet deleted.
+          schema:
+            $ref: "#/definitions/PredmetiResponse"
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -2085,6 +2205,23 @@ definitions:
         type: array
         items:
           type: integer
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
+  Predmet:
+    type: object
+    required:
+      - id
+      - name
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: string
+      name:
+        type: string
       createdAt:
         type: string
       updatedAt:
@@ -2704,6 +2841,43 @@ definitions:
         type: array
         items:
           type: integer
+
+  ###############
+  #Predmet
+  PostPredmetiBody:
+    type: object
+    required:
+      - name
+    properties:
+      cena:
+        type: number
+      placeno:
+        type: number
+      provizija:
+        type: number
+      tipPredmeta:
+        type: integer
+      takse:
+        type: array
+        items:
+          type: integer
+
+  PutPredmetiBody:
+    type: object
+    properties:
+      cena:
+        type: number
+      placeno:
+        type: number
+      provizija:
+        type: number
+      tipPredmeta:
+        type: integer
+      takse:
+        type: array
+        items:
+          type: integer
+
   ###############################################################
   ###############################################################
   #responses
@@ -3178,3 +3352,41 @@ definitions:
         properties:
           tipPredmeta:
             $ref: "#/definitions/TipPredmeta"
+
+###################
+#Predmet
+  PredmetResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - predmeti
+        properties:
+          predmeti:
+            type: 'array'
+            items:
+              $ref: "#/definitions/Predmet"
+
+  PredmetiResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - predmet
+        properties:
+          predmet:
+            $ref: "#/definitions/Predmet"

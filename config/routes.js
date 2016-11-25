@@ -102,6 +102,13 @@ module.exports = {
     'PUT /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.update',
     'DELETE /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.delete',
 
+    // Predmet
+    'GET /v1/predmeti': 'v1/PredmetController.read',
+    'GET /v1/predmeti/:id': 'v1/PredmetController.read',
+    'POST /v1/predmeti': 'v1/PredmetController.create',
+    // 'PUT /v1/predmeti/:id': 'v1/PredmetController.update',
+    // 'DELETE /v1/predmeti/:id': 'v1/PredmetController.delete',
+
     // Calculator
     'GET /v1/calculator/takse': 'v1/CalculatorController.filterTakse',
     'GET /v1/calculator/stavkeOsiguranja': 'v1/CalculatorController.filterStavkeOsiguranja',

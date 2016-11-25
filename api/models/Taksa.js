@@ -78,6 +78,12 @@ module.exports = {
       via: 'takse',
     },
 
+    predmeti: {
+      collection: 'predmet',
+      via: 'taksa',
+      through: 'predmettaksa',
+    },
+
     toJSON() {
       const obj = this.toObject();
       return obj;

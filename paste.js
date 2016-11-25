@@ -1,8 +1,8 @@
 //***********************************************************
-//*********models/TipPredmeta.js
+//*********models/Predmet.js
 //********************************************************
-// TipPredmeta, tipPredmeta, TipoviPredmeta, tipoviPredmeta
-// Add TipPredmeta to globals in eslint
+// Predmet, predmet, Predmeti, predmeti
+// Add Predmet to globals in eslint
 module.exports = {
   schema: true,
 
@@ -22,7 +22,7 @@ module.exports = {
 };
 
 //***********************************************************
-//*********controllers/TipPredmetaController.js
+//*********controllers/PredmetController.js
 //********************************************************
 
 import { omit, isEmpty } from 'lodash';
@@ -32,8 +32,8 @@ module.exports = {
   create: async (req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
-      const newTipPredmeta = await TipPredmeta.create(values);
-      res.created({ tipPredmeta: newTipPredmeta });
+      const newPredmet = await Predmet.create(values);
+      res.created({ predmet: newPredmet });
     } catch (err) {
       res.badRequest(err);
     }
@@ -41,13 +41,13 @@ module.exports = {
 
   read: async (req, res) => {
     try {
-      let tipoviPredmeta = null;
+      let predmeti = null;
       if (req.params.id) {
-        tipoviPredmeta = await TipPredmeta.findOne({ id: req.params.id });
-        res.ok({ tipPredmeta: tipoviPredmeta });
+        predmeti = await Predmet.findOne({ id: req.params.id });
+        res.ok({ predmet: predmeti });
       } else {
-        tipoviPredmeta = await TipPredmeta.find();
-        res.ok({ tipPredmeta: tipoviPredmeta });
+        predmeti = await Predmet.find();
+        res.ok({ predmet: predmeti });
       }
     } catch (err) {
       res.badRequest(err);
@@ -57,11 +57,11 @@ module.exports = {
   update: async (req, res) => {
     try {
       const values = omit(req.allParams(), ['id']);
-      const updatedTipPredmeta = await TipPredmeta.update({ id: req.params.id }, values);
-      if (isEmpty(updatedTipPredmeta)) {
-        return res.notFound('No tipPredmeta with that ID.');
+      const updatedPredmet = await Predmet.update({ id: req.params.id }, values);
+      if (isEmpty(updatedPredmet)) {
+        return res.notFound('No predmet with that ID.');
       }
-      return res.ok({ tipPredmeta: updatedTipPredmeta[0] });
+      return res.ok({ predmet: updatedPredmet[0] });
     } catch (err) {
       return res.badRequest(err);
     }
@@ -69,11 +69,11 @@ module.exports = {
 
   delete: async (req, res) => {
     try {
-      const tipPredmetaForDelete = await TipPredmeta.destroy({ id: req.params.id });
-      if (isEmpty(tipPredmetaForDelete)) {
-        return res.notFound('No tipPredmeta with that ID.');
+      const predmetForDelete = await Predmet.destroy({ id: req.params.id });
+      if (isEmpty(predmetForDelete)) {
+        return res.notFound('No predmet with that ID.');
       }
-      return res.ok({ tipPredmeta: tipPredmetaForDelete[0] });
+      return res.ok({ predmet: predmetForDelete[0] });
     } catch (err) {
       return res.badRequest(err);
     }
@@ -86,16 +86,16 @@ module.exports = {
 //***********************************************************
 //*********config/routes.js
 //********************************************************
-'GET /v1/tipoviPredmeta': 'v1/TipPredmetaController.read',
-'GET /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.read',
-'POST /v1/tipoviPredmeta': 'v1/TipPredmetaController.create',
-'PUT /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.update',
-'DELETE /v1/tipoviPredmeta/:id': 'v1/TipPredmetaController.delete',
+'GET /v1/predmeti': 'v1/PredmetController.read',
+'GET /v1/predmeti/:id': 'v1/PredmetController.read',
+'POST /v1/predmeti': 'v1/PredmetController.create',
+'PUT /v1/predmeti/:id': 'v1/PredmetController.update',
+'DELETE /v1/predmeti/:id': 'v1/PredmetController.delete',
 
 //***********************************************************
 //*********config/policies.js
 //********************************************************
-'v1/TipPredmetaController': {
+'v1/PredmetController': {
   create: ['isAuthenticated', 'isSuperUser'],
   read: ['isAuthenticated', 'isSuperUser'],
   update: ['isAuthenticated', 'isSuperUser'],
@@ -103,26 +103,26 @@ module.exports = {
 },
 
 //***********************************************************
-//*********test/factories/TipPredmetaFactory.js
+//*********test/factories/PredmetFactory.js
 //********************************************************
 const _ = require('lodash');
 
-const tipPredmetaAttributes = ['id', 'name', 'createdAt', 'updatedAt'];
+const predmetAttributes = ['id', 'name', 'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
   const randomNumber = _.random(1, 100000);
-  return TipPredmeta.create({
+  return Predmet.create({
     name: `name${randomNumber}`,
   });
 };
 
 module.exports = {
-  tipPredmetaAttributes,
+  predmetAttributes,
   create,
 };
 
 //***********************************************************
-//*********test/integration/controllers/TipPredmetaController.test.js
+//*********test/integration/controllers/PredmetController.test.js
 //********************************************************
 //Requires userFactory and required policies to exist.
 /* eslint import/no-extraneous-dependencies: 'off' */
@@ -134,29 +134,29 @@ const request = require('supertest')(url);
 
 // factories
 const userFactory = require('../../factories/UserFactory');
-const tipPredmetaFactory = require('../../factories/TipPredmetaFactory');
+const predmetFactory = require('../../factories/PredmetFactory');
 
-describe('controllers:TipPredmetaController', () => {
+describe('controllers:PredmetController', () => {
   let existingUser = null;
   let existingUser1 = null;
-  let existingTipPredmeta = null;
+  let existingPredmet = null;
   before((done) => {
     Promise.all([
       userFactory.createSuperUser({ poslovnica: 1 }),
       userFactory.createManager({ poslovnica: 1 }),
-      tipPredmetaFactory.create(),
+      predmetFactory.create(),
     ]).then((objects) => {
       existingUser = objects[0];
       existingUser1 = objects[1];
-      existingTipPredmeta = objects[2];
+      existingPredmet = objects[2];
       done();
     })
     .catch(done);
   });
 
   describe(':create', () => {
-    it('Should create new tipPredmeta.', (done) => {
-      request.post('v1/tipoviPredmeta').set({
+    it('Should create new predmet.', (done) => {
+      request.post('v1/predmeti').set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send({
@@ -167,14 +167,14 @@ describe('controllers:TipPredmetaController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.tipPredmeta.should.have.all.keys(tipPredmetaFactory.tipPredmetaAttributes);
-        res.body.data.tipPredmeta.name.should.equal('name');
+        res.body.data.predmet.should.have.all.keys(predmetFactory.predmetAttributes);
+        res.body.data.predmet.name.should.equal('name');
         done();
       });
     });
 
     it('Should get error (missing token).', (done) => {
-      request.post('v1/tipoviPredmeta')
+      request.post('v1/predmeti')
         .send({
           name: 'name',
         })
@@ -188,7 +188,7 @@ describe('controllers:TipPredmetaController', () => {
     });
 
     it('Should get error (user is not super_user).', (done) => {
-      request.post('v1/tipoviPredmeta').set({
+      request.post('v1/predmeti').set({
         authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
       })
       .send({
@@ -205,7 +205,7 @@ describe('controllers:TipPredmetaController', () => {
 
 
     it('Should get error (missing parameter).', (done) => {
-      request.post('v1/tipoviPredmeta').set({
+      request.post('v1/predmeti').set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send({})
@@ -219,7 +219,7 @@ describe('controllers:TipPredmetaController', () => {
     });
 
     it('Should get error (missing body).', (done) => {
-      request.post('v1/tipoviPredmeta').set({
+      request.post('v1/predmeti').set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -234,8 +234,8 @@ describe('controllers:TipPredmetaController', () => {
   });
 
   describe(':read', () => {
-    it('Should list tipoviPredmeta.', (done) => {
-      request.get('v1/tipoviPredmeta').set({
+    it('Should list predmeti.', (done) => {
+      request.get('v1/predmeti').set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -244,14 +244,14 @@ describe('controllers:TipPredmetaController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.should.have.all.keys('tipoviPredmeta');
-        res.body.data.tipoviPredmeta.length.should.be.above(0);
+        res.body.data.should.have.all.keys('predmeti');
+        res.body.data.predmeti.length.should.be.above(0);
         done();
       });
     });
 
-    it('Should list 1 tipPredmeta.', (done) => {
-      request.get(`v1/tipoviPredmeta/${existingTipPredmeta.id}`).set({
+    it('Should list 1 predmet.', (done) => {
+      request.get(`v1/predmeti/${existingPredmet.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -260,14 +260,14 @@ describe('controllers:TipPredmetaController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.should.have.all.keys('tipPredmeta');
-        res.body.data.tipPredmeta.should.have.all.keys(tipPredmetaFactory.tipPredmetaAttributes);
+        res.body.data.should.have.all.keys('predmet');
+        res.body.data.predmet.should.have.all.keys(predmetFactory.predmetAttributes);
         done();
       });
     });
 
     it('Should get error. (not a super_user)', (done) => {
-      request.get('v1/tipoviPredmeta').set({
+      request.get('v1/predmeti').set({
         authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
       })
       .send()
@@ -281,7 +281,7 @@ describe('controllers:TipPredmetaController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.get('v1/tipoviPredmeta')
+      request.get('v1/predmeti')
         .send()
         .expect(401)
         .end((err, res) => {
@@ -295,8 +295,8 @@ describe('controllers:TipPredmetaController', () => {
 
 
   describe(':update', () => {
-    it('Should update tipPredmeta.', (done) => {
-      request.put(`v1/tipoviPredmeta/${existingTipPredmeta.id}`).set({
+    it('Should update predmet.', (done) => {
+      request.put(`v1/predmeti/${existingPredmet.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send({
@@ -307,15 +307,15 @@ describe('controllers:TipPredmetaController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.should.have.all.keys('tipPredmeta');
-        res.body.data.tipPredmeta.should.have.all.keys(tipPredmetaFactory.tipPredmetaAttributes);
-        res.body.data.tipPredmeta.name.should.equal('updatedIme');
+        res.body.data.should.have.all.keys('predmet');
+        res.body.data.predmet.should.have.all.keys(predmetFactory.predmetAttributes);
+        res.body.data.predmet.name.should.equal('updatedIme');
         done();
       });
     });
 
     it('Should get error. (not a super_admin)', (done) => {
-      request.put(`v1/tipoviPredmeta/${existingTipPredmeta.id}`).set({
+      request.put(`v1/predmeti/${existingPredmet.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
       })
       .send({
@@ -331,7 +331,7 @@ describe('controllers:TipPredmetaController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.put(`v1/tipoviPredmeta/${existingUser1.id}`)
+      request.put(`v1/predmeti/${existingUser1.id}`)
         .send({
           name: 'updatedIme',
         })
@@ -347,8 +347,8 @@ describe('controllers:TipPredmetaController', () => {
 
 
   describe(':delete', () => {
-    it('Should delete tipPredmeta.', (done) => {
-      request.delete(`v1/tipoviPredmeta/${existingTipPredmeta.id}`).set({
+    it('Should delete predmet.', (done) => {
+      request.delete(`v1/predmeti/${existingPredmet.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -357,14 +357,14 @@ describe('controllers:TipPredmetaController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.should.have.all.keys('tipPredmeta');
-        res.body.data.tipPredmeta.should.have.all.keys(tipPredmetaFactory.tipPredmetaAttributes);
+        res.body.data.should.have.all.keys('predmet');
+        res.body.data.predmet.should.have.all.keys(predmetFactory.predmetAttributes);
         done();
       });
     });
 
-    it('Should get error. (tipPredmeta does not exist)', (done) => {
-      request.delete(`v1/tipoviPredmeta/${existingTipPredmeta.id}`).set({
+    it('Should get error. (predmet does not exist)', (done) => {
+      request.delete(`v1/predmeti/${existingPredmet.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -377,8 +377,8 @@ describe('controllers:TipPredmetaController', () => {
       });
     });
 
-    it('Should get error. (tipPredmeta does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
-      request.delete('v1/tipoviPredmeta/string').set({
+    it('Should get error. (predmet does not exist) (will error code 400 becouse id is string (key is int in db))', (done) => {
+      request.delete('v1/predmeti/string').set({
         authorization: `Bearer ${userFactory.getToken(existingUser.id)}`,
       })
       .send()
@@ -392,7 +392,7 @@ describe('controllers:TipPredmetaController', () => {
     });
 
     it('Should get error. (not a super_user)', (done) => {
-      request.delete(`v1/tipoviPredmeta/${existingUser.id}`).set({
+      request.delete(`v1/predmeti/${existingUser.id}`).set({
         authorization: `Bearer ${userFactory.getToken(existingUser1.id)}`,
       })
       .send()
@@ -406,7 +406,7 @@ describe('controllers:TipPredmetaController', () => {
     });
 
     it('Should get error. (no token)', (done) => {
-      request.delete(`v1/tipoviPredmeta/${existingUser1.id}`)
+      request.delete(`v1/predmeti/${existingUser1.id}`)
         .send()
         .expect(401)
         .end((err, res) => {
@@ -424,33 +424,33 @@ describe('controllers:TipPredmetaController', () => {
 //#######################################################
 //paths
 ########################################
-#######TIP PREDMETA
-  /tipoviPredmeta:
+#######PREDMET
+  /predmeti:
     get:
       security:
         - Bearer: []
       tags:
-        - TipPredmeta
-      summary: Get all tipoviPredmeta.
+        - Predmet
+      summary: Get all predmeti.
       description: "Requires logged in user to be super_user."
-      operationId: getTipoviPredmeta
+      operationId: getPredmeti
       consumes:
         - application/json
       produces:
         - application/json
       responses:
         "200":
-          description: All tipoviPredmeta.
+          description: All predmeti.
           schema:
-            $ref: "#/definitions/TipPredmetaResponse"
+            $ref: "#/definitions/PredmetResponse"
     post:
       security:
         - Bearer: []
       tags:
-        - TipPredmeta
-      summary: Add new tipPredmeta.
+        - Predmet
+      summary: Add new predmet.
       description: "Requires logged in user to be super_user."
-      operationId: createTipPredmeta
+      operationId: createPredmet
       consumes:
         - application/json
       produces:
@@ -458,24 +458,24 @@ describe('controllers:TipPredmetaController', () => {
       parameters:
         - in: body
           name: body
-          description: TipPredmeta object that needs to be added to the tipoviPredmeta.
+          description: Predmet object that needs to be added to the predmeti.
           required: true
           schema:
-            $ref: "#/definitions/PostTipoviPredmetaBody"
+            $ref: "#/definitions/PostPredmetiBody"
       responses:
         "201":
-          description: TipPredmeta created.
+          description: Predmet created.
           schema:
-            $ref: "#/definitions/TipoviPredmetaResponse"
-  /tipoviPredmeta/{id}:
+            $ref: "#/definitions/PredmetiResponse"
+  /predmeti/{id}:
     get:
       security:
         - Bearer: []
       tags:
-        - TipPredmeta
-      summary: Get tipPredmeta.
+        - Predmet
+      summary: Get predmet.
       description: "Requires logged in user to be super_user."
-      operationId: getTipPredmeta
+      operationId: getPredmet
       consumes:
         - application/json
       produces:
@@ -483,22 +483,22 @@ describe('controllers:TipPredmetaController', () => {
       parameters:
         - in: path
           name: id
-          description: ID of the tipPredmeta
+          description: ID of the predmet
           required: true
           type: string
       responses:
         "200":
           description: All users.
           schema:
-            $ref: "#/definitions/TipoviPredmetaResponse"
+            $ref: "#/definitions/PredmetiResponse"
     put:
       security:
         - Bearer: []
       tags:
-        - TipPredmeta
-      summary: Update tipPredmeta.
+        - Predmet
+      summary: Update predmet.
       description: "Requires logged in user to be super_user."
-      operationId: updateTipPredmeta
+      operationId: updatePredmet
       consumes:
         - application/json
       produces:
@@ -506,7 +506,7 @@ describe('controllers:TipPredmetaController', () => {
       parameters:
         - in: path
           name: id
-          description: ID of the tipPredmeta that needs to be updated
+          description: ID of the predmet that needs to be updated
           required: true
           type: string
         - in: body
@@ -514,19 +514,19 @@ describe('controllers:TipPredmetaController', () => {
           description: Attributes and values that will be updated.
           required: true
           schema:
-            $ref: "#/definitions/PutTipoviPredmetaBody"
+            $ref: "#/definitions/PutPredmetiBody"
       responses:
         "200":
-          description: TipPredmeta updated.
+          description: Predmet updated.
           schema:
-            $ref: "#/definitions/TipoviPredmetaResponse"
+            $ref: "#/definitions/PredmetiResponse"
 
     delete:
       security:
         - Bearer: []
       tags:
-        - TipPredmeta
-      summary: Delete tipPredmeta.
+        - Predmet
+      summary: Delete predmet.
       description: "Requires logged in user to be super_user."
       operationId: deleteUser
       consumes:
@@ -536,18 +536,18 @@ describe('controllers:TipPredmetaController', () => {
       parameters:
         - in: path
           name: id
-          description: ID of the tipPredmeta that needs to be deleted.
+          description: ID of the predmet that needs to be deleted.
           required: true
           type: string
       responses:
         "200":
-          description: TipPredmeta deleted.
+          description: Predmet deleted.
           schema:
-            $ref: "#/definitions/TipoviPredmetaResponse"
+            $ref: "#/definitions/PredmetiResponse"
 
 //#####################################################
 //definitions: models
-TipPredmeta:
+Predmet:
   type: object
   required:
     - id
@@ -568,8 +568,8 @@ TipPredmeta:
 //definitions: params
 
 ###############
-#TipPredmeta
-PostTipoviPredmetaBody:
+#Predmet
+PostPredmetiBody:
   type: object
   required:
     - name
@@ -577,7 +577,7 @@ PostTipoviPredmetaBody:
     name:
       type: string
 
-PutTipoviPredmetaBody:
+PutPredmetiBody:
   type: object
   properties:
     name:
@@ -586,8 +586,8 @@ PutTipoviPredmetaBody:
 //#############################################################
 //definitions: responses
 ###################
-#TipPredmeta
-  TipPredmetaResponse:
+#Predmet
+  PredmetResponse:
     type: object
     required:
       - status
@@ -599,14 +599,14 @@ PutTipoviPredmetaBody:
       data:
         type: object
         required:
-          - tipoviPredmeta
+          - predmeti
         properties:
-          tipoviPredmeta:
+          predmeti:
             type: 'array'
             items:
-              $ref: "#/definitions/TipPredmeta"
+              $ref: "#/definitions/Predmet"
 
-  TipoviPredmetaResponse:
+  PredmetiResponse:
     type: object
     required:
       - status
@@ -618,7 +618,7 @@ PutTipoviPredmetaBody:
       data:
         type: object
         required:
-          - tipPredmeta
+          - predmet
         properties:
-          tipPredmeta:
-            $ref: "#/definitions/TipPredmeta"
+          predmet:
+            $ref: "#/definitions/Predmet"

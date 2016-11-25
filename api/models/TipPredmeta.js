@@ -22,6 +22,11 @@ module.exports = {
       via: 'tipoviPredmeta',
     },
 
+    predmeti: {
+      collection: 'predmet',
+      via: 'tipPredmeta',
+    },
+
     toJSON() {
       const obj = this.toObject();
       return obj;

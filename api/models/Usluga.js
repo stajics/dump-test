@@ -30,6 +30,12 @@ module.exports = {
       via: 'usluge',
     },
 
+    predmeti: {
+      collection: 'predmet',
+      via: 'usluga',
+      through: 'predmetusluga',
+    },
+
     toJSON() {
       const obj = this.toObject();
       return obj;

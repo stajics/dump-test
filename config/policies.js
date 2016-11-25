@@ -96,6 +96,13 @@ module.exports = {
       delete: ['isAuthenticated', 'isManager'],
     },
 
+    'v1/PredmetController': {
+      create: ['isAuthenticated'],
+      read: ['isAuthenticated'],
+      update: ['isAuthenticated', 'isManager'],
+      delete: ['isAuthenticated', 'isManager'],
+    },
+
     'v1/CalculatorController': {
       filterTakse: ['isAuthenticated'],
     },

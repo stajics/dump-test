@@ -56,10 +56,16 @@ module.exports = {
       via: 'poslovnica',
     },
 
+    predmeti: {
+      collection: 'predmet',
+      via: 'poslovnica',
+    },
+
     osiguranja: {
       collection: 'osiguranje',
       via: 'poslovnice',
     },
+
 
     opstina: {
       model: 'opstina',

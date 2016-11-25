@@ -28,11 +28,13 @@ module.exports = {
     maticniBroj: {
       type: 'string',
       required: true,
+      unique: true,
     },
 
     licnaKarta: {
       type: 'string',
       required: true,
+      unique: true,
     },
 
     pib: {

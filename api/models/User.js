@@ -39,6 +39,11 @@ module.exports = {
       required: true,
     },
 
+    predmeti: {
+      collection: 'predmet',
+      via: 'user',
+    },
+
     toJSON() {
       const obj = this.toObject();
 
