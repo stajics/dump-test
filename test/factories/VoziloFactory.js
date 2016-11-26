@@ -1,6 +1,6 @@
 const _ = require('lodash');
 // eslint-disable-next-line
-const voziloAttributes = ['id', 'vrstaVozila', 'poslovnica', 'lice', 'registarskiBr', 'marka', 'tip', 'model', 'godiste', 'snagaKw', 'zapremina', 'nosivost', 'masa', 'maxMasa', 'gorivo', 'boja', 'bojaSasija', 'brMotora', 'brOsovina', 'homoOznaka', 'prvaReg', 'mestaSedenje', 'mestaStajanje', 'istekReg', 'sestomesecni', 'createdAt', 'updatedAt'];
+const voziloAttributes = ['id', 'vrstaVozila', 'poslovnica', 'lice', 'registarskiBr', 'marka', 'tip', 'model', 'godiste', 'snagaKw', 'zapremina', 'nosivost', 'masa', 'maxMasa', 'gorivo', 'boja', 'brSasije', 'brMotora', 'brOsovina', 'homoOznaka', 'prvaReg', 'mestaSedenje', 'mestaStajanje', 'istekReg', 'sestomesecni', 'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
   const randomNumber = _.random(1, 100000);
@@ -18,7 +18,7 @@ const create = (values = {}) => {
     maxMasa: randomNumber,
     gorivo: 'gorivo',
     boja: 'boja',
-    bojaSasija: 'bojaSasija',
+    brSasije: 'brSasije',
     brMotora: 'brMotora',
     brOsovina: 'brOsovina',
     homoOznaka: 'homoOznaka',

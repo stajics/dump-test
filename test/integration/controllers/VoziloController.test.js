@@ -48,7 +48,7 @@ describe('controllers:VoziloController', () => {
         maxMasa: randomNumber,
         gorivo: 'gorivo',
         boja: 'boja',
-        bojaSasija: 'bojaSasija',
+        brSasije: 'brSasije',
         brMotora: 'brMotora',
         brOsovina: 'brOsovina',
         homoOznaka: 'homoOznaka',

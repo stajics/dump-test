@@ -56,7 +56,7 @@ module.exports = {
       type: 'string',
     },
 
-    bojaSasija: {
+    brSasije: {
       type: 'string',
     },
 
