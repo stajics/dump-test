@@ -2175,7 +2175,7 @@ definitions:
       istekReg:
         type: string
       sestomesecni:
-        type: boolean
+        type: string
       poslovnica:
         type: integer
       createdAt:
@@ -2765,7 +2765,7 @@ definitions:
       istekReg:
         type: string
       sestomesecni:
-        type: boolean
+        type: string
 
   PutVozilaBody:
     type: object
@@ -2815,7 +2815,7 @@ definitions:
             istekReg:
               type: string
             sestomesecni:
-              type: boolean
+              type: string
 
   ###############
   #TipPredmeta

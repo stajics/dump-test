@@ -56,7 +56,7 @@ describe('controllers:VoziloController', () => {
         mestaSedenje: randomNumber,
         mestaStajanje: randomNumber,
         istekReg: 'mestaSedenje',
-        sestomesecni: true,
+        sestomesecni: 'true',
         lice: 1,
       })
       .expect(201)

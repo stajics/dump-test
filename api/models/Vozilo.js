@@ -90,7 +90,7 @@ module.exports = {
     },
 
     sestomesecni: {
-      type: 'boolean',
+      type: 'string',
     },
 
     poslovnica: {

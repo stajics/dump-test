@@ -26,7 +26,7 @@ const create = (values = {}) => {
     mestaSedenje: randomNumber,
     mestaStajanje: randomNumber,
     istekReg: 'mestaSedenje',
-    sestomesecni: true,
+    sestomesecni: 'true',
     poslovnica: 1,
     lice: 1,
   });
