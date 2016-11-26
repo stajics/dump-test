@@ -103,6 +103,10 @@ module.exports = {
       delete: ['isAuthenticated', 'isManager'],
     },
 
+    'v1/UplataController': {
+      create: ['isAuthenticated'],
+    },
+
     'v1/CalculatorController': {
       filterTakse: ['isAuthenticated'],
     },

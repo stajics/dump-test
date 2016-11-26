@@ -7,7 +7,7 @@ module.exports = {
       required: true,
     },
 
-    placeno: {
+    dug: {
       type: 'float',
       required: true,
     },
@@ -30,6 +30,11 @@ module.exports = {
     tipPredmeta: {
       model: 'tipPredmeta',
       required: true,
+    },
+
+    uplate: {
+      collection: 'uplata',
+      via: 'predmet',
     },
 
     takse: {

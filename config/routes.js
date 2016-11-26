@@ -109,6 +109,9 @@ module.exports = {
     // 'PUT /v1/predmeti/:id': 'v1/PredmetController.update',
     // 'DELETE /v1/predmeti/:id': 'v1/PredmetController.delete',
 
+    // Uplata
+    'POST /v1/uplate': 'v1/UplataController.create',
+
     // Calculator
     'GET /v1/calculator/takse': 'v1/CalculatorController.filterTakse',
     'GET /v1/calculator/stavkeOsiguranja': 'v1/CalculatorController.filterStavkeOsiguranja',

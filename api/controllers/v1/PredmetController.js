@@ -17,11 +17,14 @@ module.exports = {
 
       if (!isInteger(values.vozilo)) {
         const voziloValues = omit(values.vozilo, ['id']);  // create vozilo
-        voziloValues.lice = newLice.id;
+        voziloValues.lice = newLice ? newLice.id : values.lice;
         voziloValues.poslovnica = req.user.poslovnica.id;
         newVozilo = await Vozilo.create(voziloValues);
       }
 
+      values.takse = values.takse || [];
+      values.stavkeOsiguranja = values.stavkeOsiguranja || [];
+      values.usluge = values.usluge || [];
       const takseObjects = [...values.takse]; // create predmet
       const stavkeOsiguranjaObjects = [...values.stavkeOsiguranja];
       const uslugeObjects = [...values.usluge];
@@ -35,20 +38,21 @@ module.exports = {
       uslugeObjects.forEach((usluga) => {
         cena += usluga.cena;
       });
-      values.lice = newLice.id;
+      values.lice = newLice ? newLice.id : values.lice;
+      values.vozilo = newVozilo ? newVozilo.id : values.vozilo;
       values.poslovnica = req.user.poslovnica.id;
       values.user = req.user.id;
       values.cena = cena;
-      values.placeno = 0;
+      values.dug = cena;
       values.takse = values.takse.map(taksa => taksa.id);
       values.stavkeOsiguranja = values.stavkeOsiguranja.map(stavka => stavka.id);
       values.usluge = values.usluge.map(usluga => usluga.id);
       newPredmet = await Predmet.create(values);
 
       let updateJoinTables = [];
-      updateJoinTables = takseObjects.map(taksa => PredmetTaksa.update({ predmet: newPredmet.id, taksa: taksa.id }, { cena: taksa.cena, placeno: 0.0 }));
-      updateJoinTables = [...updateJoinTables, ...stavkeOsiguranjaObjects.map(stavka => PredmetStavka.update({ predmet: newPredmet.id, stavkaOsiguranja: stavka.id }, { cena: stavka.cena, placeno: 0.0 }))]; // eslint-disable-line
-      updateJoinTables = [...updateJoinTables, ...uslugeObjects.map(usluga => PredmetUsluga.update({ predmet: newPredmet.id, usluga: usluga.id }, { cena: usluga.cena, placeno: 0.0 }))];
+      updateJoinTables = takseObjects.map(taksa => PredmetTaksa.update({ predmet: newPredmet.id, taksa: taksa.id }, { cena: taksa.cena, dug: taksa.cena }));
+      updateJoinTables = [...updateJoinTables, ...stavkeOsiguranjaObjects.map(stavka => PredmetStavka.update({ predmet: newPredmet.id, stavkaOsiguranja: stavka.id }, { cena: stavka.cena, dug: stavka.cena }))]; // eslint-disable-line
+      updateJoinTables = [...updateJoinTables, ...uslugeObjects.map(usluga => PredmetUsluga.update({ predmet: newPredmet.id, usluga: usluga.id }, { cena: usluga.cena, dug: usluga.cena }))];
       await Promise.all(updateJoinTables);
 
       res.created({ predmet: newPredmet, vozilo: newVozilo, lice: newLice });
@@ -70,9 +74,25 @@ module.exports = {
       let predmeti = null;
       if (req.params.id) {
         predmeti = await Predmet.findOne({ id: req.params.id, poslovnica: req.user.poslovnica.id }).populateAll();
+        predmeti.takse = await PredmetTaksa.find({ predmet: predmeti.id }).populateAll();
+        predmeti.usluge = await PredmetUsluga.find({ predmet: predmeti.id }).populateAll();
+        predmeti.stavkeOsiguranja = await PredmetStavka.find({ predmet: predmeti.id }).populateAll();
         res.ok({ predmet: predmeti });
       } else {
         predmeti = await Predmet.find({ poslovnica: req.user.poslovnica.id }).populateAll();
+        let forPopulate = predmeti.map(predmet =>
+          Promise.all([
+            PredmetTaksa.find({ predmet: predmet.id }).populateAll(),
+            PredmetUsluga.find({ predmet: predmet.id }).populateAll(),
+            PredmetStavka.find({ predmet: predmet.id }).populateAll(),
+          ]),
+        );
+        forPopulate = await Promise.all(forPopulate);
+        forPopulate.forEach((value, index) => {
+          predmeti[index].takse = value[0];
+          predmeti[index].usluge = value[1];
+          predmeti[index].stavkeOsiguranja = value[2];
+        });
         res.ok({ predmet: predmeti });
       }
     } catch (err) {

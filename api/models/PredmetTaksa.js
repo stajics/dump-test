@@ -16,8 +16,14 @@ module.exports = {
       type: 'float',
     },
 
-    placeno: {
+    dug: {
       type: 'float',
+    },
+
+    uplate: {
+      collection: 'uplata',
+      via: 'predmetTaksa',
+      through: 'uplatapredmettaksa',
     },
 
     toJSON() {

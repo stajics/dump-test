@@ -34,10 +34,10 @@
       "PredmetTaksa": true,
       "PredmetStavka": true,
       "PredmetUsluga": true,
-      "Taksa": true,
-      "Taksa": true,
-      "Taksa": true,
-      "Taksa": true,
+      "Uplata": true,
+      "UplataPredmetTaksa": true,
+      "UplataPredmetUsluga": true,
+      "UplataPredmetStavka": true,
       "Taksa": true
     }
 }

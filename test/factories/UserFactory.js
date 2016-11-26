@@ -3,7 +3,7 @@ const _ = require('lodash');
 const userAttributes = ['id', 'username', 'ime', 'poslovnica', 'rola', 'telefon', 'email', 'createdAt', 'updatedAt'];
 
 const create = (values = {}) => {
-  const randomNumber = _.random(1, 100000);
+  const randomNumber = _.random(1, 10000000);
   return User.create({
     username: `username${randomNumber}`,
     poslovnica: values.poslovnica || randomNumber,
@@ -15,7 +15,7 @@ const create = (values = {}) => {
 };
 
 const createSuperUser = (values = {}) => {
-  const randomNumber = _.random(1, 100000);
+  const randomNumber = _.random(1, 10000000);
   return User.create({
     username: `username${randomNumber}`,
     ime: `ime${randomNumber}`,
@@ -28,7 +28,7 @@ const createSuperUser = (values = {}) => {
 };
 
 const createManager = (values = {}) => {
-  const randomNumber = _.random(1, 1000);
+  const randomNumber = _.random(1, 100000000);
   return User.create({
     username: `username${randomNumber}`,
     ime: `ime${randomNumber}`,
