@@ -48,11 +48,18 @@ module.exports = {
       const predmet = await Predmet.findOne({ id: values.predmet });
       await Predmet.update({ id: values.predmet }, { dug: predmet.dug - iznos });
 
-
       res.created({ uplata: newUplata });
     } catch (err) {
       res.badRequest(err);
     }
   },
 
+  read: async (req, res) => {
+    try {
+      const uplate = await Uplata.find({ poslovnica: req.user.poslovnica.id }).populateAll();
+      res.ok({ uplate });
+    } catch (err) {
+      res.badRequest(err);
+    }
+  },
 };

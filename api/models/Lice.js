@@ -71,6 +71,16 @@ module.exports = {
       via: 'lice',
     },
 
+    predmetiKorisnik: {
+      collection: 'predmet',
+      via: 'liceKorisnik',
+    },
+
+    predmetiVlasnik: {
+      collection: 'predmet',
+      via: 'liceVlasnik',
+    },
+
     toJSON() {
       const obj = this.toObject();
       return obj;

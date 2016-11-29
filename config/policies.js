@@ -105,6 +105,7 @@ module.exports = {
 
     'v1/UplataController': {
       create: ['isAuthenticated'],
+      read: ['isAuthenticated'],
     },
 
     'v1/CalculatorController': {

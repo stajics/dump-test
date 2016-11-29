@@ -1,23 +1,30 @@
-import { omit, isInteger } from 'lodash';
+import { omit, isObject } from 'lodash';
 
 module.exports = {
 
   create: async (req, res) => {
-    let newLice = null;
+    let newLiceKorisnik = null;
+    let newLiceVlasnik = null;
     let newVozilo = null;
     let newPredmet = null;
     try {
       const values = omit(req.allParams(), ['id']);
 
-      if (!isInteger(values.lice)) {
-        const liceValues = omit(values.lice, ['id']);  // create lice
-        liceValues.poslovnica = req.user.poslovnica.id;
-        newLice = await Lice.create(liceValues);
+      if (isObject(values.liceKorisnik)) {
+        const liceKorisnikValues = omit(values.liceKorisnik, ['id']);  // create liceKorisnik
+        liceKorisnikValues.poslovnica = req.user.poslovnica.id;
+        newLiceKorisnik = await Lice.create(liceKorisnikValues);
       }
 
-      if (!isInteger(values.vozilo)) {
+      if (isObject(values.liceVlasnik)) {
+        const liceVlasnikValues = omit(values.liceVlasnik, ['id']);  // create liceVlasnik
+        liceVlasnikValues.poslovnica = req.user.poslovnica.id;
+        newLiceVlasnik = await Lice.create(liceVlasnikValues);
+      }
+
+      if (isObject(values.vozilo)) {
         const voziloValues = omit(values.vozilo, ['id']);  // create vozilo
-        voziloValues.lice = newLice ? newLice.id : values.lice;
+        voziloValues.lice = newLiceKorisnik ? newLiceKorisnik.id : values.liceKorisnik;
         voziloValues.poslovnica = req.user.poslovnica.id;
         newVozilo = await Vozilo.create(voziloValues);
       }
@@ -38,7 +45,8 @@ module.exports = {
       uslugeObjects.forEach((usluga) => {
         cena += usluga.cena;
       });
-      values.lice = newLice ? newLice.id : values.lice;
+      values.liceKorisnik = newLiceKorisnik ? newLiceKorisnik.id : values.liceKorisnik;
+      values.liceVlasnik = newLiceVlasnik ? newLiceVlasnik.id : values.liceVlasnik;
       values.vozilo = newVozilo ? newVozilo.id : values.vozilo;
       values.poslovnica = req.user.poslovnica.id;
       values.user = req.user.id;
@@ -55,9 +63,10 @@ module.exports = {
       updateJoinTables = [...updateJoinTables, ...uslugeObjects.map(usluga => PredmetUsluga.update({ predmet: newPredmet.id, usluga: usluga.id }, { cena: usluga.cena, dug: usluga.cena }))];
       await Promise.all(updateJoinTables);
 
-      res.created({ predmet: newPredmet, vozilo: newVozilo, lice: newLice });
+      res.created({ predmet: newPredmet, vozilo: newVozilo || values.vozilo, liceKorisnik: newLiceKorisnik || values.liceKorisnik, liceVlasnik: newLiceVlasnik || values.liceVlasnik });
     } catch (err) {
-      if (newLice) await Lice.destroy({ id: newLice.id });
+      if (newLiceKorisnik) await Lice.destroy({ id: newLiceKorisnik.id });
+      if (newLiceVlasnik) await Lice.destroy({ id: newLiceVlasnik.id });
       if (newVozilo) await Vozilo.destroy({ id: newVozilo.id });
       if (newPredmet) {
         await PredmetTaksa.destroy({ predmet: newPredmet.id });

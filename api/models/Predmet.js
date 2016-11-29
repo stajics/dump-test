@@ -22,6 +22,21 @@ module.exports = {
       required: true,
     },
 
+    vozilo: {
+      model: 'vozilo',
+      required: true,
+    },
+
+    liceKorisnik: {
+      model: 'lice',
+      required: true,
+    },
+
+    liceVlasnik: {
+      model: 'lice',
+      required: true,
+    },
+
     user: {
       model: 'user',
       required: true,
