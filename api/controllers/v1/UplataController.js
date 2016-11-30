@@ -1,5 +1,6 @@
 import { omit, find } from 'lodash';
 
+/* eslint eqeqeq: 'off' */
 module.exports = {
 
   create: async (req, res) => {
@@ -40,9 +41,9 @@ module.exports = {
       const predmetStavke = await PredmetStavka.find({ id: values.predmetStavkeOsiguranja });
       const predmetUsluge = await PredmetUsluga.find({ id: values.predmetUsluge });
       let updateJoinTables = [];
-      updateJoinTables = predmetTakseObjects.map(predmetTaksa => PredmetTaksa.update({ id: predmetTaksa.id }, { dug: find(predmetTakse, pt => pt.id === predmetTaksa.id).dug - predmetTaksa.iznos }));
-      updateJoinTables = [...updateJoinTables, ...predmetStavkeOsiguranjaObjects.map(predmetStavka => PredmetStavka.update({ id: predmetStavka.id }, { dug: find(predmetStavke, ps => ps.id === predmetStavka.id).dug - predmetStavka.iznos }))]; // eslint-disable-line
-      updateJoinTables = [...updateJoinTables, ...predmetUslugeObjects.map(predmentUsluga => PredmetUsluga.update({ id: predmentUsluga.id }, { dug: find(predmetUsluge, pu => pu.id === predmentUsluga.id).dug - predmentUsluga.iznos }))]; // eslint-disable-line
+      updateJoinTables = predmetTakseObjects.map(predmetTaksa => PredmetTaksa.update({ id: predmetTaksa.id }, { dug: find(predmetTakse, pt => pt.id == predmetTaksa.id).dug - predmetTaksa.iznos }));
+      updateJoinTables = [...updateJoinTables, ...predmetStavkeOsiguranjaObjects.map(predmetStavka => PredmetStavka.update({ id: predmetStavka.id }, { dug: find(predmetStavke, ps => ps.id == predmetStavka.id).dug - predmetStavka.iznos }))]; // eslint-disable-line
+      updateJoinTables = [...updateJoinTables, ...predmetUslugeObjects.map(predmentUsluga => PredmetUsluga.update({ id: predmentUsluga.id }, { dug: find(predmetUsluge, pu => pu.id == predmentUsluga.id).dug - predmentUsluga.iznos }))]; // eslint-disable-line
       await Promise.all(updateJoinTables);
 
       const predmet = await Predmet.findOne({ id: values.predmet });
