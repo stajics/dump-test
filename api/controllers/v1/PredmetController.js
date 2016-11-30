@@ -17,9 +17,13 @@ module.exports = {
       }
 
       if (isObject(values.liceVlasnik)) {
-        const liceVlasnikValues = omit(values.liceVlasnik, ['id']);  // create liceVlasnik
-        liceVlasnikValues.poslovnica = req.user.poslovnica.id;
-        newLiceVlasnik = await Lice.create(liceVlasnikValues);
+        if (values.liceVlasnik.maticniBroj !== values.liceKorisnik.maticniBroj && values.liceVlasnik.licnaKarta !== values.liceKorisnik.licnaKarta) {
+          const liceVlasnikValues = omit(values.liceVlasnik, ['id']);  // create liceVlasnik
+          liceVlasnikValues.poslovnica = req.user.poslovnica.id;
+          newLiceVlasnik = await Lice.create(liceVlasnikValues);
+        } else {
+          values.liceVlasnik = newLiceKorisnik.id;
+        }
       }
 
       if (isObject(values.vozilo)) {
