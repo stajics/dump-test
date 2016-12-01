@@ -120,17 +120,17 @@ module.exports = {
 
 
   predmetTakse: async (req, res) => {
-    const pt = await PredmetTaksa.find({ id: req.params.id });
+    const pt = await PredmetTaksa.findOne({ id: req.params.id });
     res.ok({ predmetTaksa: pt });
   },
 
   predmetStavke: async (req, res) => {
-    const ps = await PredmetStavka.find({ id: req.params.id });
+    const ps = await PredmetStavka.findOne({ id: req.params.id });
     res.ok({ predmetStavka: ps });
   },
 
   predmetUsluge: async (req, res) => {
-    const pu = await PredmetUsluga.find({ id: req.params.id });
+    const pu = await PredmetUsluga.findOne({ id: req.params.id });
     res.ok({ predmetUsluga: pu });
   },
   // update: async (req, res) => {
