@@ -106,6 +106,9 @@ module.exports = {
     'GET /v1/predmeti': 'v1/PredmetController.read',
     'GET /v1/predmeti/:id': 'v1/PredmetController.read',
     'POST /v1/predmeti': 'v1/PredmetController.create',
+    'GET /v1/predmetTakse/:id': 'v1/PredmetController.predmetTakse',
+    'GET /v1/predmetStavke/:id': 'v1/PredmetController.predmetStavke',
+    'GET /v1/predmetUsluge/:id': 'v1/PredmetController.predmetUsluge',
     // 'PUT /v1/predmeti/:id': 'v1/PredmetController.update',
     // 'DELETE /v1/predmeti/:id': 'v1/PredmetController.delete',
 
