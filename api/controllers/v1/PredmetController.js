@@ -56,15 +56,15 @@ module.exports = {
       values.user = req.user.id;
       values.cena = cena;
       values.dug = cena;
-      values.takse = values.takse.map(taksa => taksa.id);
-      values.stavkeOsiguranja = values.stavkeOsiguranja.map(stavka => stavka.id);
-      values.usluge = values.usluge.map(usluga => usluga.id);
+      values.takse = values.takse.map(taksa => taksa.taksa);
+      values.stavkeOsiguranja = values.stavkeOsiguranja.map(stavka => stavka.stavkaOsiguranja);
+      values.usluge = values.usluge.map(usluga => usluga.usluga);
       newPredmet = await Predmet.create(values);
 
       let updateJoinTables = [];
-      updateJoinTables = takseObjects.map(taksa => PredmetTaksa.update({ predmet: newPredmet.id, taksa: taksa.id }, { cena: taksa.cena, dug: taksa.cena, iznos: taksa.iznos }));
-      updateJoinTables = [...updateJoinTables, ...stavkeOsiguranjaObjects.map(stavka => PredmetStavka.update({ predmet: newPredmet.id, stavkaOsiguranja: stavka.id }, { cena: stavka.cena, dug: stavka.cena, iznos: stavka.iznos }))];  // eslint-disable-line
-      updateJoinTables = [...updateJoinTables, ...uslugeObjects.map(usluga => PredmetUsluga.update({ predmet: newPredmet.id, usluga: usluga.id }, { cena: usluga.cena, dug: usluga.cena, iznos: usluga.iznos }))];  // eslint-disable-line
+      updateJoinTables = takseObjects.map(taksa => PredmetTaksa.update({ predmet: newPredmet.id, taksa: taksa.taksa }, { cena: taksa.cena, dug: taksa.cena, iznos: taksa.iznos }));
+      updateJoinTables = [...updateJoinTables, ...stavkeOsiguranjaObjects.map(stavka => PredmetStavka.update({ predmet: newPredmet.id, stavkaOsiguranja: stavka.stavkaOsiguranja }, { cena: stavka.cena, dug: stavka.cena, iznos: stavka.iznos }))];  // eslint-disable-line
+      updateJoinTables = [...updateJoinTables, ...uslugeObjects.map(usluga => PredmetUsluga.update({ predmet: newPredmet.id, usluga: usluga.usluga }, { cena: usluga.cena, dug: usluga.cena, iznos: usluga.iznos }))];  // eslint-disable-line
       await Promise.all(updateJoinTables);
 
       newPredmet.takse = await PredmetTaksa.find({ predmet: newPredmet.id }).populateAll(); // populate new predmet correctly
