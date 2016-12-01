@@ -66,11 +66,12 @@ module.exports = {
       updateJoinTables = [...updateJoinTables, ...stavkeOsiguranjaObjects.map(stavka => PredmetStavka.update({ predmet: newPredmet.id, stavkaOsiguranja: stavka.stavkaOsiguranja }, { cena: stavka.cena, dug: stavka.cena, iznos: stavka.iznos }))];  // eslint-disable-line
       updateJoinTables = [...updateJoinTables, ...uslugeObjects.map(usluga => PredmetUsluga.update({ predmet: newPredmet.id, usluga: usluga.usluga }, { cena: usluga.cena, dug: usluga.cena, iznos: usluga.iznos }))];  // eslint-disable-line
       await Promise.all(updateJoinTables);
-
+      newPredmet = Object.assign({}, newPredmet);
+      console.log(newPredmet);
       newPredmet.takse = await PredmetTaksa.find({ predmet: newPredmet.id }).populateAll(); // populate new predmet correctly
       newPredmet.usluge = await PredmetUsluga.find({ predmet: newPredmet.id }).populateAll();
       newPredmet.stavkeOsiguranja = await PredmetStavka.find({ predmet: newPredmet.id }).populateAll();
-
+      console.log(newPredmet);
       res.created({ predmet: newPredmet, vozilo: newVozilo || values.vozilo, liceKorisnik: newLiceKorisnik || values.liceKorisnik, liceVlasnik: newLiceVlasnik || values.liceVlasnik });
     } catch (err) {
       if (newLiceKorisnik) await Lice.destroy({ id: newLiceKorisnik.id });
