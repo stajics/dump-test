@@ -62,9 +62,9 @@ module.exports = {
       newPredmet = await Predmet.create(values);
 
       let updateJoinTables = [];
-      updateJoinTables = takseObjects.map(taksa => PredmetTaksa.update({ predmet: newPredmet.id, taksa: taksa.id }, { cena: taksa.cena, dug: taksa.cena }));
-      updateJoinTables = [...updateJoinTables, ...stavkeOsiguranjaObjects.map(stavka => PredmetStavka.update({ predmet: newPredmet.id, stavkaOsiguranja: stavka.id }, { cena: stavka.cena, dug: stavka.cena }))]; // eslint-disable-line
-      updateJoinTables = [...updateJoinTables, ...uslugeObjects.map(usluga => PredmetUsluga.update({ predmet: newPredmet.id, usluga: usluga.id }, { cena: usluga.cena, dug: usluga.cena }))];
+      updateJoinTables = takseObjects.map(taksa => PredmetTaksa.update({ predmet: newPredmet.id, taksa: taksa.id }, { cena: taksa.cena, dug: taksa.cena, iznos: taksa.iznos }));
+      updateJoinTables = [...updateJoinTables, ...stavkeOsiguranjaObjects.map(stavka => PredmetStavka.update({ predmet: newPredmet.id, stavkaOsiguranja: stavka.id }, { cena: stavka.cena, dug: stavka.cena, iznos: stavka.iznos }))];  // eslint-disable-line
+      updateJoinTables = [...updateJoinTables, ...uslugeObjects.map(usluga => PredmetUsluga.update({ predmet: newPredmet.id, usluga: usluga.id }, { cena: usluga.cena, dug: usluga.cena, iznos: usluga.iznos }))];  // eslint-disable-line
       await Promise.all(updateJoinTables);
 
       res.created({ predmet: newPredmet, vozilo: newVozilo || values.vozilo, liceKorisnik: newLiceKorisnik || values.liceKorisnik, liceVlasnik: newLiceVlasnik || values.liceVlasnik });

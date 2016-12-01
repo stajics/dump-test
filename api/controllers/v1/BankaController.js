@@ -21,7 +21,7 @@ module.exports = {
         res.ok({ banka: banke });
       } else {
         banke = await Banka.find({ poslovnica: req.user.poslovnica.id });
-        res.ok({ banke });
+        res.ok({ banka: banke });
       }
     } catch (err) {
       res.badRequest(err);

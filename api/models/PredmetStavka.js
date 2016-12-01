@@ -20,6 +20,10 @@ module.exports = {
       type: 'float',
     },
 
+    iznos: {
+      type: 'float',
+    },
+
     uplate: {
       collection: 'uplata',
       via: 'predmetStavkeOsiguranja',
