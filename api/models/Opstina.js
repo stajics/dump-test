@@ -12,6 +12,10 @@ module.exports = {
       via: 'opstina',
     },
 
+    takse: {
+      collection: 'taksa',
+      via: 'opstina',
+    },
 
     toJSON() {
       const obj = this.toObject();

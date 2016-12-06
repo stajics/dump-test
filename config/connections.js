@@ -22,7 +22,7 @@ module.exports = {
     mysql: {
       adapter: 'sails-mysql',
       host: secrets.ip,
-      port: 3306,
+      port: 3307,
       user: 'root',
       password: secrets.dbPassword,
       database: 'greenauto_development',
@@ -33,7 +33,7 @@ module.exports = {
     test: {
       adapter: 'sails-mysql',
       host: secrets.ip,
-      port: 3306,
+      port: 3307,
       user: 'root',
       password: secrets.dbPassword,
       database: 'greenauto_test',

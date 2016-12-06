@@ -125,8 +125,8 @@ describe('controllers:BankaController', () => {
         if (err) throw err;
         res.body.should.have.all.keys('status', 'data');
         res.body.status.should.equal('success');
-        res.body.data.should.have.all.keys('banke');
-        res.body.data.banke.length.should.be.above(0);
+        res.body.data.should.have.all.keys('banka');
+        res.body.data.banka.length.should.be.above(0);
         done();
       });
     });

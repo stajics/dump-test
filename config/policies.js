@@ -55,7 +55,7 @@ module.exports = {
     },
 
     'v1/TaksaController': {
-      create: ['isAuthenticated'],
+      create: ['isAuthenticated', 'isSuperUser'],
       read: ['isAuthenticated'],
       update: ['isAuthenticated', 'isSuperUser'],
       delete: ['isAuthenticated', 'isSuperUser'],

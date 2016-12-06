@@ -8,10 +8,8 @@ module.exports = {
     Passport.authenticate('local', _.partial(sails.config.passport.onPassportAuth, req, res))(req, res);
   },
 
-  refreshToken: (req, res) => {
-    return res.ok({
-      user: req.user,
-      token: CipherService.jwt.encodeSync({id: req.user.id})
-    });
-  }
+  refreshToken: (req, res) => res.ok({
+    user: req.user,
+    token: CipherService.jwt.encodeSync({ id: req.user.id }),
+  }),
 };

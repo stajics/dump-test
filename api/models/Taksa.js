@@ -8,7 +8,7 @@ module.exports = {
     },
 
     opstina: {
-      type: 'integer',
+      model: 'opstina',
     },
 
     vrstaVozila: {
@@ -66,7 +66,7 @@ module.exports = {
 
     isDefault: {
       type: 'boolean',
-      defaultsTo: false,
+      defaultsTo: true,
     },
 
     komentar: {
