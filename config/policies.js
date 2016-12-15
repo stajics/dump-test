@@ -19,6 +19,10 @@ module.exports = {
       delete: ['isAuthenticated', 'isManager'],
     },
 
+    'v1/user/RegistrationController': {
+      create: ['isAuthenticated', 'isManager'],
+    },
+
     'v1/PoslovnicaController': {
       create: ['isAuthenticated', 'isSuperUser'],
       read: ['isAuthenticated'],
@@ -101,19 +105,19 @@ module.exports = {
       read: ['isAuthenticated'],
       update: ['isAuthenticated', 'isManager'],
       delete: ['isAuthenticated', 'isManager'],
+      predmetTakse: ['isAuthenticated'],
+      predmetStavke: ['isAuthenticated'],
+      predmetUsluge: ['isAuthenticated'],
     },
 
     'v1/UplataController': {
       create: ['isAuthenticated'],
       read: ['isAuthenticated'],
+      createForUsluga: ['isAuthenticated'],
     },
 
     'v1/CalculatorController': {
       filterTakse: ['isAuthenticated'],
-    },
-
-    'v1/user/RegistrationController': {
-      create: ['isAuthenticated', 'isManager'],
     },
 
     'v1/user/SessionController': {

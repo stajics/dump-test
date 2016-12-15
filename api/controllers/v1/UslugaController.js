@@ -22,11 +22,10 @@ module.exports = {
           usluge = await Usluga.findOne({ id: req.params.id });
           res.ok({ usluga: usluge });
         } else {
-          usluge = await Usluga.find();
+          usluge = await Usluga.find().populateAll();
           res.ok({ usluga: usluge });
         }
-      }
-      if (req.params.id) {
+      } else if (req.params.id) {
         usluge = await Usluga.findOne({ id: req.params.id, poslovnica: req.user.poslovnica.id });
         res.ok({ usluga: usluge });
       } else {

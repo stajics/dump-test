@@ -66,7 +66,6 @@ module.exports = {
       via: 'poslovnice',
     },
 
-
     opstina: {
       model: 'opstina',
       required: true,

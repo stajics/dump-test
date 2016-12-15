@@ -30,22 +30,32 @@ const POSTPredmeti = {
 
 const POSTUplate = {
  "predmet": 6,
- "predmetTakse": [
-  {
-   "id": 1,
-   "iznos": 10
-  }
- ],
- "predmetStavkeOsiguranja": [
-  {
-   "id": 1,
-   "iznos": 10
-  }
- ],
- "predmetUsluge": [
-  {
-   "id": 1,
-   "iznos": 20
-  }
- ]
+ "iznos": 100,
 };
+
+const POSTUslugeUplate = {
+ "usluga": 6,
+ "iznos": 100,
+};
+
+// const POSTUplate = {
+//  "predmet": 6,
+//  "predmetTakse": [
+//   {
+//    "id": 1,
+//    "iznos": 10
+//   }
+//  ],
+//  "predmetStavkeOsiguranja": [
+//   {
+//    "id": 1,
+//    "iznos": 10
+//   }
+//  ],
+//  "predmetUsluge": [
+//   {
+//    "id": 1,
+//    "iznos": 20
+//   }
+//  ]
+// };

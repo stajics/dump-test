@@ -8,6 +8,7 @@ module.exports = {
       if (req.user.rola !== 'super_user') {
         values.isDefault = false;
       }
+      values.isDefault = true;
       const newTaksa = await Taksa.create(values);
       res.created({ taksa: newTaksa });
     } catch (err) {

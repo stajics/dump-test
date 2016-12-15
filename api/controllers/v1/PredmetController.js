@@ -40,14 +40,20 @@ module.exports = {
       const stavkeOsiguranjaObjects = [...values.stavkeOsiguranja];
       const uslugeObjects = [...values.usluge];
       let cena = 0;
+      let cenaTaksa = 0;
+      let cenaOsigiranja = 0;
+      let cenaUsluga = 0;
       takseObjects.forEach((taksa) => {
         cena += taksa.cena;
+        cenaTaksa += taksa.cena;
       });
       stavkeOsiguranjaObjects.forEach((stavka) => {
         cena += stavka.cena;
+        cenaOsigiranja += stavka.cena;
       });
       uslugeObjects.forEach((usluga) => {
         cena += usluga.cena;
+        cenaUsluga += usluga.cena;
       });
       values.liceKorisnik = newLiceKorisnik ? newLiceKorisnik.id : values.liceKorisnik;
       values.liceVlasnik = newLiceVlasnik ? newLiceVlasnik.id : values.liceVlasnik;
@@ -55,6 +61,9 @@ module.exports = {
       values.poslovnica = req.user.poslovnica.id;
       values.user = req.user.id;
       values.cena = cena;
+      values.cenaTaksa = cenaTaksa;
+      values.cenaOsigiranja = cenaOsigiranja;
+      values.cenaUsluga = cenaUsluga;
       values.dug = cena;
       values.takse = values.takse.map(taksa => taksa.taksa);
       values.stavkeOsiguranja = values.stavkeOsiguranja.map(stavka => stavka.stavkaOsiguranja);
@@ -117,7 +126,6 @@ module.exports = {
       res.badRequest(err);
     }
   },
-
 
   predmetTakse: async (req, res) => {
     const pt = await PredmetTaksa.findOne({ id: req.params.id });

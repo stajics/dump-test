@@ -11,6 +11,11 @@ module.exports = {
       type: 'string',
     },
 
+    uplate: {
+      collection: 'uplata',
+      via: 'predmet',
+    },
+
     cena: {
       type: 'string',
       required: true,

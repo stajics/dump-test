@@ -114,6 +114,7 @@ module.exports = {
 
     // Uplata
     'POST /v1/uplate': 'v1/UplataController.create',
+    'POST /v1/usluge/uplate': 'v1/UplataController.createForUsluga',
     'GET /v1/uplate': 'v1/UplataController.read',
     // Calculator
     'GET /v1/calculator/takse': 'v1/CalculatorController.filterTakse',

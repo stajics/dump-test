@@ -1759,6 +1759,59 @@ paths:
           description: Predmet deleted.
           schema:
             $ref: "#/definitions/PredmetiResponse"
+########################################
+#######UPLATE
+  /uplate:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Uplata
+      summary: Add new uplata for predmet.
+      description: "Requires logged in user to be super_user."
+      operationId: createUplata
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Uplata object that needs to be added to the uplate.
+          required: true
+          schema:
+            $ref: "#/definitions/PostUplateBody"
+      responses:
+        "201":
+          description: Uplata created.
+          schema:
+            $ref: "#/definitions/UplateResponse"
+
+  /usluge/uplate:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Uplata
+      summary: Add new uplata for usluga.
+      description: "Requires logged in user to be super_user."
+      operationId: createUplata
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: body
+          description: Uplata object that needs to be added to the uplate.
+          required: true
+          schema:
+            $ref: "#/definitions/PostUslugeUplateBody"
+      responses:
+        "201":
+          description: Uplata created.
+          schema:
+            $ref: "#/definitions/UplateResponse"
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -2222,6 +2275,33 @@ definitions:
         type: string
       name:
         type: string
+      createdAt:
+        type: string
+      updatedAt:
+        type: string
+
+  Uplata:
+    type: object
+    required:
+      - id
+      - user
+      - iznos
+      - poslovnica
+      - createdAt
+      - updatedAt
+    properties:
+      id:
+        type: integer
+      predmet:
+        type: integer
+      usluga:
+        type: integer
+      poslovnica:
+        type: integer
+      user:
+        type: integer
+      iznos:
+        type: float
       createdAt:
         type: string
       updatedAt:
@@ -2878,6 +2958,29 @@ definitions:
         items:
           type: integer
 
+  ###############
+  #Uplata
+  PostUplateBody:
+    type: object
+    required:
+      - iznos
+      - predmet
+    properties:
+      predmet:
+        type: integer
+      iznos:
+        type: number
+
+  PostUslugeUplateBody:
+    type: object
+    required:
+      - iznos
+      - usluga
+    properties:
+      usluga:
+        type: integer
+      iznos:
+        type: number
   ###############################################################
   ###############################################################
   #responses
@@ -3390,3 +3493,41 @@ definitions:
         properties:
           predmet:
             $ref: "#/definitions/Predmet"
+
+###################
+#Uplata
+  UplataResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - uplata
+        properties:
+          uplata:
+            type: 'array'
+            items:
+              $ref: "#/definitions/Uplata"
+
+  UplateResponse:
+    type: object
+    required:
+      - status
+      - data
+    properties:
+      status:
+        type: string
+        enum: ['success']
+      data:
+        type: object
+        required:
+          - uplate
+        properties:
+          uplate:
+            $ref: "#/definitions/Uplata"

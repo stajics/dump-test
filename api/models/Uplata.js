@@ -9,7 +9,10 @@ module.exports = {
 
     predmet: {
       model: 'predmet',
-      required: true,
+    },
+
+    usluga: {
+      model: 'usluga',
     },
 
     user: {

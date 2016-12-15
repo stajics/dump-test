@@ -7,6 +7,21 @@ module.exports = {
       required: true,
     },
 
+    cenaTaksa: {
+      type: 'float',
+      required: true,
+    },
+
+    cenaUsluga: {
+      type: 'float',
+      required: true,
+    },
+
+    cenaOsigiranja: {
+      type: 'float',
+      required: true,
+    },
+
     dug: {
       type: 'float',
       required: true,
