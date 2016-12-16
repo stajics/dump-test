@@ -38,6 +38,11 @@
       "UplataPredmetTaksa": true,
       "UplataPredmetUsluga": true,
       "UplataPredmetStavka": true,
+      "LoggerService": true,
+      "Taksa": true,
+      "Taksa": true,
+      "Taksa": true,
+      "Taksa": true,
       "Taksa": true
     }
 }

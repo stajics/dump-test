@@ -17,6 +17,7 @@ module.exports = function serverError(data, config) {
     data: responseData || null,
   }, config);
 
+  LoggerService.logger.error(`${this.req.method} ${this.req.path} -body- ${util.inspect(this.req.body)} -500- data - ${util.inspect(data)}  config - ${util.inspect(config)}`);
   this.res.status(500);
   this.res.jsonx(response);
 };

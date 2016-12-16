@@ -44,12 +44,10 @@ module.exports = {
 
     liceKorisnik: {
       model: 'lice',
-      required: true,
     },
 
     liceVlasnik: {
       model: 'lice',
-      required: true,
     },
 
     user: {
